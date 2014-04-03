@@ -1,0 +1,17 @@
+body {
+    background-color: #000000;
+    font: 20pt Verdana;
+
+    #listing-menu {
+        margin: auto;
+        width: 60%;
+
+        .directory {
+            margin: 0;
+            padding: 10px;
+            color: #FFFFFF;
+            font: 20pt Verdana;
+            border: 2px solid;
+        }
+    }
+}
