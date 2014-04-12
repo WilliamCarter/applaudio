@@ -1,22 +1,36 @@
-'use strict'
+'use strict';
 
-console.log("Defining ListingCtrl");
+define(["angular"], function (angular) {
 
-var DirectoryListing = angular.module("DirectoryListing", []);
+    console.log("Defining DirectoryListing module");
 
-DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $routeParams, $http) {
+    var DirectoryListing = angular.module("DirectoryListing", []);
 
-    console.log("received url: " + $routeParams.url);
-    console.log($routeParams);
+    console.log("Defining DirectoryListing controller");
+    DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $routeParams, $http, $location) {
 
-    $http.get("/api/listing/" + $routeParams.url).
-        success(function(data) {
-            $scope.listing = data.listing;
-        }).
-        error(function(){
-            console.log("Cannot find directory in /music/...");
-            $scope.listing = ["404"];
-            // TODO: 404 (+--0)~~~[~- - ]
-        });
+        console.log("received url: " + $routeParams.url);
+        console.log($routeParams);
+
+        $http.get("/api/listing/" + $routeParams.url).
+            success(function(data) {
+                $scope.listing = data.listing;
+            }).
+            error(function(){
+                console.log("Cannot find directory in /music/...");
+                $scope.listing = ["404"];
+                // TODO: 404 (+--0)~~~[~- - ]
+            });
+
+        $scope.navigate = function(directoryName) {
+            console.log("directoryName: " + directoryName);
+            $location.path($location.path() + "/" + directoryName);
+        };
+
+    });
+
+    console.log("Defined DirectoryListing module");
+
+    return DirectoryListing;
 
 });
