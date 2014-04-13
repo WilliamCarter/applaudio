@@ -1,0 +1,34 @@
+
+.modal-background {
+    /* A dark translucent div that covers the whole screen */
+    position:fixed;
+    z-index:9999;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color: #000000;
+    opacity: 0.8;
+}
+
+.modal-container {
+    /* A centered div above the overlay with a box shadow. */
+    z-index:10000;
+    position: fixed;
+    width: 50%; /* Default */
+
+    /* Center the dialog */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: #000000;
+    color: #FFFFFF;
+    border: 2px solid;
+//    box-shadow: 4px 4px 80px #000;
+}
+
+.modal-content {
+    padding: 10px;
+}
+
