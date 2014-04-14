@@ -1,36 +1,36 @@
-<div class="header">
-  <ul class="nav nav-pills pull-right">
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
-  </ul>
-  <h3 class="text-muted">frontend</h3>
-</div>
+<header>
+    <h1>{{heading}}</h1>
+</header>
 
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
-</div>
+<div id="lower-content" ng-controller="DirectoryListingCtrl">
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
+    <div id="left-panel">Music player to go here</div>
 
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
+    <div id="listing-menu">
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div>
+        <div class="empty-listing-placeholder" ng-if="!(listing | filter:query).length" style="visibility:{{placeholderVisibility}};">Nothing here...</div>
 
-<div class="footer">
-  <p>♥ from the Yeoman team</p>
+        <div ng-repeat="item in listing | filter:query" class="directory" ng-click="navigate(item)">
+            <div>{{item}}</div>
+        </div>
+
+    </div>
+
+    <div id="right-panel">
+
+        <div id="filter">
+            <input placeholder="Filter" ng-model="query">
+            <!--<div id="filter-icon">▼</div>-->
+        </div>
+
+        <button id="addDirectory" ng-click="addDirectory()">New Directory</button>
+        <applaudio-modal show='showAddDirectoryModal' width="50%">
+            <h4>Add Directory</h4>
+            <button ng-click="hideModal()">Cancel</button>
+        </applaudio-modal>
+
+        <button id="uploadMusic" ng-click="uploadMusic()">Upload Music</button>
+
+    </div>
+
 </div>

@@ -11,6 +11,7 @@ require.config({
     },
     shim: {
         angular: { exports: "angular" },
+        angularAnimate: ["angular"],
         angularRoute: ["angular"],
         angularMocks: ["angular"]
     }

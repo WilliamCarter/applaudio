@@ -12,11 +12,14 @@ define(["angular"], function (angular) {
         console.log("received url: " + $routeParams.url);
         console.log($routeParams);
 
+        $scope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
+
         $rootScope.heading = "/" + $routeParams.url + "/";
 
         $http.get("/api/listing/" + $routeParams.url).
             success(function(data) {
                 $scope.listing = data.listing;
+                $scope.placeholderVisibility = "visible";
             }).
             error(function(){
                 console.log("Cannot find directory in /music/...");
@@ -27,6 +30,16 @@ define(["angular"], function (angular) {
         $scope.navigate = function(directoryName) {
             console.log("directoryName: " + directoryName);
             $location.path($location.path() + "/" + directoryName);
+        };
+
+        $scope.addDirectory = function() {
+            console.log("addDirectory");
+            console.log($scope);
+            $scope.showAddDirectoryModal = true;
+        };
+
+        $scope.uploadMusic = function() {
+            console.log("uploadMusic");
         };
 
     });

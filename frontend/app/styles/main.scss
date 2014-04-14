@@ -1,17 +1,138 @@
+
+
+$verdana: 20pt Verdana;
+$borderSize: 2px;
+$background: #000000;
+$foreground: #FFFFFF;
+$pad: 10px;
+$listItemHeight: 33px; //Seems to be the standard height on the good browsers.
+
+@import "modal";
+
+@keyframes addToList {
+    0% {
+        height: 0px;
+        opacity: 0;
+    }
+    100%{
+        height: $listItemHeight;
+        opacity: 1;
+    }
+}
+
+@keyframes removeFromList {
+    0% {
+        height: $listItemHeight;
+        opacity: 1;
+    }
+    100%{
+        height: 0px;
+        opacity: 0;
+    }
+}
+
+@keyframes delayVisibility {
+    0% {
+        height: 0px;
+        opacity: 0;
+    }
+    50% {
+        height: 0px;
+        opacity: 0;
+    }
+    100%{
+        height: $listItemHeight;
+        opacity: 1;
+    }
+}
+
+
+
+html, body, div#container {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
 body {
-    background-color: #000000;
+
+    background-color: $background;
     font: 20pt Verdana;
+    color: #FFFFFF;
 
-    #listing-menu {
-        margin: auto;
-        width: 60%;
+    #lower-content {
 
-        .directory {
-            margin: 0;
-            padding: 10px;
-            color: #FFFFFF;
-            font: 20pt Verdana;
-            border: 2px solid;
+        height: 100%;
+        padding: 10px;
+        display: table;
+
+        #left-panel {
+            width: 20%;
+            height: 100%;
+            padding: $pad;
+            border: $borderSize solid;
+            display: table-cell;
+        }
+
+        #listing-menu {
+
+            display: table-cell;
+            padding-left: $pad;
+            padding-right: $pad;
+
+            .directory {
+                height: $listItemHeight; // declare height so it will match animation height.
+                margin-bottom: -$borderSize; // Allow borders above and below to overlap when this item is repeated.
+                padding: $pad;
+                border: $borderSize solid;
+                background-color: $background;
+                transition: background-color 200ms linear;
+
+                &:hover {
+                    transition: background-color 0ms linear;
+                    background-color: #333333;
+                }
+
+                &:active {
+                    background-color: #999999;
+                }
+
+                a {
+                    color: #FFFFFF;
+                    margin: 10px;
+                }
+
+            }
+
+            .directory.ng-enter {
+                animation: 500ms addToList;
+            }
+            .directory.ng-leave {
+                animation: 500ms removeFromList;
+            }
+
+            .empty-listing-placeholder {
+                padding: $pad;
+            }
+            .empty-listing-placeholder.ng-enter {
+                animation: 1000ms delayVisibility;
+            }
+        }
+
+        #right-panel {
+            width: 20%;
+            height: 100%;
+            display: table-cell;
+
+            position: relative;
+            input {
+                padding: $pad;
+                border: $borderSize solid;
+                background: $background;
+                color: $foreground;
+                font: $verdana;
+            }
         }
     }
 }

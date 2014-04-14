@@ -4,7 +4,8 @@ define([
     "angular",
     "angularAnimate",
     "angularRoute",
-    "controllers/listing",
+    "components",
+    "controllers/directory-listing",
     "../404/controller"
 ], function(angular) {
 
@@ -13,6 +14,7 @@ define([
         "ngRoute",
         "ngAnimate",
 
+        "ApplaudioComponents",
         "DirectoryListing",
         "FourOhFour"
     ]);
@@ -25,11 +27,9 @@ define([
             redirectTo : '/listing/artists'
         }).
         when('/listing/:url*', {
-            templateUrl: '/views/listing.html',
-            controller: 'DirectoryListingCtrl'
+            templateUrl: '/views/main.html',
         }).
         otherwise({
-//            redirectTo : '/listing/artists'
             templateUrl: '/404/view.html',
             controller: "FourOhFourCtrl"
         });
