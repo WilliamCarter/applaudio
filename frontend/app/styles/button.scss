@@ -1,0 +1,42 @@
+@import "globals";
+
+$buttonIconSize : 36px;
+
+applaudio-button {
+
+    position : relative;
+
+    button {
+        width: 100%; // fill button container
+        margin-top: 10px;
+        padding: $pad;
+        font: $verdana;
+        color: $foreground;
+        background: $background;
+        border: $borderSize solid;
+        text-align: left; // change to 'right' in directive when icon src is added.
+        padding-left: $pad*2+$buttonIconSize;
+        transition: background-color 200ms linear;
+
+        &:hover {
+            transition: background-color 0ms linear; // no transition on mouse enter.
+            background-color: #333333;
+        }
+
+        &:active {
+            // 200ms transition on mouse enter.
+            background-color: #999999;
+        }
+
+    }
+
+    // icon
+    img {
+        position : absolute;
+        width: $buttonIconSize;
+        margin-top: -($buttonIconSize / 2);
+        top: 50%;
+        left: $pad;
+    }
+
+}

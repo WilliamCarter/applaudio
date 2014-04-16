@@ -5,6 +5,7 @@ define([
     "angularAnimate",
     "angularRoute",
     "components",
+    "controllers/master",
     "controllers/directory-listing",
     "../404/controller"
 ], function(angular) {
@@ -14,6 +15,7 @@ define([
         "ngRoute",
         "ngAnimate",
 
+        "MasterCtrlModule",
         "ApplaudioComponents",
         "DirectoryListing",
         "FourOhFour"

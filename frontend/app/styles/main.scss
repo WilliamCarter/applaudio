@@ -1,12 +1,7 @@
 
+$listItemHeight: 33px;
 
-$verdana: 20pt Verdana;
-$borderSize: 2px;
-$background: #000000;
-$foreground: #FFFFFF;
-$pad: 10px;
-$listItemHeight: 33px; //Seems to be the standard height on the good browsers.
-
+@import "button";
 @import "modal";
 
 @keyframes addToList {
