@@ -53,8 +53,7 @@ define(["angular"], function (angular) {
                 }
 
                 scope.hideThisModal = function() {
-                    // Could we alternatively inject the modal ID into the view and use hideModal(modalID) from the base/master controller?
-                    scope.show = !scope.show;
+                    console.log("hideThisModal() called from Modal");
                 };
 
             },

@@ -14,8 +14,6 @@ define(["angular"], function (angular) {
 
         $scope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
 
-        $scope.MODAL_ADD_DIRECTORY = false;
-
         $rootScope.heading = "/" + $routeParams.url + "/";
 
         $http.get("/api/listing/" + $routeParams.url).
@@ -44,20 +42,20 @@ define(["angular"], function (angular) {
             console.log("uploadMusic");
         };
 
+        $scope.MODAL_ADD_DIRECTORY = false;
+
         $scope.showModal = function(modalId) {
             console.log("showModal(" + modalId + ")");
             $scope[modalId] = true;
         };
 
         $scope.hideModal = function(modalId) {
-            console.log("hideModal called from DirectoryListingCtrl scope");
+            console.log("hideModal called from DirectoryListingCtrl scope. modalId: " + modalId);
             console.log($scope);
             $scope[modalId] = false;
         };
 
     });
-
-    console.log("Defined DirectoryListing module");
 
     return DirectoryListing;
 

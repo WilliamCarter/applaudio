@@ -23,13 +23,13 @@
             <!--<div id="filter-icon">▼</div>-->
         </div>
 
-        <button id="addDirectory" ng-click="addDirectory()">New Directory</button>
-        <applaudio-modal show='showAddDirectoryModal' width="50%">
+        <applaudio-button action="showModal('MODAL_ADD_DIRECTORY')">New Directory</applaudio-button>
+        <applaudio-modal modal-id='MODAL_ADD_DIRECTORY' width="50%">
             <h4>Add Directory</h4>
-            <button ng-click="hideModal()">Cancel</button>
+            <applaudio-button action="hideModal('MODAL_ADD_DIRECTORY')">Cancel</applaudio-button>
         </applaudio-modal>
 
-        <button id="uploadMusic" ng-click="uploadMusic()">Upload Music</button>
+        <applaudio-button action="uploadMusic()">Upload Music</applaudio-button>
 
     </div>
 
