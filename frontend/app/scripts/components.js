@@ -4,34 +4,6 @@ define(["angular"], function (angular) {
 
     var ApplaudioComponents = angular.module("ApplaudioComponents", []);
 
-    // Button
-    ApplaudioComponents.directive('applaudioButton', function () {
-
-        return {
-            restrict: "E",
-            scope: {
-                ngDisabled : "=", // pass ngDisabled attribute on to button child.
-                action : "&" // execute passed action in parent scope.
-            },
-            transclude: true,
-            link: function (scope, element, attrs) {
-
-                if (attrs.icon) {
-                    scope.icon = true;
-                    scope.iconSrc = attrs.icon;
-                } else {
-                    scope.buttonStyle = {
-                        'text-align' : 'center',
-                        "padding-left" : "10px"
-                    };
-                }
-
-            },
-            templateUrl: 'views/components/button.html'
-        };
-
-    });
-
     // Modal
     ApplaudioComponents.directive('applaudioModal', function () {
 

@@ -7,7 +7,7 @@ define(["angular"], function (angular) {
     var DirectoryListing = angular.module("DirectoryListing", []);
 
     console.log("Defining DirectoryListing controller");
-    DirectoryListing.controller('DirectoryListingCtrl', function ($rootScope, $scope, $routeParams, $http, $location) {
+    DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $routeParams, $http, $location) {
 
         console.log("received url: " + $routeParams.url);
         console.log($routeParams);
@@ -16,7 +16,7 @@ define(["angular"], function (angular) {
 
         controllerScope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
 
-        $rootScope.heading = "/" + $routeParams.url + "/";
+        $scope.$parent.currentPath = "/" + $routeParams.url + "/";
 
         $http.get("/api/listing/" + $routeParams.url).
             success(function(data) {
@@ -36,7 +36,7 @@ define(["angular"], function (angular) {
 
         controllerScope.addDirectory = function(directoryName) {
             console.log("addDirectory(" + directoryName + ")");
-            console.log($scope);
+            controllerScope.hideModal();
         };
 
         controllerScope.uploadMusic = function() {
