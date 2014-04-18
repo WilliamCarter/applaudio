@@ -24,8 +24,17 @@ applaudio-button {
         }
 
         &:active {
-            // 200ms transition on mouse enter.
+            // 200ms transition on mouse exit.
             background-color: #999999;
+        }
+
+        &:disabled {
+            color: #AAAAAA;
+        }
+
+        &:disabled, &:active{
+            color: #AAAAAA;
+            background-color: #000000;
         }
 
     }

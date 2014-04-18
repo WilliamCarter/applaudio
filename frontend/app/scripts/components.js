@@ -10,6 +10,7 @@ define(["angular"], function (angular) {
         return {
             restrict: "E",
             scope: {
+                ngDisabled : "=", // pass ngDisabled attribute on to button child.
                 action : "&" // execute passed action in parent scope.
             },
             transclude: true,
@@ -45,8 +46,7 @@ define(["angular"], function (angular) {
 
                 // Allow style to be configured as attributes.
                 scope.configurableStyle = {
-                    width: "50%",
-                    height: "40%"
+                    width: "50%"
                 };
                 for (var style in scope.configurableStyle) {
                     scope.configurableStyle[style] = attrs[style] || scope.configurableStyle[style];
@@ -54,7 +54,16 @@ define(["angular"], function (angular) {
 
                 scope.hideThisModal = function() {
                     console.log("hideThisModal() called from Modal");
+                    scope.modalId = false;
                 };
+
+                // watch expression must be a function.
+                scope.$watch(function(){ return scope.modalId; }, function(value){
+                    if (value) {
+                        console.log("focusing input");
+                        element[0].querySelector("#directory-input").focus();
+                    }
+                });
 
             },
             templateUrl: 'views/components/modal.html'

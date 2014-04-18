@@ -12,47 +12,51 @@ define(["angular"], function (angular) {
         console.log("received url: " + $routeParams.url);
         console.log($routeParams);
 
-        $scope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
+        var controllerScope = this;
+
+        controllerScope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
 
         $rootScope.heading = "/" + $routeParams.url + "/";
 
         $http.get("/api/listing/" + $routeParams.url).
             success(function(data) {
-                $scope.listing = data.listing;
-                $scope.placeholderVisibility = "visible";
+                controllerScope.listing = data.listing;
+                controllerScope.placeholderVisibility = "visible";
             }).
             error(function(){
                 console.log("Cannot find directory in /music/...");
-                $scope.listing = ["404"];
+                controllerScope.listing = ["404"];
                 // TODO: 404 (+--0)~~~[~- - ]
             });
 
-        $scope.navigate = function(directoryName) {
+        controllerScope.navigate = function(directoryName) {
             console.log("directoryName: " + directoryName);
             $location.path($location.path() + "/" + directoryName);
         };
 
-        $scope.addDirectory = function() {
-            console.log("addDirectory");
+        controllerScope.addDirectory = function(directoryName) {
+            console.log("addDirectory(" + directoryName + ")");
             console.log($scope);
-            $scope.showAddDirectoryModal = true;
         };
 
-        $scope.uploadMusic = function() {
+        controllerScope.uploadMusic = function() {
             console.log("uploadMusic");
         };
 
-        $scope.MODAL_ADD_DIRECTORY = false;
-
-        $scope.showModal = function(modalId) {
-            console.log("showModal(" + modalId + ")");
-            $scope[modalId] = true;
+        controllerScope.modals = {
+            MODAL_ADD_DIRECTORY : false
         };
 
-        $scope.hideModal = function(modalId) {
-            console.log("hideModal called from DirectoryListingCtrl scope. modalId: " + modalId);
-            console.log($scope);
-            $scope[modalId] = false;
+        controllerScope.showModal = function(modalId) {
+            console.log("DirectoryListingCtrl - showModal(" + modalId + ")");
+            controllerScope.modals[modalId] = true;
+        };
+
+        controllerScope.hideModal = function() {
+            console.log("DirectoryListingCtrl - hideModal()");
+            for (var modalId in controllerScope.modals) {
+                controllerScope.modals[modalId] = false;
+            }
         };
 
     });

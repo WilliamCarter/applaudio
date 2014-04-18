@@ -1,4 +1,6 @@
 
+@import "globals";
+
 .modal-background {
     /* A dark translucent div that covers the whole screen */
     position:fixed;
@@ -25,10 +27,26 @@
     background-color: #000000;
     color: #FFFFFF;
     border: 2px solid;
-//    box-shadow: 4px 4px 80px #000;
-}
+    box-shadow: 4px 4px 80px #000;
 
-.modal-content {
-    padding: 10px;
+    .modal-content {
+        font: 20pt Verdana;
+        padding: $pad;
+
+        h1 {
+            margin-left: $pad;
+        }
+
+        input {
+
+        }
+
+        applaudio-button {
+            bottom: -30px;
+            float: right;
+            margin-left: $pad;
+        }
+    }
+
 }
 

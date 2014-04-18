@@ -1,8 +1,10 @@
 
-$listItemHeight: 33px;
 
+@import "globals";
 @import "button";
 @import "modal";
+
+$listItemHeight: 33px;
 
 @keyframes addToList {
     0% {

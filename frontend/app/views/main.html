@@ -2,15 +2,15 @@
     <h1>{{heading}}</h1>
 </header>
 
-<div id="lower-content" ng-controller="DirectoryListingCtrl">
+<div id="lower-content" ng-controller="DirectoryListingCtrl as dl">
 
     <div id="left-panel">Music player to go here</div>
 
     <div id="listing-menu">
 
-        <div class="empty-listing-placeholder" ng-if="!(listing | filter:query).length" style="visibility:{{placeholderVisibility}};">Nothing here...</div>
+        <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" style="visibility:{{dl.placeholderVisibility}};">Nothing here...</div>
 
-        <div ng-repeat="item in listing | filter:query" class="directory" ng-click="navigate(item)">
+        <div ng-repeat="item in dl.listing | filter:query" class="directory" ng-click="dl.navigate(item)">
             <div>{{item}}</div>
         </div>
 
@@ -23,13 +23,15 @@
             <!--<div id="filter-icon">▼</div>-->
         </div>
 
-        <applaudio-button action="showModal('MODAL_ADD_DIRECTORY')">New Directory</applaudio-button>
-        <applaudio-modal modal-id='MODAL_ADD_DIRECTORY' width="50%">
-            <h4>Add Directory</h4>
-            <applaudio-button action="hideModal('MODAL_ADD_DIRECTORY')">Cancel</applaudio-button>
+        <applaudio-button action="dl.showModal('MODAL_ADD_DIRECTORY')" icon="images/folder.png">New Directory</applaudio-button>
+        <applaudio-modal modal-id='dl.modals.MODAL_ADD_DIRECTORY' width="50%">
+            <h1>Add Directory</h1>
+            Directory name: <input id="directory-input" type="text" ng-model="newDirectoryName"><br/>
+            <applaudio-button action="dl.hideModal()">Cancel</applaudio-button>
+            <applaudio-button action="dl.addDirectory(newDirectoryName)" ng-disabled="!newDirectoryName">Add</applaudio-button>
         </applaudio-modal>
 
-        <applaudio-button action="uploadMusic()">Upload Music</applaudio-button>
+        <applaudio-button action="dl.uploadMusic()">Upload Music</applaudio-button>
 
     </div>
 
