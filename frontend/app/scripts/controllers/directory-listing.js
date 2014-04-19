@@ -1,6 +1,6 @@
 'use strict';
 
-define(["angular"], function (angular) {
+define(["angular", "utils"], function (angular, Utils) {
 
     console.log("Defining DirectoryListing module");
 
@@ -18,7 +18,7 @@ define(["angular"], function (angular) {
 
         $scope.$parent.currentPath = "/" + $routeParams.url + "/";
 
-        $http.get("/api/listing/" + $routeParams.url).
+        $http.get("/api/library/" + $routeParams.url).
             success(function(data) {
                 controllerScope.listing = data.listing;
                 controllerScope.placeholderVisibility = "visible";
@@ -37,6 +37,26 @@ define(["angular"], function (angular) {
         controllerScope.addDirectory = function(directoryName) {
             console.log("addDirectory(" + directoryName + ")");
             controllerScope.hideModal();
+            if(controllerScope.listing.indexOf(directoryName) !== -1) {
+                console.log("Directory already exists in current model. Scroll to element.");
+                document.querySelector("#directory_" + Utils.htmlify(directoryName)).scrollIntoView();
+                // TODO: smooth scroll. Add element highlight as well?
+            } else {
+                $http.post("/api/library/directory", { "path" : $scope.$parent.currentPath, "name" : directoryName })
+                    .success(function(){
+                        console.log("new directory created successfully.");
+                        var directoryPosition = 0;
+                        while (directoryName > controllerScope.listing[directoryPosition]) {
+                            directoryPosition++;
+                        }
+                        Utils.insertAt(controllerScope.listing, directoryPosition, directoryName);
+                    })
+                    .error(function(data, status){
+                        window.alert("Error adding directory. See console");
+                        console.log("Error adding directory: " + status);
+                        console.log(data);
+                    });
+                }
         };
 
         controllerScope.uploadMusic = function() {

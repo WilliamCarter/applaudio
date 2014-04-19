@@ -7,7 +7,9 @@ GET     /                           controllers.Assets.at(path="/public", file="
 GET     /test/*value                controllers.Application.test(value: String)
 
 # API
-GET     /api/listing/*url           controllers.Api.listing(url)
+GET     /api/library/*path          controllers.Api.getDirectoryListing(path)
+POST    /api/library/directory      controllers.Api.addDirectory
+DELETE  /api/library/directory      controllers.Api.removeDirectory
 
 # Route everything else to public
 GET     /*filename                      controllers.Assets.at(path="/public", filename)

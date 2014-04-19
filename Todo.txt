@@ -1,0 +1,14 @@
+Frontend
+--------
+
+- Handle animations better when adding a directory that already exists. Smooth scroll and highlight?
+- Redesign Modals. One modal object in the base controller with dynamic content?
+
+
+Backend
+-------
+
+- Security
+  - HTTPS
+  - Certificates and Passwords
+- Redesign data model.

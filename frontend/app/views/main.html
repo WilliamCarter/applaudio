@@ -13,7 +13,7 @@
             <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" style="visibility:{{dl.placeholderVisibility}};">Nothing here...</div>
 
             <div ng-repeat="item in dl.listing | filter:query" class="directory" ng-click="dl.navigate(item)">
-                <div>{{item}}</div>
+                <div id="directory_{{htmlify(item)}}">{{item}}</div>
             </div>
 
         </div>
@@ -32,7 +32,7 @@
                 <h1>Add Directory</h1>
                 Directory name: <input id="directory-input" type="text" ng-model="directoryNameInput"><br/>
                 <button ng-click="dl.hideModal()">Cancel</button>
-                <button ng-click="directoryNameInput='';dl.addDirectory(directoryNameInput)" ng-disabled="!directoryNameInput">Add</button>
+                <button ng-click="dl.addDirectory(directoryNameInput);directoryNameInput='';" ng-disabled="!directoryNameInput">Add</button>
             </applaudio-modal>
 
             <button ng-click="dl.uploadMusic()">Upload Music</button>
