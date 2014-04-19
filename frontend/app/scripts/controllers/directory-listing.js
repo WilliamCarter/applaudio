@@ -16,6 +16,7 @@ define(["angular", "utils"], function (angular, Utils) {
 
         controllerScope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
 
+        // TODO: broadcasting/emitting the event will be more robust than simply calling $parent.
         $scope.$parent.currentPath = "/" + $routeParams.url + "/";
 
         $http.get("/api/library/" + $routeParams.url).
@@ -61,23 +62,38 @@ define(["angular", "utils"], function (angular, Utils) {
 
         controllerScope.uploadMusic = function() {
             console.log("uploadMusic");
+            $scope.showModal({
+                 heading : "Upload",
+                 showFileInput : true,
+                 fileInputTag : "Choose File: ",
+                 showConfirm : true,
+                 confirmText : "Upload",
+                 confirm : function() {
+                    console.log("music uploaded.");
+                    console.log($scope);
+                    console.log(document.querySelector("#modal-file-input"));
+                    console.log(document.querySelector("#modal-file-input").data);
+                    console.log(document.querySelector("#modal-file-input").files[0]);
+
+                 }
+             });
         };
 
-        controllerScope.modals = {
-            MODAL_ADD_DIRECTORY : false
-        };
-
-        controllerScope.showModal = function(modalId) {
-            console.log("DirectoryListingCtrl - showModal(" + modalId + ")");
-            controllerScope.modals[modalId] = true;
-        };
-
-        controllerScope.hideModal = function() {
-            console.log("DirectoryListingCtrl - hideModal()");
-            for (var modalId in controllerScope.modals) {
-                controllerScope.modals[modalId] = false;
-            }
-        };
+//        controllerScope.modals = {
+//            MODAL_ADD_DIRECTORY : false
+//        };
+//
+//        controllerScope.showModal = function(modalId) {
+//            console.log("DirectoryListingCtrl - showModal(" + modalId + ")");
+//            controllerScope.modals[modalId] = true;
+//        };
+//
+//        controllerScope.hideModal = function() {
+//            console.log("DirectoryListingCtrl - hideModal()");
+//            for (var modalId in controllerScope.modals) {
+//                controllerScope.modals[modalId] = false;
+//            }
+//        };
 
     });
 

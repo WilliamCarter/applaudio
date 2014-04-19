@@ -25,7 +25,6 @@ object Api extends Controller {
       case Some(requestJson) => {
         println(requestJson.toString())
 
-
         val success = for {
           path <- requestJson.\("path").asOpt[String]
           name <- requestJson.\("name").asOpt[String]
@@ -49,6 +48,21 @@ object Api extends Controller {
   def removeDirectory() = Action {
     println("Api.removeDirectory")
     Ok("remove directory")
+  }
+
+
+  def upload = Action(parse.multipartFormData) { request =>
+
+    println("Api.upload()")
+
+    request.body.file("audio").map { audioFile =>
+      val filename = audioFile.filename
+      val contentType = audioFile.contentType
+      println("User tried to upload " + filename + " of content type " + contentType)
+      Ok("File uploaded")
+    }.getOrElse {
+      BadRequest
+    }
   }
 
 }

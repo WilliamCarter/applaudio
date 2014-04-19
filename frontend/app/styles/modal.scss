@@ -17,7 +17,7 @@
     /* A centered div above the overlay with a box shadow. */
     z-index:10000;
     position: fixed;
-    width: 50%; /* Default */
+    min-width: 30%;
 
     /* Center the dialog */
     top: 50%;
@@ -29,16 +29,12 @@
     border: 2px solid;
     box-shadow: 4px 4px 80px #000;
 
-    .modal-content {
-        font: 20pt Verdana;
+//    .modal-content {
         padding: $pad;
 
         h1 {
+            font: 20pt Verdana;
             margin-left: $pad;
-        }
-
-        input {
-
         }
 
         button {
@@ -47,7 +43,7 @@
             float: right;
             margin-left: $pad;
         }
-    }
+//    }
 
 }
 
