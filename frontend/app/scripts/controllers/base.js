@@ -7,47 +7,54 @@ define(["angular", "utils"], function (angular, Utils) {
     console.log("Defining Base controller");
     BaseCtrlModule.controller('BaseCtrl', function ($scope) {
 
-        var controllerScope = this;
-
+        // currentPath is set by the URL path.
         $scope.currentPath = "/";
 
+
+        // UTILITY FUNCTIONS //
+
         // Copy the Utils function to allow views to use it.
-        controllerScope.htmlify = function(string) {
+        $scope.htmlify = function(string) {
 //            console.log("BaseCtrl.htmlify(" + string + ")");
             return Utils.htmlify(string);
         };
 
 
-        // MODALS
+        // MODALS //
+
         var defaultModal = {
             show : false,
             heading : "",
             showTextInput : false,
             textInputTag : "",
+            textInputPlaceholder : "",
             showFileInput : false,
             fileInputTag : "",
+            clickFileInput : function() {
+                console.log("modal.clickFileInput()");
+                document.querySelector("#modal-file-input").click();
+            },
+            readUploadFiles : function() {
+                console.log("modal.readUploadFiles()");
+                $scope.$apply(function(){
+                    $scope.modal.uploadFiles = document.querySelector("#modal-file-input").files;
+                });
+            },
             cancelText : "Cancel",
             showConfirm : false,
-            cancel : function(){ controllerScope.modal.show = false; },
+            hide : function() { $scope.modal.show = false; },
             confirmText : "Ok",
             confirm : null
         };
-
-        // Initial format:
-        controllerScope.modal = defaultModal;
+        $scope.modal = defaultModal;
 
         $scope.showModal = function(modalAttributes) {
             console.log("BaseCtrl.showModal()");
-            controllerScope.modal = defaultModal;
+            $scope.modal = angular.copy(defaultModal);
             for (var attribute in modalAttributes) {
-                controllerScope.modal[attribute] = modalAttributes[attribute];
+                $scope.modal[attribute] = modalAttributes[attribute];
             }
-            controllerScope.modal.show = true;
-        };
-
-        controllerScope.modal.readUploadFiles = function() {
-            console.log("BaseCtrl.readUploadFiles()");
-            controllerScope.uploadFiles = document.querySelector("#modal-file-input").files;
+            $scope.modal.show = true;
         };
 
     });

@@ -5,6 +5,7 @@ import play.api.mvc._
 import play.api.libs.json.{JsValue, Json}
 import play.api.Play.current
 import services.LibraryManager
+import java.io.File
 
 object Api extends Controller {
 
@@ -55,14 +56,23 @@ object Api extends Controller {
 
     println("Api.upload()")
 
+    println(request.body.asFormUrlEncoded)
+
+    val path = request.body.asFormUrlEncoded.get("path").getOrElse{ BadRequest }
+    println(path)
+
     request.body.file("audio").map { audioFile =>
+      println(audioFile)
       val filename = audioFile.filename
       val contentType = audioFile.contentType
-      println("User tried to upload " + filename + " of content type " + contentType)
+      println("User trying to upload " + filename + " of content type " + contentType)
+      audioFile.ref.moveTo(new File("/tmp/picture.mp3"))
       Ok("File uploaded")
     }.getOrElse {
       BadRequest
     }
+
+
   }
 
 }

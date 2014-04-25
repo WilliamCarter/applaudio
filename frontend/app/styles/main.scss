@@ -2,6 +2,7 @@
 
 @import "globals";
 @import "button";
+@import "text-input";
 @import "modal";
 
 $listItemHeight: 33px;
@@ -57,6 +58,7 @@ body {
     background-color: $background;
     font: 20pt Verdana;
     color: #FFFFFF;
+    overflow: hidden;
 
     #lower-content {
 
@@ -123,13 +125,6 @@ body {
             display: table-cell;
 
             position: relative;
-            input {
-                padding: $pad;
-                border: $borderSize solid;
-                background: $background;
-                color: $foreground;
-                font: $verdana;
-            }
         }
     }
 }

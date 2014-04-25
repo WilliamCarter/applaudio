@@ -8,10 +8,14 @@ import java.io.File
 
 object LibraryManager {
 
+  val libraryRoot: String = Play.configuration.getString("library.root").get;
+
   def getDirectoryListing(path: String): Option[Array[String]] = {
 
     println("LibraryManager.getDirectoryListing(" + path + ")")
-    Play.getExistingFile("public/music/" + java.net.URLDecoder.decode(path, "UTF-8")) match {
+
+    val directory = Option(new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8")))
+    directory match {
 
       case Some(directory) =>
         if (directory.isDirectory) {
@@ -23,7 +27,7 @@ object LibraryManager {
         }
 
       case None =>
-        println("No such file: public/music/" + path)
+        println("No such file: " + libraryRoot + path)
         None
     }
 
@@ -31,17 +35,24 @@ object LibraryManager {
 
   def addDirectory(path: String, name: String): Boolean = {
     println("LibraryManager.addDirectory(" + path + ", " + name + ")")
-    Play.getExistingFile("public/music/" + path) match {
 
-      case Some (directory) =>
-        if (directory.isDirectory) {
-          new File(directory, name).mkdir()
-        } else {
-          false
-        }
+    val newDirectoryParent = new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8"))
 
-      case None => false
+    // Check directory parent exists. Fail if it doesn't.
+    if(!newDirectoryParent.exists) {
+      println("File path doesn't exist. WTF!?")
+      return false
     }
+
+    // Create new Directory
+    val newDirectory = new File(newDirectoryParent, name)
+    if (newDirectory.exists)
+      println("File " + newDirectory.getAbsolutePath + " already exists")
+    else
+      newDirectory.mkdir()
+
+    return true
+
   }
 
   def removeDirectory(path: String) {

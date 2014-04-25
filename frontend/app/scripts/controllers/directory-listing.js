@@ -35,65 +35,92 @@ define(["angular", "utils"], function (angular, Utils) {
             $location.path($location.path() + "/" + directoryName);
         };
 
-        controllerScope.addDirectory = function(directoryName) {
-            console.log("addDirectory(" + directoryName + ")");
-            controllerScope.hideModal();
-            if(controllerScope.listing.indexOf(directoryName) !== -1) {
-                console.log("Directory already exists in current model. Scroll to element.");
-                document.querySelector("#directory_" + Utils.htmlify(directoryName)).scrollIntoView();
-                // TODO: smooth scroll. Add element highlight as well?
-            } else {
-                $http.post("/api/library/directory", { "path" : $scope.$parent.currentPath, "name" : directoryName })
-                    .success(function(){
-                        console.log("new directory created successfully.");
-                        var directoryPosition = 0;
-                        while (directoryName > controllerScope.listing[directoryPosition]) {
-                            directoryPosition++;
-                        }
-                        Utils.insertAt(controllerScope.listing, directoryPosition, directoryName);
-                    })
-                    .error(function(data, status){
-                        window.alert("Error adding directory. See console");
-                        console.log("Error adding directory: " + status);
-                        console.log(data);
-                    });
+        controllerScope.addDirectory = function() {
+
+            console.log("addDirectory()");
+
+            $scope.showModal({
+                heading : "Add Directory",
+                showTextInput : true,
+                textInputTag : "Directory name: ",
+                textInputPlaceholder : "name",
+                showConfirm: true,
+                confirmText: "Add",
+                confirm: function() {
+
+                    console.log("modal confirm button clicked");
+                    var path = $scope.currentPath;
+                    var directoryName = $scope.modal.textInput;
+
+                    console.log("Add directory: " + path + directoryName);
+                    $scope.modal.hide();
+                    if(controllerScope.listing.indexOf(directoryName) !== -1) {
+                        console.log("Directory already exists in current model. Scroll to element.");
+                        document.querySelector("#directory_" + Utils.htmlify(directoryName)).scrollIntoView();
+                        // TODO: smooth scroll. Add element highlight as well?
+                    } else {
+                        $http.post("/api/library/directory", { "path" : $scope.currentPath, "name" : directoryName })
+                            .success(function(){
+                                console.log("new directory created successfully.");
+                                var directoryPosition = 0;
+                                while (directoryName > controllerScope.listing[directoryPosition]) {
+                                    directoryPosition++;
+                                }
+                                Utils.insertAt(controllerScope.listing, directoryPosition, directoryName);
+                            })
+                            .error(function(data, status){
+                                window.alert("Error adding directory. See console");
+                                console.log("Error adding directory: " + status);
+                                console.log(data);
+                            });
+                    }
                 }
+            });
         };
 
         controllerScope.uploadMusic = function() {
             console.log("uploadMusic");
+
             $scope.showModal({
-                 heading : "Upload",
+                 heading : "Upload Music",
                  showFileInput : true,
-                 fileInputTag : "Choose File: ",
                  showConfirm : true,
                  confirmText : "Upload",
                  confirm : function() {
-                    console.log("music uploaded.");
-                    console.log($scope);
-                    console.log(document.querySelector("#modal-file-input"));
-                    console.log(document.querySelector("#modal-file-input").data);
-                    console.log(document.querySelector("#modal-file-input").files[0]);
+                    console.log("modal confirm button clicked");
+
+                    var uploadFiles = $scope.modal.uploadFiles;
+                    console.log(uploadFiles);
+
+                    var formData = new FormData();
+                    formData.append("audio", uploadFiles[0]);
+                    formData.append("path", $scope.currentPath);
+                    for (var file in uploadFiles) {
+                        formData.append(file.name, file);
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', "/api/library/upload", true);
+                    xhr.onload = function(e) {
+                        console.log("upload successful");
+                        console.log(e);
+                    };
+                    xhr.onprogress = function updateProgress(event) {
+                        if (event.lengthComputable) {
+                            var percentComplete = (event.loaded / event.total)*100;
+                            console.log("PercentComplete: " + percentComplete);
+                        } else {
+                            console.log("length not computable but go the following: ");
+                            console.log(event);
+                        }
+                    };
+
+                    xhr.send(formData);
 
                  }
              });
         };
 
-//        controllerScope.modals = {
-//            MODAL_ADD_DIRECTORY : false
-//        };
-//
-//        controllerScope.showModal = function(modalId) {
-//            console.log("DirectoryListingCtrl - showModal(" + modalId + ")");
-//            controllerScope.modals[modalId] = true;
-//        };
-//
-//        controllerScope.hideModal = function() {
-//            console.log("DirectoryListingCtrl - hideModal()");
-//            for (var modalId in controllerScope.modals) {
-//                controllerScope.modals[modalId] = false;
-//            }
-//        };
 
     });
 

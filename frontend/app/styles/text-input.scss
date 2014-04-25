@@ -1,0 +1,9 @@
+@import "globals";
+
+input {
+    padding: $pad;
+    border: $borderSize solid;
+    background: $background;
+    color: $foreground;
+    font: $verdana;
+}

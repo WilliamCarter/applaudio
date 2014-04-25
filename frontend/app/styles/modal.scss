@@ -2,7 +2,6 @@
 @import "globals";
 
 .modal-background {
-    /* A dark translucent div that covers the whole screen */
     position:fixed;
     z-index:9999;
     top:0;
@@ -13,11 +12,15 @@
     opacity: 0.8;
 }
 
-.modal-container {
-    /* A centered div above the overlay with a box shadow. */
+#modal-container {
     z-index:10000;
     position: fixed;
+    max-width: 80%;
     min-width: 30%;
+    max-height: 80%;
+    padding: $pad;
+    padding-left: 2*$pad;
+    padding-right: 2*$pad;
 
     /* Center the dialog */
     top: 50%;
@@ -29,21 +32,28 @@
     border: 2px solid;
     box-shadow: 4px 4px 80px #000;
 
-//    .modal-content {
-        padding: $pad;
+    h1 {
+        font: 24pt Verdana;
+        margin-left: 4*$pad;
+    }
 
-        h1 {
-            font: 20pt Verdana;
-            margin-left: $pad;
-        }
+    .tag {
+        display: inline;
+    }
 
-        button {
-            width: auto;
-            bottom: -30px;
-            float: right;
-            margin-left: $pad;
-        }
-//    }
+    #upload-list {
+        height: 200px;
+        overflow : auto;
+    }
+
+    button.dismissive {
+        width: auto;
+        margin-left: $pad;
+        margin-top: -$pad;
+        bottom: -40px;
+        float: right;
+    }
+
 
 }
 

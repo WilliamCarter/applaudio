@@ -25,7 +25,7 @@
                 <!--<div id="filter-icon">▼</div>-->
             </div>
 
-            <button class="with-icon" ng-click="dl.showModal('MODAL_ADD_DIRECTORY')" icon="images/folder.png">
+            <button class="with-icon" ng-click="dl.addDirectory()" icon="images/folder.png">
                 <img ng-src="images/folder.png"/>New Directory
             </button>
             <applaudio-modal modal-id='dl.modals.MODAL_ADD_DIRECTORY' width="50%">
@@ -41,26 +41,26 @@
 
     </div>
 
-    <div ng-show="base.modal.show">
-        <div class="modal-background" ng-click="base.modal.cancel()"></div>
-        <div class="modal-container modal-content">
+    <div ng-show="modal.show">
+        <div class="modal-background" ng-click="modal.cancel()"></div>
+        <div id="modal-container">
 
-            <h1>{{base.modal.heading}}</h1>
+            <h1>{{modal.heading}}</h1>
 
-            <div ng-show="base.modal.showTextInput">
-                <div>{{base.modal.textInputTag}}</div>
-                <input type="text" ng-model="directoryNameInput">
+            <div ng-show="modal.showTextInput">
+                <div class="tag">{{modal.textInputTag}}</div>
+                <input type="text" ng-model="modal.textInput" placeholder="{{modal.textInputPlaceholder}}" >
             </div>
-            <div ng-show="base.modal.showFileInput">
-                <div>{{base.modal.fileInputTag}}</div>
-                <input id="modal-file-input" type="file" multiple accept="audio/mpeg, audio/ogg">
-                <div ng-repeat="uploadFile in base.modal.uploadFiles">
-                    <p>{{uploadFile.name}}</p>
+            <div ng-show="modal.showFileInput">
+                <input id="modal-file-input" type="file" multiple accept="audio/mpeg, audio/ogg" onchange="angular.element(this).scope().modal.readUploadFiles()" hidden>
+                <button ng-click="modal.clickFileInput()">Choose Files</button>
+                <div id="upload-list">
+                    <p ng-repeat="uploadFile in modal.uploadFiles">{{uploadFile.name}}</p>
                 </div>
             </div>
 
-            <button ng-click="base.modal.cancel()">{{base.modal.cancelText}}</button>
-            <button ng-show="base.modal.showConfirm" ng-click="base.modal.confirm()">{{base.modal.confirmText}}</button>
+            <button class="dismissive" ng-click="modal.hide()">{{modal.cancelText}}</button>
+            <button class="dismissive" ng-show="modal.showConfirm" ng-click="modal.confirm()">{{modal.confirmText}}</button>
 
         </div>
 
