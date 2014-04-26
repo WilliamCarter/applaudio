@@ -16,23 +16,25 @@ object LibraryManager {
 
     println("LibraryManager.getDirectoryListing(" + path + ")")
 
-    val directory = Option(new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8")))
-    directory match {
+    val directory = new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8"))
 
-      case Some(directory) =>
-        if (directory.isDirectory) {
-          val fileList = directory.listFiles.map { file => file.getName }
-          println ("returning files " + fileList)
-          Option(fileList)
-        } else {
-          None // return music file?
-        }
+    if (!directory.exists) {
+      println("No such file: " + libraryRoot + path)
+      None
+    } else if (directory.isDirectory) {
 
-      case None =>
-        println("No such file: " + libraryRoot + path)
-        None
+      val fileList = directory.listFiles.filter { file =>
+        // First filter out hidden files (filenames starting with a '.')
+        file.getName.charAt(0) != '.'
+      }.map {
+        // Second, map list to filenames only.
+        file => file.getName
+      }
+      println ("returning files " + fileList)
+      Option(fileList)
+    } else {
+      None // return music file?
     }
-
   }
 
   def addDirectory(path: String, name: String): Boolean = {
@@ -62,9 +64,15 @@ object LibraryManager {
   }
 
   def uploadFiles(path: String, files: Seq[FilePart[TemporaryFile]]) = {
-    files.foreach { file =>
-      println("Saving file " + path + file.filename)
-      file.ref.moveTo(new File(libraryRoot + path + file.filename))
+    files.foreach { filePart =>
+
+      println("Uploading filePart " + path + filePart.filename)
+      val newFile = new File(libraryRoot + path + filePart.filename)
+      if (newFile.exists) {
+        println("The file " + newFile.getAbsolutePath + " already exists. Upload cancelled.")
+      } else {
+        filePart.ref.moveTo(newFile)
+      }
     }
   }
 

@@ -97,20 +97,21 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
                     }
 
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', Globals.paths.upload, true);
-                    xhr.onload = function(e) {
+                    xhr.upload.addEventListener("load", function(e) {
                         console.log("upload successful");
                         console.log(e);
-                    };
-                    xhr.onprogress = function updateProgress(event) {
+                    }, false);
+                    xhr.upload.addEventListener("progress", function updateProgress(event) {
                         if (event.lengthComputable) {
+                            console.log(event);
                             var percentComplete = (event.loaded / event.total)*100;
                             console.log("PercentComplete: " + percentComplete);
                         } else {
                             console.log("length not computable but got the following: ");
                             console.log(event);
                         }
-                    };
+                    }, false);
+                    xhr.open('POST', Globals.paths.upload, true);
 
                     xhr.send(formData);
 

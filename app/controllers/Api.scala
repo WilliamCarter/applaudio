@@ -46,7 +46,7 @@ object Api extends Controller {
     val path: String = request.body.dataParts("path").head
     LibraryManager.uploadFiles(path, request.body.files)
 
-    Ok("Fake success")
+    Ok("Upload complete")
 
   }
 
