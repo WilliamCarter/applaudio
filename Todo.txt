@@ -2,7 +2,7 @@ Frontend
 --------
 
 - Handle animations better when adding a directory that already exists. Smooth scroll and highlight?
-- Redesign Modals. One modal object in the base controller with dynamic content?
+- Create a modal queue, to allow modals to be able to throw alerts/dialogs for errors.
 
 
 Backend

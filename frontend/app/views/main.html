@@ -52,7 +52,7 @@
                 <input type="text" ng-model="modal.textInput" placeholder="{{modal.textInputPlaceholder}}" >
             </div>
             <div ng-show="modal.showFileInput">
-                <input id="modal-file-input" type="file" multiple accept="audio/mpeg, audio/ogg" onchange="angular.element(this).scope().modal.readUploadFiles()" hidden>
+                <input id="modal-file-input" type="file" multiple accept="{{base.supportedMedia.join(', ')}}" onchange="angular.element(this).scope().modal.readUploadFiles()" hidden>
                 <button ng-click="modal.clickFileInput()">Choose Files</button>
                 <div id="upload-list">
                     <p ng-repeat="uploadFile in modal.uploadFiles">{{uploadFile.name}}</p>

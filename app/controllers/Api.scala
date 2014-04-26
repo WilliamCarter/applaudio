@@ -1,47 +1,34 @@
 package controllers
 
-import play.api._
 import play.api.mvc._
-import play.api.libs.json.{JsValue, Json}
-import play.api.Play.current
+import play.api.libs.json.Json
 import services.LibraryManager
+import utils.ConvertibleInt._
 import java.io.File
 
 object Api extends Controller {
 
   def getDirectoryListing(path: String) = Action {
-    println("Getting directory listing for " + path);
+    println("Api.getDirectoryListing(" + path+ ")")
     LibraryManager.getDirectoryListing(path) match {
       case Some(listing) => Ok (Json.obj ("listing" -> listing))
       case None => NotFound
     }
   }
 
-  def addDirectory() = Action { request =>
+  def addDirectory() = Action(parse.json(maxLength = 2 kilobytes)) { request =>
 
     println("Api.addDirectory")
+//    println(request.body.toString())
 
-    request.body.asJson match {
+    val success = for {
+      path <- request.body.\("path").asOpt[String]
+      name <- request.body.\("name").asOpt[String]
+    } yield LibraryManager.addDirectory(path, name)
 
-      case Some(requestJson) => {
-        println(requestJson.toString())
-
-        val success = for {
-          path <- requestJson.\("path").asOpt[String]
-          name <- requestJson.\("name").asOpt[String]
-        } yield LibraryManager.addDirectory(path, name)
-
-        success match {
-          case Some(result) => Ok (Json.obj ("success" -> success))
-          case None => Ok (Json.obj ("success" -> false))
-        }
-
-      }
-
-      case None => {
-        println("No JSON object in request.")
-        BadRequest
-      }
+    success match {
+      case Some(result) => Ok (Json.obj ("success" -> success))
+      case None => Ok (Json.obj ("success" -> false))
     }
 
   }
@@ -56,22 +43,10 @@ object Api extends Controller {
 
     println("Api.upload()")
 
-    println(request.body.asFormUrlEncoded)
+    val path: String = request.body.dataParts("path").head
+    LibraryManager.uploadFiles(path, request.body.files)
 
-    val path = request.body.asFormUrlEncoded.get("path").getOrElse{ BadRequest }
-    println(path)
-
-    request.body.file("audio").map { audioFile =>
-      println(audioFile)
-      val filename = audioFile.filename
-      val contentType = audioFile.contentType
-      println("User trying to upload " + filename + " of content type " + contentType)
-      audioFile.ref.moveTo(new File("/tmp/picture.mp3"))
-      Ok("File uploaded")
-    }.getOrElse {
-      BadRequest
-    }
-
+    Ok("Fake success")
 
   }
 

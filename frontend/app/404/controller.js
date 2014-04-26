@@ -1,6 +1,6 @@
 'use strict'
 
-define(["angular", "services/globals"], function (angular, Globals) {
+define(["angular", "globals"], function (angular, Globals) {
 
     var FourOhFour = angular.module("FourOhFour", []);
 

@@ -1,6 +1,6 @@
 'use strict';
 
-define(["angular", "utils"], function (angular, Utils) {
+define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
 
     console.log("Defining DirectoryListing module");
 
@@ -16,8 +16,8 @@ define(["angular", "utils"], function (angular, Utils) {
 
         controllerScope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
 
-        // TODO: broadcasting/emitting the event will be more robust than simply calling $parent.
-        $scope.$parent.currentPath = "/" + $routeParams.url + "/";
+        // Move this to base contorller
+        $scope.setCurrentPath("/" + $routeParams.url + "/");
 
         $http.get("/api/library/" + $routeParams.url).
             success(function(data) {
@@ -49,7 +49,7 @@ define(["angular", "utils"], function (angular, Utils) {
                 confirm: function() {
 
                     console.log("modal confirm button clicked");
-                    var path = $scope.currentPath;
+                    var path = $scope.getCurrentPath();
                     var directoryName = $scope.modal.textInput;
 
                     console.log("Add directory: " + path + directoryName);
@@ -59,7 +59,7 @@ define(["angular", "utils"], function (angular, Utils) {
                         document.querySelector("#directory_" + Utils.htmlify(directoryName)).scrollIntoView();
                         // TODO: smooth scroll. Add element highlight as well?
                     } else {
-                        $http.post("/api/library/directory", { "path" : $scope.currentPath, "name" : directoryName })
+                        $http.post(Globals.paths.createNewDirectory, { "path" : path, "name" : directoryName })
                             .success(function(){
                                 console.log("new directory created successfully.");
                                 var directoryPosition = 0;
@@ -93,14 +93,14 @@ define(["angular", "utils"], function (angular, Utils) {
                     console.log(uploadFiles);
 
                     var formData = new FormData();
-                    formData.append("audio", uploadFiles[0]);
-                    formData.append("path", $scope.currentPath);
-                    for (var file in uploadFiles) {
-                        formData.append(file.name, file);
+                    formData.append("path", $scope.getCurrentPath());
+                    for (var i = 0; i < uploadFiles.length; i++) {
+                        console.log("appending " + uploadFiles[i].name);
+                        formData.append(uploadFiles[i].name, uploadFiles[i]);
                     }
 
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', "/api/library/upload", true);
+                    xhr.open('POST', Globals.paths.upload, true);
                     xhr.onload = function(e) {
                         console.log("upload successful");
                         console.log(e);
@@ -110,7 +110,7 @@ define(["angular", "utils"], function (angular, Utils) {
                             var percentComplete = (event.loaded / event.total)*100;
                             console.log("PercentComplete: " + percentComplete);
                         } else {
-                            console.log("length not computable but go the following: ");
+                            console.log("length not computable but got the following: ");
                             console.log(event);
                         }
                     };

@@ -4,6 +4,8 @@ import play.api.Play
 import play.api.Play.current
 import play.api.libs.json.Json
 import java.io.File
+import play.api.mvc.MultipartFormData.FilePart
+import play.api.libs.Files.TemporaryFile
 
 
 object LibraryManager {
@@ -57,6 +59,13 @@ object LibraryManager {
 
   def removeDirectory(path: String) {
 
+  }
+
+  def uploadFiles(path: String, files: Seq[FilePart[TemporaryFile]]) = {
+    files.foreach { file =>
+      println("Saving file " + file.filename)
+      file.ref.moveTo(new File(libraryRoot + path + file.filename))
+    }
   }
 
 }

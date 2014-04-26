@@ -1,14 +1,24 @@
 'use strict';
 
-define(["angular", "utils"], function (angular, Utils) {
+define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
 
     var BaseCtrlModule = angular.module("BaseCtrlModule", []);
 
     console.log("Defining Base controller");
     BaseCtrlModule.controller('BaseCtrl', function ($scope) {
 
+        var base = this; // private variables are attached to 'base', public to '$scope'
+
         // currentPath is set by the URL path.
-        $scope.currentPath = "/";
+        base.currentPath = "/";
+        $scope.setCurrentPath = function(path) {
+            base.currentPath = path;
+        };
+        $scope.getCurrentPath = function() {
+            return base.currentPath;
+        };
+
+        base.supportedMedia = Globals.supportedMedia;
 
 
         // UTILITY FUNCTIONS //
@@ -36,8 +46,17 @@ define(["angular", "utils"], function (angular, Utils) {
             },
             readUploadFiles : function() {
                 console.log("modal.readUploadFiles()");
+                var allFiles = document.querySelector("#modal-file-input").files;
+                var uploadFiles = [];
+                for (var i = 0; i < allFiles.length; i++) {
+                    if (Globals.supportedMedia.indexOf(allFiles[i].type) !== -1) {
+                        uploadFiles.push(allFiles[i]);
+                    } else {
+                        console.log(allFiles[i].name + " is of type " + allFiles[i].type + ", and not supported by applaudio.");
+                    }
+                }
                 $scope.$apply(function(){
-                    $scope.modal.uploadFiles = document.querySelector("#modal-file-input").files;
+                    $scope.modal.uploadFiles = uploadFiles;
                 });
             },
             cancelText : "Cancel",
