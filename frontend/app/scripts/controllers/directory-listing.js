@@ -16,9 +16,6 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
 
         controllerScope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
 
-        // Move this to base contorller
-        $scope.setCurrentPath("/" + $routeParams.url + "/");
-
         $http.get("/api/library/" + $routeParams.url).
             success(function(data) {
                 controllerScope.listing = data.listing;
@@ -49,7 +46,7 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
                 confirm: function() {
 
                     console.log("modal confirm button clicked");
-                    var path = $scope.getCurrentPath();
+                    var path = $scope.currentPath;
                     var directoryName = $scope.modal.textInput;
 
                     console.log("Add directory: " + path + directoryName);
@@ -93,7 +90,7 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
                     console.log(uploadFiles);
 
                     var formData = new FormData();
-                    formData.append("path", $scope.getCurrentPath());
+                    formData.append("path", $scope.currentPath);
                     for (var i = 0; i < uploadFiles.length; i++) {
                         console.log("appending " + uploadFiles[i].name);
                         formData.append(uploadFiles[i].name, uploadFiles[i]);

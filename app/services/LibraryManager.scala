@@ -63,7 +63,7 @@ object LibraryManager {
 
   def uploadFiles(path: String, files: Seq[FilePart[TemporaryFile]]) = {
     files.foreach { file =>
-      println("Saving file " + file.filename)
+      println("Saving file " + path + file.filename)
       file.ref.moveTo(new File(libraryRoot + path + file.filename))
     }
   }

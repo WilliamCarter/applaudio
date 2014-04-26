@@ -5,18 +5,13 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
     var BaseCtrlModule = angular.module("BaseCtrlModule", []);
 
     console.log("Defining Base controller");
-    BaseCtrlModule.controller('BaseCtrl', function ($scope) {
+    BaseCtrlModule.controller('BaseCtrl', function ($scope, $routeParams) {
 
         var base = this; // private variables are attached to 'base', public to '$scope'
 
         // currentPath is set by the URL path.
-        base.currentPath = "/";
-        $scope.setCurrentPath = function(path) {
-            base.currentPath = path;
-        };
-        $scope.getCurrentPath = function() {
-            return base.currentPath;
-        };
+        console.log("base controller - received url: " + $routeParams.url);
+        $scope.currentPath = "/" + $routeParams.url + "/";
 
         base.supportedMedia = Globals.supportedMedia;
 
