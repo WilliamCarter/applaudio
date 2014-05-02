@@ -1,22 +1,27 @@
 <div id="base" ng-controller="BaseCtrl as base">
 
-    <header>
-        <h1>{{currentPath}}</h1>
+    <header id="application-header">
+        <h1>
+            <!-- This is ridiculous but the below muse all be on the same line, or extra whitespace will be appended to the end of each link... -->
+            <div ng-repeat="pathElem in base.currentPathElements track by $index" class="inline"><span>/</span><a href="{{base.linkBackToDepth($index)}}">{{pathElem}}</a></div>
+        </h1>
     </header>
 
     <div id="lower-content" ng-controller="DirectoryListingCtrl as dl">
 
         <div id="left-panel">Music player to go here</div>
 
-        <div id="listing-menu">
+        <applaudio-scrollable id="listing-menu" >
 
-            <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" style="visibility:{{dl.placeholderVisibility}};">Nothing here...</div>
+            <!--<div id="" class="vertical-scrollable">-->
+                <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" style="visibility:{{dl.placeholderVisibility}};">Nothing here...</div>
 
-            <div ng-repeat="item in dl.listing | filter:query" class="directory" ng-click="dl.navigate(item)">
-                <div id="directory_{{htmlify(item)}}">{{item}}</div>
-            </div>
+                <div ng-repeat="item in dl.listing | filter:query" class="directory" repeat-end="window.resizeApplication()" ng-click="dl.navigate(item)">
+                    <div id="directory_{{htmlify(item)}}">{{item}}</div>
+                </div>
+            <!--</div>-->
 
-        </div>
+        </applaudio-scrollable>
 
         <div id="right-panel">
 
@@ -28,12 +33,6 @@
             <button class="with-icon" ng-click="dl.addDirectory()" icon="images/folder.png">
                 <img ng-src="images/folder.png"/>New Directory
             </button>
-            <applaudio-modal modal-id='dl.modals.MODAL_ADD_DIRECTORY' width="50%">
-                <h1>Add Directory</h1>
-                Directory name: <input id="directory-input" type="text" ng-model="directoryNameInput"><br/>
-                <button ng-click="dl.hideModal()">Cancel</button>
-                <button ng-click="dl.addDirectory(directoryNameInput);directoryNameInput='';" ng-disabled="!directoryNameInput">Add</button>
-            </applaudio-modal>
 
             <button ng-click="dl.uploadMusic()">Upload Music</button>
 

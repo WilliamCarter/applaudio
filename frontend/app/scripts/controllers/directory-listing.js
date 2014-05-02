@@ -7,16 +7,13 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
     var DirectoryListing = angular.module("DirectoryListing", []);
 
     console.log("Defining DirectoryListing controller");
-    DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $routeParams, $http, $location) {
-
-        console.log("received url: " + $routeParams.url);
-        console.log($routeParams);
+    DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $http, $location) {
 
         var controllerScope = this;
 
         controllerScope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
 
-        $http.get("/api/library/" + $routeParams.url).
+        $http.get("/api/library/" + $scope.currentPath).
             success(function(data) {
                 controllerScope.listing = data.listing;
                 controllerScope.placeholderVisibility = "visible";
@@ -79,46 +76,45 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
             console.log("uploadMusic");
 
             $scope.showModal({
-                 heading : "Upload Music",
-                 showFileInput : true,
-                 showConfirm : true,
-                 confirmText : "Upload",
-                 confirm : function() {
-                    console.log("modal confirm button clicked");
+            heading : "Upload Music",
+            showFileInput : true,
+            showConfirm : true,
+            confirmText : "Upload",
+            confirm : function() {
+                console.log("modal confirm button clicked");
 
-                    var uploadFiles = $scope.modal.uploadFiles;
-                    console.log(uploadFiles);
+                var uploadFiles = document.getElementById("modal-file-input").files;//$scope.modal.uploadFiles;
+                console.log(uploadFiles);
 
-                    var formData = new FormData();
-                    formData.append("path", $scope.currentPath);
-                    for (var i = 0; i < uploadFiles.length; i++) {
-                        console.log("appending " + uploadFiles[i].name);
-                        formData.append(uploadFiles[i].name, uploadFiles[i]);
+                var formData = new FormData();
+                formData.append("path", $scope.currentPath);
+                for (var i = 0; i < uploadFiles.length; i++) {
+                    console.log("appending " + uploadFiles[i].name);
+                    formData.append(uploadFiles[i].name, uploadFiles[i]);
+                }
+
+                var xhr = new XMLHttpRequest();
+                xhr.upload.addEventListener("load", function(e) {
+                    console.log("upload successful");
+                    console.log(e);
+                }, false);
+                xhr.upload.addEventListener("progress", function updateProgress(event) {
+                    if (event.lengthComputable) {
+                        console.log(event);
+                        var percentComplete = (event.loaded / event.total)*100;
+                        console.log("PercentComplete: " + percentComplete);
+                    } else {
+                        console.log("length not computable but got the following: ");
+                        console.log(event);
                     }
+                }, false);
+                xhr.open('POST', Globals.paths.upload, true);
 
-                    var xhr = new XMLHttpRequest();
-                    xhr.upload.addEventListener("load", function(e) {
-                        console.log("upload successful");
-                        console.log(e);
-                    }, false);
-                    xhr.upload.addEventListener("progress", function updateProgress(event) {
-                        if (event.lengthComputable) {
-                            console.log(event);
-                            var percentComplete = (event.loaded / event.total)*100;
-                            console.log("PercentComplete: " + percentComplete);
-                        } else {
-                            console.log("length not computable but got the following: ");
-                            console.log(event);
-                        }
-                    }, false);
-                    xhr.open('POST', Globals.paths.upload, true);
+                xhr.send(formData);
 
-                    xhr.send(formData);
-
-                 }
-             });
+                }
+            });
         };
-
 
     });
 

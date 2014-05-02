@@ -12,21 +12,26 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
         // currentPath is set by the URL path.
         console.log("base controller - received url: " + $routeParams.url);
         $scope.currentPath = "/" + $routeParams.url + "/";
+        base.currentPathElements = $scope.currentPath.split("/").slice(1, $scope.currentPath.length-1);
 
         base.supportedMedia = Globals.supportedMedia;
 
 
         // UTILITY FUNCTIONS //
-
-        // Copy the Utils function to allow views to use it.
         $scope.htmlify = function(string) {
+        // Copy the Utils function to allow views to use it.
 //            console.log("BaseCtrl.htmlify(" + string + ")");
             return Utils.htmlify(string);
         };
 
 
-        // MODALS //
+        // NAVIGATION //
+        base.linkBackToDepth = function(index) {
+            return "/#/listing/" + base.currentPathElements.slice(0, index+1).join("/");
+        };
 
+
+        // MODALS //
         var defaultModal = {
             show : false,
             heading : "",

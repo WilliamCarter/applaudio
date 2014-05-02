@@ -4,124 +4,91 @@
 @import "button";
 @import "text-input";
 @import "modal";
-
-$listItemHeight: 33px;
-
-@keyframes addToList {
-    0% {
-        height: 0px;
-        opacity: 0;
-    }
-    100%{
-        height: $listItemHeight;
-        opacity: 1;
-    }
-}
-
-@keyframes removeFromList {
-    0% {
-        height: $listItemHeight;
-        opacity: 1;
-    }
-    100%{
-        height: 0px;
-        opacity: 0;
-    }
-}
-
-@keyframes delayVisibility {
-    0% {
-        height: 0px;
-        opacity: 0;
-    }
-    50% {
-        height: 0px;
-        opacity: 0;
-    }
-    100%{
-        height: $listItemHeight;
-        opacity: 1;
-    }
-}
-
-
-
-html, body, div#container {
-    width: 100%;
-    height: 100%;
-    padding: 0px;
-    margin: 0px;
-}
+@import "scrollable";
 
 body {
 
     background-color: $background;
-    font: 20pt Verdana;
-    color: #FFFFFF;
+    font: $verdana;
+    color: $foreground;
     overflow: hidden;
 
-    #lower-content {
+    header {
+        h1 {
+            margin: 0;
+            padding: $pad;
 
-        height: 100%;
-        padding: 10px;
-        display: table;
+            a, span {
+                margin: 0;
+                padding: 0;
+            }
+        }
+    }
+
+    #lower-content {
+        padding: $pad;
 
         #left-panel {
             width: 20%;
-            height: 100%;
+            height: 1px; // height is defined by lower-content height, but having initial height of 1, ensures this element doesn't *exceed* the lower-content height.
             padding: $pad;
             border: $borderSize solid;
             display: table-cell;
         }
 
         #listing-menu {
-
+            height: inherit;
             display: table-cell;
             padding-left: $pad;
             padding-right: $pad;
+            position: relative;
 
-            .directory {
-                height: $listItemHeight; // declare height so it will match animation height.
-                margin-bottom: -$borderSize; // Allow borders above and below to overlap when this item is repeated.
-                padding: $pad;
-                border: $borderSize solid;
-                background-color: $background;
-                transition: background-color 200ms linear;
+            .scrollable {
+                padding-bottom: $pad;
 
-                &:hover {
-                    transition: background-color 0ms linear;
-                    background-color: #333333;
+                .directory {
+                    height: $listItemHeight; // declare height so it will match animation height.
+                    margin-bottom: -$borderSize; // Allow borders above and below to overlap when this item is repeated.
+                    padding: $pad;
+                    border: $borderSize solid;
+                    background-color: $background;
+                    transition: background-color 200ms linear;
+
+                    &:hover {
+                        transition: background-color 0ms linear;
+                        background-color: #333333;
+                    }
+
+                    &:active {
+                        background-color: #999999;
+                    }
+
+                    a {
+                        color: #FFFFFF;
+                        margin: 10px;
+                    }
+
                 }
-
-                &:active {
-                    background-color: #999999;
-                }
-
-                a {
-                    color: #FFFFFF;
-                    margin: 10px;
-                }
-
             }
 
-            .directory.ng-enter {
-                animation: 500ms addToList;
-            }
-            .directory.ng-leave {
-                animation: 500ms removeFromList;
-            }
-
-            .empty-listing-placeholder {
-                padding: $pad;
-            }
-            .empty-listing-placeholder.ng-enter {
-                animation: 1000ms delayVisibility;
-            }
+//            .directory.ng-enter {
+//                animation: 500ms addToList;
+//            }
+//            .directory.ng-leave {
+//                animation: 500ms removeFromList;
+//            }
+//
+//            .empty-listing-placeholder {
+//                padding: $pad;
+//            }
+//            .empty-listing-placeholder.ng-enter {
+//                animation: 1000ms delayVisibility;
+//            }
         }
 
         #right-panel {
             width: 20%;
-            height: 100%;
+            height: inherit;
             display: table-cell;
 
             position: relative;

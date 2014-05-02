@@ -20,7 +20,6 @@ require.config({
 require(["angular", "app"], function (angular) {
 
     console.log("Resuming angular bootstrap");
-    console.log(angular);
 
     angular.element(document).ready(function () {
         console.log("document ready. Bootstrapping Angular");

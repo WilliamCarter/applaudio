@@ -4,11 +4,25 @@ define([
     "angular",
     "angularAnimate",
     "angularRoute",
-    "components",
     "controllers/base",
     "controllers/directory-listing",
+    "directives/repeat-events",
+    "directives/components",
     "../404/controller"
 ], function(angular) {
+
+    // Hack to fix application height. Can't seem to do this with CSS alone.
+    window.resizeApplication = function() {
+        var header = document.getElementById("application-header");
+        var lowerContent = document.getElementById("lower-content");
+        lowerContent.style.height = (window.innerHeight - header.clientHeight - 20) + "px";
+    };
+    window.onresize = function() {
+        console.log("resize");
+        window.resizeApplication();
+    };
+//    setTimeout(resizeApplication, 100); // Hack to ensure application starts at the correct size.
+//    // TODO: find angular event to hook into, rather than waiting for a set timeout.
 
     console.log("Defining Applaudio");
     var Applaudio = angular.module('applaudio', [
@@ -16,8 +30,11 @@ define([
         "ngAnimate",
 
         "BaseCtrlModule",
-        "ApplaudioComponents",
         "DirectoryListing",
+
+        "ApplaudioComponents",
+        "RepeatEvents",
+
         "FourOhFour"
     ]);
 
@@ -38,5 +55,5 @@ define([
 
     }]);
 
-      return Applaudio;
+    return Applaudio;
 });
