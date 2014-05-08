@@ -21,8 +21,11 @@ define([
         console.log("resize");
         window.resizeApplication();
     };
-//    setTimeout(resizeApplication, 100); // Hack to ensure application starts at the correct size.
-//    // TODO: find angular event to hook into, rather than waiting for a set timeout.
+
+    window.onscroll = function(e) {
+        console.log("scroll");
+        console.log(e);
+    };
 
     console.log("Defining Applaudio");
     var Applaudio = angular.module('applaudio', [
