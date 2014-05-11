@@ -13,4 +13,4 @@ DELETE  /api/library/directory      controllers.Api.removeDirectory
 POST    /api/library/upload         controllers.Api.upload
 
 # Route everything else to public
-GET     /*filename                      controllers.Assets.at(path="/public", filename)
+GET     /*filename                  controllers.StaticResources.at(filename)
