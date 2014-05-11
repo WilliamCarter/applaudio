@@ -65,34 +65,32 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/scripts/controllers/*.js',
-                '<%= yeoman.app %>/scripts/services/*.js',
-                '<%= yeoman.app %>/scripts/*.js'
+                '<%= yeoman.app %>/js/**/*.js'
             ]
         },
 
     // Empties folders to start fresh
     clean: {
-      options: {
-        force: true
-      },
-      dist: {
-        files: [{
-          dot: true,
-          src: [
-            '.tmp',
-            '<%= yeoman.dist %>/*',
-            '!<%= yeoman.dist %>/.git*'
-          ]
-        }]
-      },
-      server: '.tmp'
+        dist: {
+            files: [{
+                dot: true,
+                src: [
+                    '.tmp',
+                    '<%= yeoman.dist %>/*',
+                    '!<%= yeoman.dist %>/.git*'
+                ]
+            }]
+        },
+        server: '.tmp'
     },
 
     // Add vendor prefixed styles
     autoprefixer: {
       options: {
         browsers: ['last 2 versions']
+      },
+      dev: {
+        src: "<%= yeoman.app %>/styles/*.css"
       },
       dist: {
         src: "<%= yeoman.dist %>/styles/*.css"
@@ -169,10 +167,20 @@ module.exports = function (grunt) {
     },
 
     sass: {
-        debug: {
+        dev: {
             options: {
                 style: 'expanded'
             },
+            files: [{
+                expand: true,
+
+                cwd: '<%= yeoman.app %>/styles',
+                src: ['*.scss'],
+                dest: '<%= yeoman.app %>/styles',
+                ext: '.css'
+            }]
+        },
+        dist: {
             files: [{
                 expand: true,
 
@@ -236,16 +244,14 @@ module.exports = function (grunt) {
     'debug'
   ]);
 
-  grunt.registerTask('debug', [
+  grunt.registerTask('dev', [
     'jshint:all',
-    'clean:dist',
     'bower-install',
-    'sass',
-    'autoprefixer',
-    'copy'
+    'sass:dev',
+    'autoprefixer:dev'
   ]);
 
   grunt.registerTask('default', [
-    'debug'
+    'dev'
   ]);
 };
