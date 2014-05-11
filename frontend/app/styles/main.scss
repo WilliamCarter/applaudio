@@ -1,5 +1,3 @@
-
-
 @import "globals";
 @import "button";
 @import "text-input";
@@ -69,21 +67,22 @@ body {
                     }
 
                 }
+
+                .directory.ng-enter {
+                    animation: 500ms addToList;
+                }
+                .directory.ng-leave {
+                    animation: 500ms removeFromList;
+                }
+
+                .empty-listing-placeholder {
+                    padding: $pad;
+                }
+                .empty-listing-placeholder.ng-enter {
+                    animation: 1000ms delayVisibility;
+                }
             }
 
-//            .directory.ng-enter {
-//                animation: 500ms addToList;
-//            }
-//            .directory.ng-leave {
-//                animation: 500ms removeFromList;
-//            }
-//
-//            .empty-listing-placeholder {
-//                padding: $pad;
-//            }
-//            .empty-listing-placeholder.ng-enter {
-//                animation: 1000ms delayVisibility;
-//            }
         }
 
         #right-panel {
