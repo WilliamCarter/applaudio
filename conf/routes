@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Assets.at(path="/public", file="index.html")
+GET     /                           controllers.StaticResources.at(filename="index.html")
 GET     /test/*value                controllers.Application.test(value: String)
 
 # API

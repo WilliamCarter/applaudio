@@ -28,7 +28,7 @@ module.exports = function (grunt) {
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             js: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+                files: ['<%= yeoman.app %>/js/{,*/}*.js'],
                 tasks: ['newer:jshint:all'],
                 options: {
                     livereload: true
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
                 ]
             },
             debug: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.js', '<%= yeoman.app %>/**/*.html', '<%= yeoman.app %>/styles/**/*.html'],
+                files: ['<%= yeoman.app %>/js/{,*/}*.js', '<%= yeoman.app %>/**/*.html', '<%= yeoman.app %>/styles/**/*.html'],
                 tasks: ['autoprefixer', 'sass', 'copy:debug']
             }
         },
@@ -65,13 +65,19 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/js/**/*.js'
+                '<%= yeoman.app %>/js/controllers/*.js',
+                '<%= yeoman.app %>/js/directives/*.js',
+                '<%= yeoman.app %>/js/services/*.js',
+                '<%= yeoman.app %>/js/*.js'
             ]
         },
 
     // Empties folders to start fresh
     clean: {
         dist: {
+            options: {
+                force: true
+            },
             files: [{
                 dot: true,
                 src: [
@@ -145,7 +151,7 @@ module.exports = function (grunt) {
                     'bower_components/**/*',
                     'images/**/*',
                     'fonts/*',
-                    'scripts/**/*',
+                    'js/**/*',
                     '.tmp/*',
                     'music/**/*'
                 ]
@@ -192,32 +198,6 @@ module.exports = function (grunt) {
         },
     },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     // Test settings
     karma: {
       unit: {
@@ -229,19 +209,10 @@ module.exports = function (grunt) {
 
 
   grunt.registerTask('build', [
-    // Left here for reference, but not used.
     'clean:dist',
     'bower-install',
-    'useminPrepare',
     'autoprefixer',
-    'concat',
-    'ngmin',
-    'copy:dist',
-    'cssmin',
-    'uglify',
-    'rev',
-    'usemin',
-    'debug'
+    'copy:dist'
   ]);
 
   grunt.registerTask('dev', [
