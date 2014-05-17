@@ -10,10 +10,11 @@ import play.api.libs.Files.TemporaryFile
 
 object LibraryManager {
 
-  val libraryRoot: String = Play.configuration.getString("library.root").get;
+  lazy val libraryRoot: String = Play.current.configuration.getString("library.root").get
 
   def getDirectoryListing(path: String): Option[Array[String]] = {
 
+    println("changes!")
     println("LibraryManager.getDirectoryListing(" + path + ")")
 
     val directory = new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8"))

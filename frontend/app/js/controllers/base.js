@@ -20,7 +20,6 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
         // UTILITY FUNCTIONS //
         $scope.htmlify = function(string) {
         // Copy the Utils function to allow views to use it.
-//            console.log("BaseCtrl.htmlify(" + string + ")");
             return Utils.htmlify(string);
         };
 
@@ -47,6 +46,7 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
             readUploadFiles : function() {
                 console.log("modal.readUploadFiles()");
                 var allFiles = document.querySelector("#modal-file-input").files;
+                console.log(allFiles);
                 var uploadFiles = [];
                 for (var i = 0; i < allFiles.length; i++) {
                     if (Globals.supportedMedia.indexOf(allFiles[i].type) !== -1) {
