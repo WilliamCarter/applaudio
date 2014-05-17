@@ -1,7 +1,5 @@
 "use strict";
 
-console.log("APPLAUDIO");
-
 require.config({
     paths: {
         angular: "../bower_components/angular/angular",

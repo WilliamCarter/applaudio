@@ -8,7 +8,7 @@ define(function(){
             createNewDirectory : "/api/library/directory",
             upload : "/api/library/upload"
         },
-        supportedMedia : ["audio/mpeg", "audio/ogg"]
+        supportedMedia : ["audio/mpeg", "audio/mp3", "audio/ogg"]
 
     };
 

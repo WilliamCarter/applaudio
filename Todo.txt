@@ -1,7 +1,7 @@
 Frontend
 --------
 
-- Update Grunt build.
+- Update Grunt build with minification, concatenation and other optimisations.
 - Upload progress.
 - Music player component.
 - Track queue component.

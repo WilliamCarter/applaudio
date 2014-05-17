@@ -7,19 +7,19 @@ define(["angular"], function (angular) {
     ApplaudioComponents.directive("applaudioScrollable", function() {
 
         return {
-            restrict: "E",
+            restrict: "A",
             transclude: true,
             templateUrl: "views/components/scrollable.html",
             link: function(scope, element, attrs) {
 
-                var scrollable = element[0].children[0];
-                window.scrollable = scrollable;
-                var topFade = element[0].children[1];
-                var bottomFade = element[0].children[2];
+                // Ensure top and bottom fades are positioned within the scrolling element correctly.
+                element[0].style.position = "relative";
 
-                console.log(scrollable);
+                var scrollable = element[0].getElementsByClassName("scrollable")[0];
+                var topFade = element[0].getElementsByClassName("fade-top")[0];
+                var bottomFade = element[0].getElementsByClassName("fade-bottom")[0];
+
                 scrollable.onscroll = function() {
-
                     if (scrollable.scrollTop > 4) {
                         topFade.hidden = false;
                     } else {

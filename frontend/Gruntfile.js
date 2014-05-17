@@ -25,38 +25,6 @@ module.exports = function (grunt) {
           dist: '../public'
         },
 
-        // Watches files for changes and runs tasks based on the changed files
-        watch: {
-            js: {
-                files: ['<%= yeoman.app %>/js/{,*/}*.js'],
-                tasks: ['newer:jshint:all'],
-                options: {
-                    livereload: true
-                }
-            },
-            jsTest: {
-                files: ['test/spec/{,*/}*.js'],
-                tasks: ['newer:jshint:test', 'karma']
-            },
-            gruntfile: {
-                files: ['Gruntfile.js']
-            },
-            livereload: {
-                options: {
-                    livereload: '<%= connect.options.livereload %>'
-                },
-                files: [
-                    '<%= yeoman.app %>/{,*/}*.html',
-                    '.tmp/styles/{,*/}*.css',
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-                ]
-            },
-            debug: {
-                files: ['<%= yeoman.app %>/js/{,*/}*.js', '<%= yeoman.app %>/**/*.html', '<%= yeoman.app %>/styles/**/*.html'],
-                tasks: ['autoprefixer', 'sass', 'copy:debug']
-            }
-        },
-
         // Make sure code styles are up to par and there are no obvious mistakes
         jshint: {
             options : {
@@ -72,72 +40,41 @@ module.exports = function (grunt) {
             ]
         },
 
-    // Empties folders to start fresh
-    clean: {
-        dist: {
-            options: {
-                force: true
+        // Empties folders to start fresh
+        clean: {
+            dist: {
+                options: {
+                    force: true
+                },
+                files: [{
+                    dot: true,
+                    src: [
+                        '.tmp',
+                        '<%= yeoman.dist %>/*',
+                        '!<%= yeoman.dist %>/.git*'
+                    ]
+                }]
             },
-            files: [{
-                dot: true,
-                src: [
-                    '.tmp',
-                    '<%= yeoman.dist %>/*',
-                    '!<%= yeoman.dist %>/.git*'
-                ]
-            }]
+            server: '.tmp'
         },
-        server: '.tmp'
-    },
 
-    // Add vendor prefixed styles
-    autoprefixer: {
-      options: {
-        browsers: ['last 2 versions']
-      },
-      dev: {
-        src: "<%= yeoman.app %>/styles/*.css"
-      },
-      dist: {
-        src: "<%= yeoman.dist %>/styles/*.css"
-      }
-    },
+        // Add vendor prefixed styles
+        autoprefixer: {
+          options: {
+            browsers: ['last 2 versions']
+          },
+          dev: {
+            src: "<%= yeoman.app %>/styles/*.css"
+          },
+          dist: {
+            src: "<%= yeoman.dist %>/styles/*.css"
+          }
+        },
 
-    // Automatically inject Bower components into the app
-    'bower-install': {
-      app: {
-        html: '<%= yeoman.app %>/index.html',
-        ignorePath: '<%= yeoman.app %>/'
-      }
-    },
-
-    // Copies remaining files to places other tasks can use
-    copy: {
-      dist: {
-        files: [{
-          expand: true,
-          dot: true,
-          cwd: '<%= yeoman.app %>',
-          dest: '<%= yeoman.dist %>',
-          src: [
-            '*.{ico,png,txt}',
-            '.htaccess',
-            '*.html',
-            '404/**/*',
-            'views/{,*/}*.html',
-            'bower_components/**/*',
-            'images/{,*/}*.{webp}',
-            'fonts/*'
-          ]
-        }, {
-          expand: true,
-          cwd: '.tmp/images',
-          dest: '<%= yeoman.dist %>/images',
-          src: ['generated/*']
-        }]
-      },
-        debug: {
-            files: [{
+        // Copies remaining files to places other tasks can use
+        copy: {
+            dist: {
+                files: [{
                 expand: true,
                 dot: true,
                 cwd: '<%= yeoman.app %>',
@@ -149,80 +86,100 @@ module.exports = function (grunt) {
                     '404/**/*',
                     'views/{,*/}*.html',
                     'bower_components/**/*',
-                    'images/**/*',
-                    'fonts/*',
-                    'js/**/*',
-                    '.tmp/*',
-                    'music/**/*'
+                    'images/{,*/}*.{webp}',
+                    'fonts/*'
                 ]
-            }, {
-                expand: true,
-                cwd: '.tmp/images',
-                dest: '<%= yeoman.dist %>/images',
-                src: ['generated/*']
-            }]
-        },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '{,*/}*.css'
-      },
-
-
-    },
-
-    sass: {
-        dev: {
-            options: {
-                style: 'expanded'
+                }, {
+                    expand: true,
+                    cwd: '.tmp/images',
+                    dest: '<%= yeoman.dist %>/images',
+                    src: ['generated/*']
+                }]
             },
-            files: [{
+            debug: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '<%= yeoman.dist %>',
+                    src: [
+                        '*.{ico,png,txt}',
+                        '.htaccess',
+                        '*.html',
+                        '404/**/*',
+                        'views/{,*/}*.html',
+                        'bower_components/**/*',
+                        'images/**/*',
+                        'fonts/*',
+                        'js/**/*',
+                        '.tmp/*',
+                        'music/**/*'
+                    ]
+                    }, {
+                        expand: true,
+                        cwd: '.tmp/images',
+                        dest: '<%= yeoman.dist %>/images',
+                        src: ['generated/*']
+                    }]
+                },
+                styles: {
                 expand: true,
-
                 cwd: '<%= yeoman.app %>/styles',
-                src: ['*.scss'],
-                dest: '<%= yeoman.app %>/styles',
-                ext: '.css'
-            }]
+                dest: '.tmp/styles/',
+                src: '{,*/}*.css'
+            },
+
         },
-        dist: {
-            files: [{
-                expand: true,
 
-                cwd: '<%= yeoman.app %>/styles',
-                src: ['*.scss'],
-                dest: '<%= yeoman.dist %>/styles',
-                ext: '.css'
-            }]
+        sass: {
+            dev: {
+                options: {
+                    style: 'expanded'
+                },
+                files: [{
+                    expand: true,
+
+                    cwd: '<%= yeoman.app %>/styles',
+                    src: ['*.scss'],
+                    dest: '<%= yeoman.app %>/styles',
+                    ext: '.css'
+                }]
+            },
+            dist: {
+                files: [{
+                    expand: true,
+
+                    cwd: '<%= yeoman.app %>/styles',
+                    src: ['*.scss'],
+                    dest: '<%= yeoman.dist %>/styles',
+                    ext: '.css'
+                }]
+            },
         },
-    },
 
-    // Test settings
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
-      }
-    }
-  });
+        // Test settings
+        karma: {
+          unit: {
+            configFile: 'karma.conf.js',
+            singleRun: true
+          }
+        }
+    });
 
 
-  grunt.registerTask('build', [
-    'clean:dist',
-    'bower-install',
-    'autoprefixer',
-    'copy:dist'
-  ]);
+    grunt.registerTask('build', [
+        'clean:dist',
+        'autoprefixer',
+        'copy:dist'
+    ]);
 
-  grunt.registerTask('dev', [
-    'jshint:all',
-    'bower-install',
-    'sass:dev',
-    'autoprefixer:dev'
-  ]);
+    grunt.registerTask('dev', [
+        'jshint:all',
+        'sass:dev',
+        'autoprefixer:dev'
+    ]);
 
-  grunt.registerTask('default', [
-    'dev'
-  ]);
+    grunt.registerTask('default', [
+        'dev'
+    ]);
 };

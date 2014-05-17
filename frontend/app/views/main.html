@@ -11,17 +11,15 @@
 
         <div id="left-panel">Music player to go here</div>
 
-        <applaudio-scrollable id="listing-menu" >
+        <div applaudio-scrollable id="listing-menu" >
 
-            <!--<div id="" class="vertical-scrollable">-->
-                <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" style="visibility:{{dl.placeholderVisibility}};">Nothing here...</div>
+            <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" style="visibility:{{dl.placeholderVisibility}};">Nothing here...</div>
 
-                <div ng-repeat="item in dl.listing | filter:query" class="directory" repeat-end="window.resizeApplication()" ng-click="dl.navigate(item)">
-                    <div id="directory_{{htmlify(item)}}">{{item}}</div>
-                </div>
-            <!--</div>-->
+            <div ng-repeat="item in dl.listing | filter:query" class="directory" repeat-end="window.resizeApplication()" ng-click="dl.navigate(item)">
+                <div id="directory_{{htmlify(item)}}">{{item}}</div>
+            </div>
 
-        </applaudio-scrollable>
+        </div>
 
         <div id="right-panel">
 
@@ -53,7 +51,7 @@
             <div ng-show="modal.showFileInput">
                 <input id="modal-file-input" type="file" multiple accept="{{base.supportedMedia.join(', ')}}" onchange="angular.element(this).scope().modal.readUploadFiles()" hidden>
                 <button ng-click="modal.clickFileInput()">Choose Files</button>
-                <div id="upload-list">
+                <div id="upload-list" applaudio-scrollable>
                     <p ng-repeat="uploadFile in modal.uploadFiles">{{uploadFile.name}}</p>
                 </div>
             </div>
