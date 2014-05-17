@@ -8,6 +8,7 @@
 
 .fade-top {
     width: 100%;
+    width: calc(100% - 20px); // scrollbar
     height: 10%;
     top: 0;
     left: 0;
@@ -18,6 +19,7 @@
 
 .fade-bottom {
     width: 100%;
+    width: calc(100% - 20px); // scrollbar
     height: 10%;
     bottom: 0;
     left: 0;
