@@ -8,6 +8,7 @@ define([
     "controllers/directory-listing",
     "directives/repeat-events",
     "directives/components",
+    "filters",
     "../404/controller"
 ], function(angular) {
 
@@ -36,6 +37,8 @@ define([
         "DirectoryListing",
 
         "ApplaudioComponents",
+        "applaudioFilters",
+
         "RepeatEvents",
 
         "FourOhFour"

@@ -41,10 +41,15 @@
         display: inline;
     }
 
-    #upload-list {
-        height: 200px;
-        padding-top: $pad;
-        overflow : auto;
+    #file-upload {
+
+        width: 800px;
+
+        #upload-list {
+            height: 200px;
+            padding-top: $pad;
+            overflow : auto;
+        }
     }
 
     button.dismissive {

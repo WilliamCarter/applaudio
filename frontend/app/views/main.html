@@ -2,7 +2,7 @@
 
     <header id="application-header">
         <h1>
-            <!-- This is ridiculous but the below muse all be on the same line, or extra whitespace will be appended to the end of each link... -->
+            <!-- This is ridiculous but the below must all be on the same line, or extra whitespace will be appended to the end of each link... -->
             <div ng-repeat="pathElem in base.currentPathElements track by $index" class="inline"><span>/</span><a href="{{base.linkBackToDepth($index)}}">{{pathElem}}</a></div>
         </h1>
     </header>
@@ -14,7 +14,7 @@
         <div applaudio-scrollable id="listing-menu" >
 
             <div ng-repeat="item in dl.listing | filter:query" class="directory" repeat-end="window.resizeApplication()" ng-click="dl.navigate(item)">
-                <div id="directory_{{htmlify(item)}}">{{item}}</div>
+                <div id="directory_{{ item | htmlify }}">{{item}}</div>
             </div>
             <div id="placeholder-holder"><!-- placeholder holder seems to prevent items skipping when placeholder becomes visible. -->
                 <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" >Nothing here...</div>
@@ -48,11 +48,15 @@
                 <div class="tag">{{modal.textInputTag}}</div>
                 <input type="text" ng-model="modal.textInput" placeholder="{{modal.textInputPlaceholder}}" >
             </div>
-            <div ng-show="modal.showFileInput">
+            <div id="file-upload" ng-show="modal.showFileInput">
                 <input id="modal-file-input" type="file" multiple onchange="angular.element(this).scope().modal.readUploadFiles()" hidden>
-                <button ng-click="modal.clickFileInput()">Choose Files</button>
-                <div id="upload-list" applaudio-scrollable>
-                    <p ng-repeat="uploadFile in modal.uploadFiles">{{uploadFile.name}}</p>
+                <button ng-click="modal.clickFileInput()" ng-if="!modal.uploadFiles.length">Choose Files</button>
+                <div id="upload-list" applaudio-scrollable ng-if="modal.uploadFiles.length">
+                    <div ng-repeat="uploadFile in modal.uploadFiles">
+                        <span>{{ uploadFile.name | removeExtension }}</span>
+                        <span>{{ uploadFile.type }}</span>
+                        <span>{{ (base.supportedMedia.types.indexOf(uploadFile.type) !== -1) | checkmark }}</span>
+                    </div>
                 </div>
             </div>
 

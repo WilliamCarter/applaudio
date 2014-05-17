@@ -49,7 +49,7 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
                 console.log(allFiles);
                 var uploadFiles = [];
                 for (var i = 0; i < allFiles.length; i++) {
-                    if (Globals.supportedMedia.indexOf(allFiles[i].type) !== -1) {
+                    if (Globals.supportedMedia.types.indexOf(allFiles[i].type) !== -1) {
                         uploadFiles.push(allFiles[i]);
                     } else {
                         console.log(allFiles[i].name + " is of type " + allFiles[i].type + ", and not supported by applaudio.");
