@@ -79,7 +79,11 @@ body {
                     padding: $pad;
                 }
                 .empty-listing-placeholder.ng-enter {
+                    opacity:0;
                     animation: 1000ms delayVisibility;
+                }
+                .empty-listing-placeholder.ng-enter-active {
+                    opacity:1;
                 }
             }
 

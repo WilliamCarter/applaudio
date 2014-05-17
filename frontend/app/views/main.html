@@ -17,7 +17,7 @@
                 <div id="directory_{{htmlify(item)}}">{{item}}</div>
             </div>
             <div id="placeholder-holder"><!-- placeholder holder seems to prevent items skipping when placeholder becomes visible. -->
-                <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" style="visibility:{{dl.placeholderVisibility}};">Nothing here...</div>
+                <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" >Nothing here...</div>
             </div>
         </div>
 
