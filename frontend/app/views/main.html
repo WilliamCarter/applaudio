@@ -50,14 +50,16 @@
             </div>
             <div id="file-upload" ng-show="modal.showFileInput">
                 <input id="modal-file-input" type="file" multiple onchange="angular.element(this).scope().modal.readUploadFiles()" hidden>
-                <button ng-click="modal.clickFileInput()" ng-if="!modal.uploadFiles.length">Choose Files</button>
                 <div id="upload-list" applaudio-scrollable ng-if="modal.uploadFiles.length">
-                    <div ng-repeat="uploadFile in modal.uploadFiles">
-                        <span>{{ uploadFile.name | removeExtension }}</span>
-                        <span>{{ uploadFile.type }}</span>
-                        <span>{{ (base.supportedMedia.types.indexOf(uploadFile.type) !== -1) | checkmark }}</span>
-                    </div>
+                    <table>
+                        <tr><th>Track Name</th><th class="mime-type">Type</th></tr>
+                        <tr ng-repeat="uploadFile in modal.uploadFiles">
+                            <td>{{ uploadFile.name }}</td>
+                            <td>{{ uploadFile.type }}</td>
+                        </tr>
+                    </table>
                 </div>
+                <button ng-click="modal.clickFileInput()">Choose Files</button>
             </div>
 
             <button class="dismissive" ng-click="modal.hide()">{{modal.cancelText}}</button>
