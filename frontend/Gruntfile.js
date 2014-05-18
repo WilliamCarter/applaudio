@@ -21,7 +21,7 @@ module.exports = function (grunt) {
         // Project settings
         yeoman: {
           // configurable paths
-          app: require('./bower.json').appPath || 'app',
+          app: 'app',
           dist: '../public'
         },
 
@@ -54,39 +54,35 @@ module.exports = function (grunt) {
                         '!<%= yeoman.dist %>/.git*'
                     ]
                 }]
-            },
-            server: '.tmp'
+            }
         },
 
-        // Add vendor prefixed styles
+        // Add browser specific prefixes e.g. -webkit-transform
         autoprefixer: {
           options: {
             browsers: ['last 2 versions']
           },
-          dev: {
+          default: {
             src: "<%= yeoman.app %>/styles/*.css"
           },
-          dist: {
-            src: "<%= yeoman.dist %>/styles/*.css"
-          }
         },
 
-        // Copies remaining files to places other tasks can use
+        // Copies remaining files to dist.
         copy: {
-            dist: {
+            default: {
                 files: [{
                 expand: true,
                 dot: true,
                 cwd: '<%= yeoman.app %>',
                 dest: '<%= yeoman.dist %>',
                 src: [
-                    '*.{ico,png,txt}',
+                    '*.{html, ico, txt}',
                     '.htaccess',
-                    '*.html',
                     '404/**/*',
                     'views/{,*/}*.html',
                     'bower_components/**/*',
-                    'images/{,*/}*.{webp}',
+                    'js/**/*',
+                    'images/**/*',
                     'fonts/*'
                 ]
                 }, {
@@ -96,43 +92,10 @@ module.exports = function (grunt) {
                     src: ['generated/*']
                 }]
             },
-            debug: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: '<%= yeoman.app %>',
-                    dest: '<%= yeoman.dist %>',
-                    src: [
-                        '*.{ico,png,txt}',
-                        '.htaccess',
-                        '*.html',
-                        '404/**/*',
-                        'views/{,*/}*.html',
-                        'bower_components/**/*',
-                        'images/**/*',
-                        'fonts/*',
-                        'js/**/*',
-                        '.tmp/*',
-                        'music/**/*'
-                    ]
-                    }, {
-                        expand: true,
-                        cwd: '.tmp/images',
-                        dest: '<%= yeoman.dist %>/images',
-                        src: ['generated/*']
-                    }]
-                },
-                styles: {
-                expand: true,
-                cwd: '<%= yeoman.app %>/styles',
-                dest: '.tmp/styles/',
-                src: '{,*/}*.css'
-            },
-
         },
 
         sass: {
-            dev: {
+            default: {
                 options: {
                     style: 'expanded'
                 },
@@ -144,39 +107,39 @@ module.exports = function (grunt) {
                     dest: '<%= yeoman.app %>/styles',
                     ext: '.css'
                 }]
-            },
-            dist: {
-                files: [{
-                    expand: true,
-
-                    cwd: '<%= yeoman.app %>/styles',
-                    src: ['*.scss'],
-                    dest: '<%= yeoman.dist %>/styles',
-                    ext: '.css'
-                }]
-            },
+            }
         },
 
-        // Test settings
-        karma: {
-          unit: {
-            configFile: 'karma.conf.js',
-            singleRun: true
-          }
-        }
+        cssmin: {
+            default: {
+                files: {
+                  '<%= yeoman.dist %>/styles/main.css': ['<%= yeoman.app %>/styles/main.css']
+                }
+            }
+        },
+
+//        // Test settings
+//        karma: {
+//          unit: {
+//            configFile: 'karma.conf.js',
+//            singleRun: true
+//          }
+//        }
     });
 
 
     grunt.registerTask('build', [
         'clean:dist',
+        'sass',
         'autoprefixer',
-        'copy:dist'
+        'cssmin',
+        'copy'
     ]);
 
     grunt.registerTask('dev', [
         'jshint:all',
-        'sass:dev',
-        'autoprefixer:dev'
+        'sass',
+        'autoprefixer'
     ]);
 
     grunt.registerTask('default', [

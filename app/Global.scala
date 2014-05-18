@@ -24,20 +24,14 @@ object Global extends GlobalSettings {
   }
 
 
-  override def onLoadConfig(loadedConfiguration: Configuration, path: File, classloader: ClassLoader, mode: Mode.Mode): Configuration = {
-
-    val defaultConfiguration = Configuration(ConfigFactory.load("applaudio.conf"))
+  override def onLoadConfig(defaultConfiguration: Configuration, path: File, classloader: ClassLoader, mode: Mode.Mode): Configuration = {
 
     val configuration = if (mode == Mode.Dev) {
       Logger.info("Using development configuration")
-      val devConfiguration = Configuration(ConfigFactory.load("applaudio.dev.conf"))
-      Logger.info(devConfiguration.getString("library.root").get)
-      loadedConfiguration ++ defaultConfiguration ++ devConfiguration
+      defaultConfiguration ++ Configuration(ConfigFactory.load("applaudio.dev.conf"))
     } else {
-      loadedConfiguration ++ defaultConfiguration
+      defaultConfiguration
     }
-
-    Logger.info(configuration.getString("library.root").get)
 
     super.onLoadConfig(configuration, path, classloader, mode)
 
