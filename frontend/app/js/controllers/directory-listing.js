@@ -1,13 +1,18 @@
 'use strict';
 
-define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
+define([
+    "angular",
+    "utils",
+    "globals",
+    "directives/components"
+], function (angular, Utils, Globals) {
 
     console.log("Defining DirectoryListing module");
 
-    var DirectoryListing = angular.module("DirectoryListing", []);
+    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioComponents"]);
 
     console.log("Defining DirectoryListing controller");
-    DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $http, $location) {
+    DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $http, $location, UploadProgress) {
 
         var controllerScope = this;
 
@@ -76,42 +81,47 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
             console.log("uploadMusic");
 
             $scope.showModal({
-            heading : "Upload Music",
-            showFileInput : true,
-            showConfirm : true,
-            confirmText : "Upload",
-            confirm : function() {
-                console.log("modal confirm button clicked");
+                heading : "Upload Music",
+                showFileInput : true,
+                showConfirm : true,
+                confirmText : "Upload",
+                confirm : function() {
+                    console.log("modal confirm button clicked");
 
-                var uploadFiles = document.getElementById("modal-file-input").files;//$scope.modal.uploadFiles;
-                console.log(uploadFiles);
+                    var uploadFiles = document.getElementById("modal-file-input").files;//$scope.modal.uploadFiles;
+                    console.log(uploadFiles);
 
-                var formData = new FormData();
-                formData.append("path", $scope.currentPath);
-                for (var i = 0; i < uploadFiles.length; i++) {
-                    console.log("appending " + uploadFiles[i].name);
-                    formData.append(uploadFiles[i].name, uploadFiles[i]);
-                }
-
-                var xhr = new XMLHttpRequest();
-                xhr.upload.addEventListener("load", function(e) {
-                    console.log("upload successful");
-                    console.log(e);
-                }, false);
-                xhr.upload.addEventListener("progress", function updateProgress(event) {
-                    if (event.lengthComputable) {
-                        console.log(event);
-                        var percentComplete = (event.loaded / event.total)*100;
-                        console.log("PercentComplete: " + percentComplete);
-                    } else {
-                        console.log("length not computable but got the following: ");
-                        console.log(event);
+                    var formData = new FormData();
+                    formData.append("path", $scope.currentPath);
+                    for (var i = 0; i < uploadFiles.length; i++) {
+                        console.log("appending " + uploadFiles[i].name);
+                        formData.append(uploadFiles[i].name, uploadFiles[i]);
                     }
-                }, false);
-                xhr.open('POST', Globals.paths.upload, true);
 
-                xhr.send(formData);
+                    var xhr = new XMLHttpRequest();
+                    UploadProgress.registerProgressEvents(xhr.upload);
+//                    xhr.upload.addEventListener("load", function(e) {
+//                        console.log("upload successful");
+//                        console.log(e);
+//                    }, false);
+//
+//                    xhr.upload.addEventListener("progress", function updateProgress(event) {
+//                        if (event.lengthComputable) {
+//                            console.log(event);
+//                            var percentComplete = (event.loaded / event.total)*100;
+//                            console.log("PercentComplete: " + percentComplete);
+//                            $scope.modal.upload.progress = percentComplete;
+//                            console.log($scope);
+//                            console.log(percentComplete);
+//                        } else {
+//                            console.log("length not computable but got the following: ");
+//                            console.log(event);
+//                        }
+//                    }, false);
+                    xhr.open('POST', Globals.paths.upload, true);
 
+                    $scope.modal.upload.inProgress = true;
+                    xhr.send(formData);
                 }
             });
         };

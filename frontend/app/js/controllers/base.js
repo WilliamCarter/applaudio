@@ -43,21 +43,26 @@ define(["angular", "utils", "globals"], function (angular, Utils, Globals) {
                 console.log("modal.clickFileInput()");
                 document.querySelector("#modal-file-input").click();
             },
-            readUploadFiles : function() {
-                console.log("modal.readUploadFiles()");
-                var allFiles = document.querySelector("#modal-file-input").files;
-                console.log(allFiles);
-                var uploadFiles = [];
-                for (var i = 0; i < allFiles.length; i++) {
-                    if (Globals.supportedMedia.types.indexOf(allFiles[i].type) !== -1) {
-                        uploadFiles.push(allFiles[i]);
-                    } else {
-                        console.log(allFiles[i].name + " is of type " + allFiles[i].type + ", and not supported by applaudio.");
+            upload : {
+                readFiles : function() {
+                    console.log("modal.readUploadFiles()");
+                    var allFiles = document.querySelector("#modal-file-input").files;
+                    console.log(allFiles);
+                    var uploadFiles = [];
+                    for (var i = 0; i < allFiles.length; i++) {
+                        if (Globals.supportedMedia.types.indexOf(allFiles[i].type) !== -1) {
+                            uploadFiles.push(allFiles[i]);
+                        } else {
+                            console.log(allFiles[i].name + " is of type " + allFiles[i].type + ", and not supported by applaudio.");
+                        }
                     }
-                }
-                $scope.$apply(function(){
-                    $scope.modal.uploadFiles = uploadFiles;
-                });
+                    $scope.$apply(function(){
+                        $scope.modal.upload.files = uploadFiles;
+                    });
+                },
+                files : [],
+                inProgress : false,
+                progress: 0
             },
             cancelText : "Cancel",
             showConfirm : false,

@@ -49,17 +49,18 @@
                 <input type="text" ng-model="modal.textInput" placeholder="{{modal.textInputPlaceholder}}" >
             </div>
             <div id="file-upload" ng-show="modal.showFileInput">
-                <input id="modal-file-input" type="file" multiple onchange="angular.element(this).scope().modal.readUploadFiles()" hidden>
-                <div id="upload-list" applaudio-scrollable ng-if="modal.uploadFiles.length">
+                <input id="modal-file-input" type="file" multiple onchange="angular.element(this).scope().modal.upload.readFiles()" hidden>
+                <div id="upload-list" applaudio-scrollable ng-if="modal.upload.files.length">
                     <table>
                         <tr><th>Track Name</th><th class="mime-type">Type</th></tr>
-                        <tr ng-repeat="uploadFile in modal.uploadFiles">
+                        <tr ng-repeat="uploadFile in modal.upload.files">
                             <td>{{ uploadFile.name }}</td>
                             <td>{{ uploadFile.type }}</td>
                         </tr>
                     </table>
                 </div>
-                <button ng-click="modal.clickFileInput()">Choose Files</button>
+                <button ng-click="modal.clickFileInput()" ng-if="!modal.upload.inProgress" >Choose Files</button>
+                <applaudio-progress-bar ng-if="modal.upload.inProgress" progress="window.progress"></applaudio-progress-bar>
             </div>
 
             <button class="dismissive" ng-click="modal.hide()">{{modal.cancelText}}</button>
