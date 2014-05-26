@@ -12,7 +12,7 @@ define([
     var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioComponents"]);
 
     console.log("Defining DirectoryListing controller");
-    DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $http, $location, UploadProgress) {
+    DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $http, $location, UploadService) {
 
         var controllerScope = this;
 
@@ -98,30 +98,9 @@ define([
                         formData.append(uploadFiles[i].name, uploadFiles[i]);
                     }
 
-                    var xhr = new XMLHttpRequest();
-                    UploadProgress.registerProgressEvents(xhr.upload);
-//                    xhr.upload.addEventListener("load", function(e) {
-//                        console.log("upload successful");
-//                        console.log(e);
-//                    }, false);
-//
-//                    xhr.upload.addEventListener("progress", function updateProgress(event) {
-//                        if (event.lengthComputable) {
-//                            console.log(event);
-//                            var percentComplete = (event.loaded / event.total)*100;
-//                            console.log("PercentComplete: " + percentComplete);
-//                            $scope.modal.upload.progress = percentComplete;
-//                            console.log($scope);
-//                            console.log(percentComplete);
-//                        } else {
-//                            console.log("length not computable but got the following: ");
-//                            console.log(event);
-//                        }
-//                    }, false);
-                    xhr.open('POST', Globals.paths.upload, true);
-
                     $scope.modal.upload.inProgress = true;
-                    xhr.send(formData);
+                    UploadService.upload(formData);
+
                 }
             });
         };

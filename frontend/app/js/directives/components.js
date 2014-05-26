@@ -1,6 +1,6 @@
 'use strict';
 
-define(["angular"], function (angular) {
+define(["angular", "globals", "utils"], function (angular, Globals, Utils) {
 
     var ApplaudioComponents = angular.module("ApplaudioComponents", []);
 
@@ -38,25 +38,28 @@ define(["angular"], function (angular) {
         };
     });
 
-    ApplaudioComponents.service("UploadProgress", function(){
+    ApplaudioComponents.service("UploadService", function(){
 
-        var uploadProgressService = this;
+        var UploadService = this;
 
         var progress = 0;
-        var subscriberCallbacks = [];
+        var progressSubscriberCallbacks = [];
 
-        uploadProgressService.hookUp = function() {
-            console.log("Proof it is working");
+        UploadService.subscribeForProgressUpdates = function(callback) {
+            progressSubscriberCallbacks.push(callback);
         };
 
+        UploadService.upload = function(formData) {
+            var xhr = new XMLHttpRequest();
+            UploadService.registerProgressEvents(xhr.upload);
+            xhr.open('POST', Globals.paths.upload, true);
 
-        uploadProgressService.subscribe = function(callback) {
-            subscriberCallbacks.push(callback);
+            xhr.send(formData);
+
         };
 
-
-        uploadProgressService.registerProgressEvents = function(xhrUploadObject) {
-            console.log("uploadProgressService.registerProgressEvents.");
+        UploadService.registerProgressEvents = function(xhrUploadObject) {
+            console.log("UploadService.registerProgressEvents.");
 
             xhrUploadObject.addEventListener("load", function(e) {
                 console.log("upload successful");
@@ -68,20 +71,23 @@ define(["angular"], function (angular) {
 
                     progress = (event.loaded / event.total)*100;
                     console.log("PercentComplete: " + progress);
-                    for (var i = 0; i < subscriberCallbacks.length; i++) {
-                        subscriberCallbacks[i](progress);
-                    }
+                    Utils.forEach(progressSubscriberCallbacks, function(subscriberCallback) {
+                        subscriberCallback(progress);
+                    });
 
                 } else {
                     console.log("length not computable but got the following: ");
                     console.log(event);
+                    Utils.forEach(progressSubscriberCallbacks, function(subscriberCallback) {
+                        subscriberCallback(progress);
+                    });
                 }
             }, false);
 
         };
     });
 
-    ApplaudioComponents.directive("applaudioProgressBar", ["UploadProgress", function(UploadProgress) {
+    ApplaudioComponents.directive("applaudioProgressBar", ["UploadService", function(UploadService) {
 
         return {
             restrict: "E",
@@ -89,17 +95,14 @@ define(["angular"], function (angular) {
             template: "<div class='progress-bar'><div class='progress-display' style='width:{{progress}}px'></div></div>",
             link: function(scope, element, attrs) {
 
-                console.log("Progress Bar Link");
-                UploadProgress.hookUp();
-
                 var progressBar = element[0].getElementsByClassName("progress-display")[0];
                 progressBar.style.width = "0%";
                 console.log(progressBar);
 
                 console.log(scope);
 
-                UploadProgress.subscribe(function(progress) {
-                    console.log("PROGRESSION: " + progress);
+                UploadService.subscribeForProgressUpdates(function(progress) {
+//                    console.log("PROGRESSION: " + progress);
                     progressBar.style.width = progress + "%";
                 });
 
