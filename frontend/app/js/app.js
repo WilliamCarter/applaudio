@@ -5,7 +5,6 @@ define([
     "angularAnimate",
     "angularRoute",
 
-    "services/utils",  // Delete this line?
     "controllers/base",
     "controllers/directory-listing",
     "directives/repeat-events",
@@ -33,8 +32,6 @@ define([
 
     console.log("Defining Applaudio");
     var Applaudio = angular.module('applaudio', [
-        "ApplaudioUtilities",
-
         "ngRoute",
         "ngAnimate",
 

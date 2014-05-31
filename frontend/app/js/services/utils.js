@@ -39,8 +39,6 @@ define(["angular"], function(angular){
                 if (typeof updates[key] === "object") {
                     original[key] =  {};
                     merge(original[key], updates[key]);
-                } else if (typeof updates[key] === "function") {
-//                    original.prototype["key"] = updates.prototype[key];
                 } else {
                     original[key] = updates[key];
                 }
