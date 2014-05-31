@@ -1,6 +1,21 @@
 "use strict";
 
-require.config({
+var tests = [];
+for (var file in window.__karma__.files) {
+    if (window.__karma__.files.hasOwnProperty(file)) {
+        if (/_test.js$/.test(file)) {
+            tests.push(file);
+        }
+    }
+}
+
+// dump(tests); // Debug logging
+
+
+requirejs.config({
+    // Karma serves files from '/base'
+    baseUrl: '/base/app/js/',
+
     paths: {
         angular: "../bower_components/angular/angular",
         angularAnimate: "../bower_components/angular-animate/angular-animate",
@@ -8,27 +23,17 @@ require.config({
         angularMocks: "../bower_components/angular-mocks/angular-mocks",
         components: "../components"
     },
+
     shim: {
         angular: { exports: "angular" },
         angularAnimate: ["angular"],
         angularRoute: ["angular"],
         angularMocks: ["angular"]
-    }
-});
+    },
 
-require(["angular", "app"], function (angular) {
+    // ask Require.js to load these files (all our tests)
+    deps: tests,
 
-    console.log("Resuming angular bootstrap");
-
-    angular.element(document).ready(function () {
-        console.log("document ready. Bootstrapping Angular");
-
-        try {
-            // Wrap this call to try/catch
-            angular.bootstrap(document, ['applaudio']);
-        } catch (e) {
-            console.error(e.stack || e.message || e);
-        }
-
-    });
+    // start test run, once Require.js is done
+    callback: window.__karma__.start
 });

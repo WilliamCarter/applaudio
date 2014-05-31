@@ -1,0 +1,32 @@
+<div ng-show="modalAttributes.show">
+    <div class="modal-background" ng-click="hide()"></div>
+    <div id="modal-container">
+
+        <h1>{{modalAttributes.heading}}</h1>
+
+        <div ng-show="modalAttributes.textInput.show">
+            <div class="tag">{{modalAttributes.textInput.tag}}</div>
+            <input type="text" ng-model="modalAttributes.textInput.content" placeholder="{{modalAttributes.textInput.placeholder}}" >
+        </div>
+        <div id="file-upload" ng-show="modalAttributes.upload.show">
+            <input id="modal-file-input" type="file" multiple onchange="angular.element(this).scope().readUploadFiles()" hidden>
+            <!-- No support in Angular for file inputs so readUploadFiles must be called from the modal scope explicitly. -->
+            <div id="upload-list" applaudio-scrollable ng-if="modalAttributes.upload.files.length">
+                <table>
+                    <tr><th>Track Name</th><th class="mime-type">Type</th></tr>
+                    <tr ng-repeat="uploadFile in modalAttributes.upload.files">
+                        <td>{{ uploadFile.name }}</td>
+                        <td>{{ uploadFile.type }}</td>
+                    </tr>
+                </table>
+            </div>
+            <button ng-click="clickFileInput()" ng-if="!modalAttributes.upload.inProgress" >Choose Files</button>
+            <applaudio-progress-bar ng-if="modalAttributes.upload.inProgress"></applaudio-progress-bar>
+        </div>
+
+        <button class="dismissive" ng-click="hide()">{{modalAttributes.cancel.text}}</button>
+        <button class="dismissive" ng-show="modalAttributes.confirm.show" ng-click="modalAttributes.confirm.action(hide);">{{modalAttributes.confirm.text}}</button>
+
+    </div>
+
+</div>

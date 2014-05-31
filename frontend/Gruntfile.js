@@ -15,6 +15,8 @@ module.exports = function (grunt) {
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
+
     // Define the configuration for all the tasks
     grunt.initConfig({
 
@@ -118,17 +120,22 @@ module.exports = function (grunt) {
             }
         },
 
-//        // Test settings
-//        karma: {
-//          unit: {
-//            configFile: 'karma.conf.js',
-//            singleRun: true
-//          }
-//        }
+        // Test settings
+        karma: {
+          unit: {
+            configFile: 'karma.conf.js'
+          },
+          dev: {
+            configFile: 'karma.conf.js',
+            singleRun: false,
+            autoWatch: true
+          }
+        },
+
     });
 
-
     grunt.registerTask('build', [
+        'karma:unit',
         'clean:dist',
         'sass',
         'autoprefixer',

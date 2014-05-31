@@ -1,8 +1,10 @@
 'use strict';
 
-define(["angular", "globals", "utils"], function (angular, Globals, Utils) {
+define(["angular", "globals"], function (angular, Globals) {
 
-    var ApplaudioComponents = angular.module("ApplaudioComponents", []);
+    console.log("Defining ApplaudioComponents");
+
+    var ApplaudioComponents = angular.module("ApplaudioComponents", ["ApplaudioUtilities"]);
 
     ApplaudioComponents.directive("applaudioScrollable", function() {
 
@@ -38,7 +40,7 @@ define(["angular", "globals", "utils"], function (angular, Globals, Utils) {
         };
     });
 
-    ApplaudioComponents.service("UploadService", function(){
+    ApplaudioComponents.service("UploadService", ["ApplaudioUtils", function(Utils){
 
         var UploadService = this;
 
@@ -85,7 +87,7 @@ define(["angular", "globals", "utils"], function (angular, Globals, Utils) {
             }, false);
 
         };
-    });
+    }]);
 
     ApplaudioComponents.directive("applaudioProgressBar", ["UploadService", function(UploadService) {
 

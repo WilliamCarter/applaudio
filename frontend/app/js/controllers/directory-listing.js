@@ -2,17 +2,15 @@
 
 define([
     "angular",
-    "utils",
-    "globals",
-    "directives/components"
-], function (angular, Utils, Globals) {
+    "globals"
+], function (angular, Globals) {
 
     console.log("Defining DirectoryListing module");
 
-    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioComponents"]);
+    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioComponents", "ApplaudioUtilities"]);
 
     console.log("Defining DirectoryListing controller");
-    DirectoryListing.controller('DirectoryListingCtrl', function ($scope, $http, $location, UploadService) {
+    DirectoryListing.controller('DirectoryListingCtrl', ["$scope", "$http", "$location", "ModalService", "UploadService", "ApplaudioUtils", function ($scope, $http, $location, ModalService, UploadService, ApplaudioUtils) {
 
         var controllerScope = this;
 
@@ -38,74 +36,87 @@ define([
 
             console.log("addDirectory()");
 
-            $scope.showModal({
+            ModalService.show({
+                confirm : {
+                    action : function(hideHook) {
+                        console.log("modal confirm button clicked");
+                        var path = $scope.currentPath;
+                        var directoryName = ModalService.attributes.textInput.content; // This is very confusing way to reference the input data.
+
+                        console.log("Add directory: " + path + directoryName);
+
+                        if(controllerScope.listing.indexOf(directoryName) !== -1) {
+                            console.log("Directory already exists in current model. Scroll to element.");
+                            document.querySelector("#directory_" + ApplaudioUtils.htmlify(directoryName)).scrollIntoView();
+                            // TODO: smooth scroll. Add element highlight as well?
+                        } else {
+                            $http.post(Globals.paths.createNewDirectory, { "path" : path, "name" : directoryName })
+                                .success(function(){
+                                    console.log("new directory created successfully.");
+                                    var directoryPosition = 0;
+                                    while (directoryName > controllerScope.listing[directoryPosition]) {
+                                        directoryPosition++;
+                                    }
+                                    ApplaudioUtils.insertAt(controllerScope.listing, directoryPosition, directoryName);
+                                })
+                                .error(function(data, status){
+                                    window.alert("Error adding directory. See console");
+                                    console.log("Error adding directory: " + status);
+                                    console.log(data);
+                                });
+                        }
+                        hideHook();
+                    },
+                    text : "Add",
+                    show : true
+                },
                 heading : "Add Directory",
-                showTextInput : true,
-                textInputTag : "Directory name: ",
-                textInputPlaceholder : "name",
-                showConfirm: true,
-                confirmText: "Add",
-                confirm: function() {
+                textInput : {
+                    placeholder: "name",
+                    show : true,
+                    tag : "Directory name: "
+                },
 
-                    console.log("modal confirm button clicked");
-                    var path = $scope.currentPath;
-                    var directoryName = $scope.modal.textInput;
-
-                    console.log("Add directory: " + path + directoryName);
-                    $scope.modal.hide();
-                    if(controllerScope.listing.indexOf(directoryName) !== -1) {
-                        console.log("Directory already exists in current model. Scroll to element.");
-                        document.querySelector("#directory_" + Utils.htmlify(directoryName)).scrollIntoView();
-                        // TODO: smooth scroll. Add element highlight as well?
-                    } else {
-                        $http.post(Globals.paths.createNewDirectory, { "path" : path, "name" : directoryName })
-                            .success(function(){
-                                console.log("new directory created successfully.");
-                                var directoryPosition = 0;
-                                while (directoryName > controllerScope.listing[directoryPosition]) {
-                                    directoryPosition++;
-                                }
-                                Utils.insertAt(controllerScope.listing, directoryPosition, directoryName);
-                            })
-                            .error(function(data, status){
-                                window.alert("Error adding directory. See console");
-                                console.log("Error adding directory: " + status);
-                                console.log(data);
-                            });
-                    }
-                }
             });
         };
 
         controllerScope.uploadMusic = function() {
             console.log("uploadMusic");
 
-            $scope.showModal({
+            ModalService.show({
                 heading : "Upload Music",
-                showFileInput : true,
-                showConfirm : true,
-                confirmText : "Upload",
-                confirm : function() {
-                    console.log("modal confirm button clicked");
+                upload : {
+                    show : true
+                },
+                confirm : {
+                    show : true,
+                    text : "Upload",
+                    action : function(hideHook){
+                        console.log("modal confirm button clicked");
 
-                    var uploadFiles = document.getElementById("modal-file-input").files;//$scope.modal.uploadFiles;
-                    console.log(uploadFiles);
+                        var uploadFiles = document.getElementById("modal-file-input").files; // File input not currently supported as an ng-model so reference it with a DOM selector.
+                        console.log(uploadFiles);
 
-                    var formData = new FormData();
-                    formData.append("path", $scope.currentPath);
-                    for (var i = 0; i < uploadFiles.length; i++) {
-                        console.log("appending " + uploadFiles[i].name);
-                        formData.append(uploadFiles[i].name, uploadFiles[i]);
+                        var formData = new FormData();
+                        formData.append("path", $scope.currentPath);
+                        for (var i = 0; i < uploadFiles.length; i++) {
+                            console.log("appending " + uploadFiles[i].name);
+                            formData.append(uploadFiles[i].name, uploadFiles[i]);
+                        }
+
+                        ModalService.update({
+                            upload : {
+                                inProgress : true
+                            }
+                        });
+
+                        UploadService.upload(formData);
                     }
-
-                    $scope.modal.upload.inProgress = true;
-                    UploadService.upload(formData);
-
                 }
             });
         };
 
-    });
+    }]);
 
     return DirectoryListing;
 

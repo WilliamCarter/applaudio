@@ -7,22 +7,20 @@ module.exports = function(config) {
     basePath: '',
 
     // testing framework to use (jasmine/mocha/qunit/...)
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'requirejs'],
 
     // list of files / patterns to load in the browser
     files: [
-      'app/bower_components/angular/angular.js',
-      'app/bower_components/angular-mocks/angular-mocks.js',
-      'app/bower_components/angular-cookies/angular-cookies.js',
-      'app/bower_components/angular-sanitize/angular-sanitize.js',
-      'app/scripts/*.js',
-      'app/scripts/**/*.js',
-      'test/mock/**/*.js',
-      'test/spec/**/*.js'
+        {pattern: 'app/**/*.js', included: false},
+        {pattern: 'test/**/*_test.js', included: false},
+
+        'test/test-main.js'
     ],
 
     // list of files / patterns to exclude
-    exclude: [],
+    exclude: [
+        'app/main.js'
+    ],
 
     // web server port
     port: 8080,
@@ -44,11 +42,22 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false
+    singleRun: true,
+
+    reporters: ['spec'],
+
+    plugins : [
+        'karma-phantomjs-launcher',
+        'karma-jasmine',
+        'karma-requirejs',
+        'karma-spec-reporter'
+    ]
+
+
   });
 };

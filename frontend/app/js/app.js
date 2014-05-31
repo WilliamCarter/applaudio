@@ -4,10 +4,13 @@ define([
     "angular",
     "angularAnimate",
     "angularRoute",
+
+    "services/utils",  // Delete this line?
     "controllers/base",
     "controllers/directory-listing",
     "directives/repeat-events",
     "directives/components",
+    "components/modal/modal",
     "filters",
     "../404/controller"
 ], function(angular) {
@@ -30,6 +33,8 @@ define([
 
     console.log("Defining Applaudio");
     var Applaudio = angular.module('applaudio', [
+        "ApplaudioUtilities",
+
         "ngRoute",
         "ngAnimate",
 
@@ -37,6 +42,7 @@ define([
         "DirectoryListing",
 
         "ApplaudioComponents",
+        "ApplaudioModal",
         "applaudioFilters",
 
         "RepeatEvents",
