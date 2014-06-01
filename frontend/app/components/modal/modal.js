@@ -88,9 +88,22 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
                             console.log(allFiles[i].name + " is of type " + allFiles[i].type + ", and not supported by applaudio.");
                         }
                     }
-                    scope.$apply(function(){
-                        scope.modalAttributes.upload.files = uploadFiles;
+//                    scope.$apply(function(){
+//                        scope.modalAttributes.upload.files = uploadFiles;
+//                    });
+
+                    console.log(uploadFiles);
+
+                    updateModal({
+                        upload : {
+                            files : uploadFiles,
+                            inProgress : false
+                        }
                     });
+
+                    scope.$apply();
+
+                    console.log(scope.modalAttributes.upload.files);
                 }
 
                 // Bind to Modal
