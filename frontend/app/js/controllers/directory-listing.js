@@ -16,16 +16,18 @@ define([
 
         controllerScope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
 
-        $http.get("/api/library/" + $scope.currentPath).
-            success(function(data) {
-                controllerScope.listing = data.listing;
-                controllerScope.placeholderVisibility = "visible";
-            }).
-            error(function(){
-                console.log("Cannot find directory in /music/...");
-                controllerScope.listing = ["404"];
-                // TODO: 404 (+--0)~~~[~- - ]
-            });
+        var getContent = function () {
+            $http.get("/api/library/" + $scope.currentPath).
+                success(function(data) {
+                    controllerScope.listing = data.listing;
+                    controllerScope.placeholderVisibility = "visible";
+                }).
+                error(function(){
+                    console.log("Cannot find directory in /music/...");
+                    controllerScope.listing = ["404"];
+                    // TODO: 404 (+--0)~~~[~- - ]
+                });
+        };
 
         controllerScope.navigate = function(directoryName) {
             console.log("directoryName: " + directoryName);
@@ -112,9 +114,16 @@ define([
 
                         UploadService.upload(formData);
                     }
+                },
+                onDismiss : function() {
+                    console.log("onDismiss called from directory listing.");
+
+                    getContent();
                 }
             });
         };
+
+        getContent();
 
     }]);
 

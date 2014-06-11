@@ -17,7 +17,7 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
 
     });
 
-    ApplaudioModal.directive("applaudioModal", ["ModalService", "ApplaudioUtils", function(ModalService, Utils) {
+    ApplaudioModal.directive("applaudioModal", ["ModalService", "UploadService", "ApplaudioUtils", function(ModalService, UploadService, Utils) {
 
         console.log("Defining applaudioModal");
         console.log(ModalService);
@@ -36,7 +36,7 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
                         text : "Cancel",
                     },
                     confirm : {
-                        action : null,
+                        action : null, // callback for when the confirm button is clicked.
                         text : "Ok",
                         show : false
                     },
@@ -51,7 +51,8 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
                         files : [],
                         inProgress : false,
                         progress : 0
-                    }
+                    },
+                    onDismiss : null // callback for when modal has fulfilled its purpose.
                 };
                 scope.modalAttributes = {}
 
@@ -76,6 +77,7 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
                     fileInputElement.click();
                 };
 
+                console.log("Defining readUploadFiles()");
                 scope.readUploadFiles = function() {
                     console.log("modal.readUploadFiles()");
                     var allFiles = fileInputElement.files;
@@ -88,11 +90,6 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
                             console.log(allFiles[i].name + " is of type " + allFiles[i].type + ", and not supported by applaudio.");
                         }
                     }
-//                    scope.$apply(function(){
-//                        scope.modalAttributes.upload.files = uploadFiles;
-//                    });
-
-                    console.log(uploadFiles);
 
                     updateModal({
                         upload : {
@@ -105,6 +102,41 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
 
                     console.log(scope.modalAttributes.upload.files);
                 }
+
+                UploadService.subscribeForProgressUpdates(function(updateEvent) {
+                    console.log("Modal - progress update from UploadService");
+                    console.log(updateEvent);
+
+                    if (updateEvent.type === "progress") {
+
+                        scope.$apply(function() {
+                            scope.modalAttributes.upload.progress = updateEvent.progress;
+                        });
+
+                    } else if (updateEvent.type === "complete" && updateEvent.success) {
+                        scope.hide();
+                        scope.modalAttributes.onDismiss();
+                    } else {
+                        console.warn("Upload error");
+                        console.log(updateEvent);
+                        updateModal({
+                            heading : "Upload Error",
+                            text : "There was an error uploading the files.",
+                            cancel : {
+                                text : "OK",
+                            },
+                            confirm : {
+                                show : false
+                            },
+                            textInput : {
+                                show : false,
+                            },
+                            upload : {
+                                show : false,
+                            }
+                        });
+                    }
+                });
 
                 // Bind to Modal
                 var updateModal = function(modalData) {

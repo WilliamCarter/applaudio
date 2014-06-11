@@ -44,7 +44,6 @@ define(["angular", "globals"], function (angular, Globals) {
 
         var UploadService = this;
 
-        var progress = 0;
         var progressSubscriberCallbacks = [];
 
         UploadService.subscribeForProgressUpdates = function(callback) {
@@ -57,7 +56,6 @@ define(["angular", "globals"], function (angular, Globals) {
             xhr.open('POST', Globals.paths.upload, true);
 
             xhr.send(formData);
-
         };
 
         UploadService.registerProgressEvents = function(xhrUploadObject) {
@@ -65,24 +63,22 @@ define(["angular", "globals"], function (angular, Globals) {
 
             xhrUploadObject.addEventListener("load", function(e) {
                 console.log("upload successful");
-                console.log(e);
+                Utils.forEach(progressSubscriberCallbacks, function(subscriberCallback) {
+                    subscriberCallback({ type: "complete", success: true });
+                });
             }, false);
 
             xhrUploadObject.addEventListener("progress", function updateProgress(event) {
                 if (event.lengthComputable) {
 
-                    progress = (event.loaded / event.total)*100;
-                    console.log("PercentComplete: " + progress);
+                    var percentComplete = (event.loaded / event.total)*100;
+                    console.log("Percent Complete: " + percentComplete);
                     Utils.forEach(progressSubscriberCallbacks, function(subscriberCallback) {
-                        subscriberCallback(progress);
+                        subscriberCallback({ type: "progress", progress: percentComplete });
                     });
 
                 } else {
-                    console.log("length not computable but got the following: ");
-                    console.log(event);
-                    Utils.forEach(progressSubscriberCallbacks, function(subscriberCallback) {
-                        subscriberCallback(progress);
-                    });
+                    console.log("Progress not computable for this browser.");
                 }
             }, false);
 
@@ -94,23 +90,12 @@ define(["angular", "globals"], function (angular, Globals) {
         return {
             restrict: "E",
             transclude: true,
-            template: "<div class='progress-bar'><div class='progress-display' style='width:{{progress}}px'></div></div>",
-            link: function(scope, element, attrs) {
-
-                var progressBar = element[0].getElementsByClassName("progress-display")[0];
-                progressBar.style.width = "0%";
-                console.log(progressBar);
-
-                console.log(scope);
-
-                UploadService.subscribeForProgressUpdates(function(progress) {
-//                    console.log("PROGRESSION: " + progress);
-                    progressBar.style.width = progress + "%";
-                });
-
+            template: "<div class='progress-bar'><div class='progress-display' ng-style=\"{width: progress + '%'}\"></div></div>",
+            scope: {
+                progress: '='
             }
-
         };
+
     }]);
 
     return ApplaudioComponents;
