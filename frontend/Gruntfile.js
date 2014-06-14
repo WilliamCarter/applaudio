@@ -77,15 +77,12 @@ module.exports = function (grunt) {
                 cwd: '<%= yeoman.app %>',
                 dest: '<%= yeoman.dist %>',
                 src: [
-                    '*.{html,js,txt}', // no whitespace in curly braces!
+                    '*.{html,txt}', // no whitespace in curly braces!
                     '404/**/*',
                     'bower_components/**/*.js',
-                    'components/**/*',
-                    'controllers/**/*',
-                    'directives/**/*',
+                    'components/**/*.html',
                     'images/**/*',
-                    'services/**/*',
-                    'ui/**/*',
+                    'ui/**/*.html',
                     'views/**/*.html'
                 ]
                 }, {
@@ -133,6 +130,23 @@ module.exports = function (grunt) {
           }
         },
 
+        requirejs: {
+            compile: {
+                options: {
+                    baseUrl: "<%= yeoman.app %>",
+                    name: "main",
+                    out: "<%= yeoman.dist %>/main.js",
+                    paths: {
+                        angular: "empty:",
+                        angularAnimate: "empty:",
+                        angularRoute: "empty:",
+                        angularMocks: "empty:"
+                    }
+
+                }
+            }
+        }
+
     });
 
     grunt.registerTask('build', [
@@ -144,6 +158,7 @@ module.exports = function (grunt) {
         'autoprefixer',
         'cssmin',
 
+        'requirejs',
         'copy'
     ]);
 

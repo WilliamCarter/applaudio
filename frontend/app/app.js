@@ -14,8 +14,8 @@ define([
     "controllers/directory-listing",
     "directives/repeat-events",
 
-    "filters",
-    "../404/controller"
+    "filters"
+
 ], function(angular) {
 
     // Hack to fix application height. Can't seem to do this with CSS alone.
