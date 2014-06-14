@@ -1,6 +1,6 @@
 'use strict';
 
-define(["angular"], function(angular){
+define(["angular", "configuration"], function(angular, Config){
 
     console.log("Defining ApplaudioUtilities");
 
@@ -69,18 +69,6 @@ define(["angular"], function(angular){
                         areEqualIteration(some[key], other[key]);
                     }
                 }
-//
-//                if (typeof some == "array") {
-//
-//                    if (some.length !== other.length) {
-//                        return false;
-//                    }
-//
-//                    for(var i = 0; i < some.length; i++) {
-//                        areEqualIteration(some[i], other[i]);
-//                    }
-//                }
-
 
             }
 
@@ -117,6 +105,36 @@ define(["angular"], function(angular){
         }
 
     });
+
+
+    ApplaudioUtilities.filter('checkmark', function() {
+        return function(inputBoolean) {
+            console.log("checkmark");
+            return inputBoolean ? '\u2713' : '\u2718';
+        };
+    });
+
+    ApplaudioUtilities.filter('htmlify', ["ApplaudioUtils", function(Utils) {
+        return function(inputString) {
+            return Utils.htmlify(inputString);
+        };
+    }]);
+
+    ApplaudioUtilities.filter('removeExtension', function() {
+        return function(inputString) {
+            // e.g. replace "Los.mp3" with "Los"
+            for (var i = 0; i < Config.supportedMedia.extensions.length; i++) {
+                var suffix = Config.supportedMedia.extensions[i];
+                var suffixStartIndex = inputString.length - suffix.length;
+                if (inputString.indexOf(suffix, suffixStartIndex) !== -1) {
+                    return inputString.substring(0, suffixStartIndex);
+                }
+            }
+            // No matches
+            return inputString;
+        };
+    });
+
 
     return ApplaudioUtilities;
 

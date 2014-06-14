@@ -5,6 +5,8 @@ define([
     "angularAnimate",
     "angularRoute",
 
+    "services/utils",
+
     "ui/scrollable/scrollable",
     "ui/progress-bar/progress-bar",
 
@@ -12,9 +14,9 @@ define([
 
     "controllers/base",
     "controllers/directory-listing",
+
     "directives/repeat-events",
 
-    "filters"
 
 ], function(angular) {
 
@@ -39,7 +41,7 @@ define([
 
         "ApplaudioUI",
         "ApplaudioModal",
-        "applaudioFilters",
+        "ApplaudioUtilities",
 
         "RepeatEvents"
     ]);
