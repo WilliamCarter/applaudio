@@ -79,12 +79,11 @@ module.exports = function (grunt) {
                 src: [
                     '*.{html,js,txt}', // no whitespace in curly braces!
                     '404/**/*',
-                    'bower_components/**/*',
+                    'bower_components/**/*.js',
                     'components/**/*',
                     'controllers/**/*',
                     'directives/**/*',
                     'images/**/*',
-                    'lib/**/*.js',
                     'services/**/*',
                     'ui/**/*',
                     'views/**/*.html'

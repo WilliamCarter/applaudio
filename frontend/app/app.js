@@ -41,9 +41,7 @@ define([
         "ApplaudioModal",
         "applaudioFilters",
 
-        "RepeatEvents",
-
-        "FourOhFour"
+        "RepeatEvents"
     ]);
 
     console.log("Configuring Applaudio");
