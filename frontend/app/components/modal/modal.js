@@ -20,8 +20,6 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
     ApplaudioModal.directive("applaudioModal", ["ModalService", "UploadService", "ApplaudioUtils", function(ModalService, UploadService, Utils) {
 
         console.log("Defining applaudioModal");
-        console.log(ModalService);
-        console.log(Utils);
 
         return {
             restrict: "E",
@@ -77,7 +75,6 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
                     fileInputElement.click();
                 };
 
-                console.log("Defining readUploadFiles()");
                 scope.readUploadFiles = function() {
                     console.log("modal.readUploadFiles()");
                     var allFiles = fileInputElement.files;
@@ -86,6 +83,7 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
                     for (var i = 0; i < allFiles.length; i++) {
                         if (Globals.supportedMedia.types.indexOf(allFiles[i].type) !== -1) {
                             uploadFiles.push(allFiles[i]);
+                            UploadService.prepareFile(allFiles[i]);
                         } else {
                             console.log(allFiles[i].name + " is of type " + allFiles[i].type + ", and not supported by applaudio.");
                         }
@@ -99,8 +97,6 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
                     });
 
                     scope.$apply();
-
-                    console.log(scope.modalAttributes.upload.files);
                 }
 
                 UploadService.subscribeForProgressUpdates(function(updateEvent) {
@@ -115,7 +111,11 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
 
                     } else if (updateEvent.type === "complete" && updateEvent.success) {
                         scope.hide();
-                        scope.modalAttributes.onDismiss();
+                        if (scope.modalAttributes.onDismiss !== undefined && typeof scope.modalAttributes.onDismiss === "function") {
+                            // May receive complete events more than once, at which point onDismiss will be null.
+                            console.log(scope.modalAttributes.onDismiss);
+                            scope.modalAttributes.onDismiss();
+                        }
                     } else {
                         console.warn("Upload error");
                         console.log(updateEvent);
@@ -142,7 +142,6 @@ define(["angular", "globals", "services/utils"], function (angular, Globals) {
                 var updateModal = function(modalData) {
                     console.log("Update Modal");
                     Utils.merge(scope.modalAttributes, modalData);
-                    console.log("Finished updating modal");
                     console.log(scope.modalAttributes);
                 };
 

@@ -5,6 +5,7 @@ define([
     "angularAnimate",
     "angularRoute",
 
+    "ui/scrollable/scrollable",
     "controllers/base",
     "controllers/directory-listing",
     "directives/repeat-events",
@@ -38,6 +39,7 @@ define([
         "BaseCtrlModule",
         "DirectoryListing",
 
+        "ApplaudioUI",
         "ApplaudioComponents",
         "ApplaudioModal",
         "applaudioFilters",
