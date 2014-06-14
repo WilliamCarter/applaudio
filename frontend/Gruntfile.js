@@ -51,9 +51,7 @@ module.exports = function (grunt) {
                 files: [{
                     dot: true,
                     src: [
-                        '.tmp',
-                        '<%= yeoman.dist %>/*',
-                        '!<%= yeoman.dist %>/.git*'
+                        '<%= yeoman.dist %>/*'
                     ]
                 }]
             }
@@ -70,6 +68,7 @@ module.exports = function (grunt) {
         },
 
         // Copies remaining files to dist.
+        // - CSS copied by cssmin
         copy: {
             default: {
                 files: [{
@@ -78,14 +77,17 @@ module.exports = function (grunt) {
                 cwd: '<%= yeoman.app %>',
                 dest: '<%= yeoman.dist %>',
                 src: [
-                    '*.{html, ico, txt}',
-                    '.htaccess',
+                    '*.{html,js,txt}', // no whitespace in curly braces!
                     '404/**/*',
-                    'views/{,*/}*.html',
                     'bower_components/**/*',
-                    'js/**/*',
+                    'components/**/*',
+                    'controllers/**/*',
+                    'directives/**/*',
                     'images/**/*',
-                    'fonts/*'
+                    'lib/**/*.js',
+                    'services/**/*',
+                    'ui/**/*',
+                    'views/**/*.html'
                 ]
                 }, {
                     expand: true,
@@ -137,9 +139,12 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'karma:unit',
         'clean:dist',
+
+        // CSS
         'sass',
         'autoprefixer',
         'cssmin',
+
         'copy'
     ]);
 
