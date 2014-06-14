@@ -14,14 +14,13 @@ for (var file in window.__karma__.files) {
 
 requirejs.config({
     // Karma serves files from '/base'
-    baseUrl: '/base/app/js/',
+    baseUrl: '/base/app/',
 
     paths: {
-        angular: "../bower_components/angular/angular",
-        angularAnimate: "../bower_components/angular-animate/angular-animate",
-        angularRoute: "../bower_components/angular-route/angular-route",
-        angularMocks: "../bower_components/angular-mocks/angular-mocks",
-        components: "../components"
+        angular: "bower_components/angular/angular",
+        angularAnimate: "bower_components/angular-animate/angular-animate",
+        angularRoute: "bower_components/angular-route/angular-route",
+        angularMocks: "bower_components/angular-mocks/angular-mocks"
     },
 
     shim: {

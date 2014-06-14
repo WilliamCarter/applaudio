@@ -2,11 +2,9 @@
 
 define(["angular", "globals"], function (angular, Globals) {
 
-    console.log("Defining ApplaudioComponents");
+    var ApplaudioUpload = angular.module("ApplaudioUpload", ["ApplaudioUtilities"]);
 
-    var ApplaudioComponents = angular.module("ApplaudioComponents", ["ApplaudioUtilities"]);
-
-    ApplaudioComponents.service("UploadService", ["ApplaudioUtils", function(Utils){
+    ApplaudioUpload.service("UploadService", ["ApplaudioUtils", function(Utils){
 
         var UploadService = this;
 
@@ -65,20 +63,5 @@ define(["angular", "globals"], function (angular, Globals) {
 
         };
     }]);
-
-    ApplaudioComponents.directive("applaudioProgressBar", ["UploadService", function(UploadService) {
-
-        return {
-            restrict: "E",
-            transclude: true,
-            template: "<div class='progress-bar'><div class='progress-display' ng-style=\"{width: progress + '%'}\"></div></div>",
-            scope: {
-                progress: '='
-            }
-        };
-
-    }]);
-
-    return ApplaudioComponents;
 
 });

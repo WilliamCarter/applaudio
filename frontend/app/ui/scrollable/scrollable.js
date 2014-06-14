@@ -1,4 +1,4 @@
-define(["angular", "ui/ui"], function (angular, ApplaudioUI) {
+define(["ui/ui"], function (ApplaudioUI) {
 
     ApplaudioUI.directive("applaudioScrollable", function() {
 

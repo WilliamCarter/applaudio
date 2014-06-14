@@ -6,11 +6,16 @@ define([
     "angularRoute",
 
     "ui/scrollable/scrollable",
+    "ui/progress-bar/progress-bar",
+
+    "components/modal/modal",
+
     "controllers/base",
     "controllers/directory-listing",
     "directives/repeat-events",
-    "directives/components",
-    "components/modal/modal",
+
+    "services/upload",
+
     "filters",
     "../404/controller"
 ], function(angular) {
@@ -40,7 +45,7 @@ define([
         "DirectoryListing",
 
         "ApplaudioUI",
-        "ApplaudioComponents",
+        "ApplaudioUpload",
         "ApplaudioModal",
         "applaudioFilters",
 

@@ -7,7 +7,7 @@ define([
 
     console.log("Defining DirectoryListing module");
 
-    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioComponents", "ApplaudioUtilities"]);
+    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities"]);
 
     console.log("Defining DirectoryListing controller");
     DirectoryListing.controller('DirectoryListingCtrl', ["$scope", "$http", "$location", "ModalService", "UploadService", "ApplaudioUtils",
@@ -97,7 +97,6 @@ define([
                         action : function(hideHook){
                             console.log("modal confirm button clicked");
 
-//                            UploadService.prepareItem("path", $scope.currentPath);
                             UploadService.upload($scope.currentPath);
 
                             ModalService.update({
