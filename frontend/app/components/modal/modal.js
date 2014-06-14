@@ -1,4 +1,9 @@
-define(["angular", "globals", "services/utils"], function (angular, Globals) {
+define([
+    "angular",
+    "globals",
+    "services/upload",
+    "services/utils"
+], function (angular, Globals) {
 
     var ApplaudioModal = angular.module("ApplaudioModal", ["ApplaudioUtilities"]);
 

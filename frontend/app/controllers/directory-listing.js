@@ -2,7 +2,8 @@
 
 define([
     "angular",
-    "globals"
+    "globals",
+    "services/upload"
 ], function (angular, Globals) {
 
     console.log("Defining DirectoryListing module");

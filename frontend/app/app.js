@@ -14,8 +14,6 @@ define([
     "controllers/directory-listing",
     "directives/repeat-events",
 
-    "services/upload",
-
     "filters",
     "../404/controller"
 ], function(angular) {
@@ -45,7 +43,6 @@ define([
         "DirectoryListing",
 
         "ApplaudioUI",
-        "ApplaudioUpload",
         "ApplaudioModal",
         "applaudioFilters",
 
