@@ -1,6 +1,6 @@
 'use strict';
 
-define(["angular", "globals"], function (angular, Globals) {
+define(["angular", "configuration"], function (angular, Config) {
 
     var filters = angular.module('applaudioFilters', []);
 
@@ -21,8 +21,8 @@ define(["angular", "globals"], function (angular, Globals) {
     filters.filter('removeExtension', function() {
         return function(inputString) {
             // e.g. replace "Los.mp3" with "Los"
-            for (var i = 0; i < Globals.supportedMedia.extensions.length; i++) {
-                var suffix = Globals.supportedMedia.extensions[i];
+            for (var i = 0; i < Config.supportedMedia.extensions.length; i++) {
+                var suffix = Config.supportedMedia.extensions[i];
                 var suffixStartIndex = inputString.length - suffix.length;
                 if (inputString.indexOf(suffix, suffixStartIndex) !== -1) {
                     return inputString.substring(0, suffixStartIndex);

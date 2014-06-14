@@ -29,11 +29,6 @@ define([
         window.resizeApplication();
     };
 
-    window.onscroll = function(e) {
-        console.log("scroll");
-        console.log(e);
-    };
-
     console.log("Defining Applaudio");
     var Applaudio = angular.module('applaudio', [
         "ngRoute",

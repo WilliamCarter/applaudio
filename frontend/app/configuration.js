@@ -2,7 +2,7 @@
 
 define(function(){
 
-    var Globals =  {
+    var Config =  {
         paths : {
             home : "/#/listing/artists",
             createNewDirectory : "/api/library/directory",
@@ -15,5 +15,5 @@ define(function(){
 
     };
 
-    return Globals;
+    return Config;
 });

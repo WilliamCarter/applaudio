@@ -2,9 +2,9 @@
 
 define([
     "angular",
-    "globals",
+    "configuration",
     "services/upload"
-], function (angular, Globals) {
+], function (angular, Config) {
 
     console.log("Defining DirectoryListing module");
 
@@ -54,7 +54,7 @@ define([
                                 document.querySelector("#directory_" + ApplaudioUtils.htmlify(directoryName)).scrollIntoView();
                                 // TODO: smooth scroll. Add element highlight as well?
                             } else {
-                                $http.post(Globals.paths.createNewDirectory, { "path" : path, "name" : directoryName })
+                                $http.post(Config.paths.createNewDirectory, { "path" : path, "name" : directoryName })
                                     .success(function(){
                                         console.log("new directory created successfully.");
                                         var directoryPosition = 0;

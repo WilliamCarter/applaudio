@@ -1,6 +1,6 @@
 'use strict'
 
-define(["angular", "globals"], function (angular, Globals) {
+define(["angular", "configuration"], function (angular, Config) {
 
     var FourOhFour = angular.module("FourOhFour", []);
 
@@ -8,7 +8,7 @@ define(["angular", "globals"], function (angular, Globals) {
 
         console.log("404!");
 
-        $scope.homeUrl = Globals.paths.home;
+        $scope.homeUrl = Config.paths.home;
 
         require([
             "scripts/lib/phaser",		// AMD Module - Phaser Library

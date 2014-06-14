@@ -1,6 +1,6 @@
 'use strict';
 
-define(["angular", "globals"], function (angular, Globals) {
+define(["angular", "configuration"], function (angular, Config) {
 
     var ApplaudioUpload = angular.module("ApplaudioUpload", ["ApplaudioUtilities"]);
 
@@ -32,7 +32,7 @@ define(["angular", "globals"], function (angular, Globals) {
 
             var xhr = new XMLHttpRequest();
             UploadService.registerProgressEvents(xhr.upload);
-            xhr.open('POST', Globals.paths.upload, true);
+            xhr.open('POST', Config.paths.upload, true);
 
             xhr.send(uploadData);
         };

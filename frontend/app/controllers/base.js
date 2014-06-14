@@ -1,6 +1,6 @@
 'use strict';
 
-define(["angular", "globals"], function (angular, Globals) {
+define(["angular", "configuration"], function (angular, Config) {
 
     var BaseCtrlModule = angular.module("BaseCtrlModule", ["ApplaudioUtilities"]);
 
@@ -14,7 +14,7 @@ define(["angular", "globals"], function (angular, Globals) {
         $scope.currentPath = "/" + $routeParams.url + "/";
         base.currentPathElements = $scope.currentPath.split("/").slice(1, $scope.currentPath.length-1);
 
-        base.supportedMedia = Globals.supportedMedia;
+        base.supportedMedia = Config.supportedMedia;
 
         console.log("Defining utility functions...");
 

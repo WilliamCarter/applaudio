@@ -1,9 +1,9 @@
 define([
     "angular",
-    "globals",
+    "configuration",
     "services/upload",
     "services/utils"
-], function (angular, Globals) {
+], function (angular, Config) {
 
     var ApplaudioModal = angular.module("ApplaudioModal", ["ApplaudioUtilities"]);
 
@@ -86,7 +86,7 @@ define([
                     console.log(allFiles);
                     var uploadFiles = [];
                     for (var i = 0; i < allFiles.length; i++) {
-                        if (Globals.supportedMedia.types.indexOf(allFiles[i].type) !== -1) {
+                        if (Config.supportedMedia.types.indexOf(allFiles[i].type) !== -1) {
                             uploadFiles.push(allFiles[i]);
                             UploadService.prepareFile(allFiles[i]);
                         } else {
