@@ -2,10 +2,9 @@
 
 define(["angular", "configuration"], function (angular, Config) {
 
-    var BaseCtrlModule = angular.module("BaseCtrlModule", ["ApplaudioUtilities"]);
+    var Base = angular.module("Base", ["ApplaudioUtilities"]);
 
-    console.log("Defining Base controller");
-    BaseCtrlModule.controller('BaseCtrl', ["$scope", "$routeParams", "ApplaudioUtils", function ($scope, $routeParams, Utils) {
+    Base.controller('BaseCtrl', ["$scope", "$routeParams", "ApplaudioUtils", function ($scope, $routeParams, Utils) {
 
         var base = this; // private variables are attached to 'base', public to '$scope'
 
@@ -18,13 +17,6 @@ define(["angular", "configuration"], function (angular, Config) {
 
         console.log("Defining utility functions...");
 
-        // UTILITY FUNCTIONS //
-        $scope.htmlify = function(string) {
-        // Copy the Utils function to allow views to use it.
-            console.log("HTMLify");
-            return Utils.htmlify(string);
-        };
-
         // NAVIGATION //
         base.linkBackToDepth = function(index) {
             return "/#/listing/" + base.currentPathElements.slice(0, index+1).join("/");
@@ -32,6 +24,19 @@ define(["angular", "configuration"], function (angular, Config) {
 
     }]);
 
-    return BaseCtrlModule;
+    Base.directive('repeatEnd', function () {
+
+        // This is a hook for executing code after an ng-repeat has rendered.
+
+        return function(scope, element, attrs) {
+            if (scope.$last){
+                eval(attrs.repeatEnd);
+            }
+        };
+
+    });
+
+
+    return Base;
 
 });

@@ -10,12 +10,9 @@ define([
     "ui/scrollable/scrollable",
     "ui/progress-bar/progress-bar",
 
+    "components/base/base",
     "components/modal/modal",
-
-    "controllers/base",
-    "controllers/directory-listing",
-
-    "directives/repeat-events",
+    "components/directory-listing/directory-listing",
 
 
 ], function(angular) {
@@ -36,14 +33,12 @@ define([
         "ngRoute",
         "ngAnimate",
 
-        "BaseCtrlModule",
+        "Base",
         "DirectoryListing",
 
         "ApplaudioUI",
         "ApplaudioModal",
-        "ApplaudioUtilities",
-
-        "RepeatEvents"
+        "ApplaudioUtilities"
     ]);
 
     console.log("Configuring Applaudio");
