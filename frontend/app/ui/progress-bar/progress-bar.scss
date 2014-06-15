@@ -10,7 +10,8 @@
     position: relative;
 
     .progress-display {
-        width: 0%; // liable to change.
+
+        transition:width 250ms;
         height: 100%;
         position: absolute;
         left: 0;

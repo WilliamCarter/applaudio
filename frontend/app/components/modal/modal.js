@@ -22,7 +22,14 @@ define([
 
     });
 
-    ApplaudioModal.directive("applaudioModal", ["ModalService", "UploadService", "ApplaudioUtils", function(ModalService, UploadService, Utils) {
+    ApplaudioModal.directive("applaudioModal", [
+
+        "$interval",
+        "ModalService",
+        "UploadService",
+        "ApplaudioUtils",
+
+    function($interval, ModalService, UploadService, Utils) {
 
         console.log("Defining applaudioModal");
 
@@ -115,12 +122,18 @@ define([
                         });
 
                     } else if (updateEvent.type === "complete" && updateEvent.success) {
-                        scope.hide();
-                        if (scope.modalAttributes.onDismiss !== undefined && typeof scope.modalAttributes.onDismiss === "function") {
-                            // May receive complete events more than once, at which point onDismiss will be null.
-                            console.log(scope.modalAttributes.onDismiss);
-                            scope.modalAttributes.onDismiss();
-                        }
+
+                        // wait half a second to allow load animation to finish and let user know upload was successful
+                        // TODO: Is this behaviour beneficial to the user or does it just steal time from them? Maybe replace with some sort of notification system.
+                        $interval(function() {
+
+                            scope.hide();
+                            if (scope.modalAttributes.onDismiss !== undefined && typeof scope.modalAttributes.onDismiss === "function") {
+                                // May receive complete events more than once, at which point onDismiss will be null.
+                                console.log(scope.modalAttributes.onDismiss);
+                                scope.modalAttributes.onDismiss();
+                            }
+                        }, 500, 1);
                     } else {
                         console.warn("Upload error");
                         console.log(updateEvent);
