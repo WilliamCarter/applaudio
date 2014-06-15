@@ -21,13 +21,13 @@ module.exports = function (grunt) {
     grunt.initConfig({
 
         // Project settings
-        yeoman: {
+        paths: {
           // configurable paths
           app: 'app',
           dist: '../public'
         },
 
-        // Make sure code styles are up to par and there are no obvious mistakes
+        // Ensure there are no obvious javascript mistakes
         jshint: {
             options : {
                 jshintrc: '.jshintrc',
@@ -35,10 +35,10 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/js/controllers/*.js',
-                '<%= yeoman.app %>/js/directives/*.js',
-                '<%= yeoman.app %>/js/services/*.js',
-                '<%= yeoman.app %>/js/*.js'
+                '<%= paths.app %>/js/controllers/*.js',
+                '<%= paths.app %>/js/directives/*.js',
+                '<%= paths.app %>/js/services/*.js',
+                '<%= paths.app %>/js/*.js'
             ]
         },
 
@@ -51,7 +51,7 @@ module.exports = function (grunt) {
                 files: [{
                     dot: true,
                     src: [
-                        '<%= yeoman.dist %>/*'
+                        '<%= paths.dist %>/*'
                     ]
                 }]
             }
@@ -63,19 +63,20 @@ module.exports = function (grunt) {
             browsers: ['last 2 versions']
           },
           default: {
-            src: "<%= yeoman.app %>/styles/*.css"
+            src: "<%= paths.app %>/styles/*.css"
           },
         },
 
         // Copies remaining files to dist.
         // - CSS copied by cssmin
+        // - javascript copied by requirejs
         copy: {
             default: {
                 files: [{
                 expand: true,
                 dot: true,
-                cwd: '<%= yeoman.app %>',
-                dest: '<%= yeoman.dist %>',
+                cwd: '<%= paths.app %>',
+                dest: '<%= paths.dist %>',
                 src: [
                     '*.{html,txt}', // no whitespace in curly braces!
                     '404/**/*',
@@ -88,12 +89,13 @@ module.exports = function (grunt) {
                 }, {
                     expand: true,
                     cwd: '.tmp/images',
-                    dest: '<%= yeoman.dist %>/images',
+                    dest: '<%= paths.dist %>/images',
                     src: ['generated/*']
                 }]
             },
         },
 
+        // compile '.scss' files to '.css'
         sass: {
             default: {
                 options: {
@@ -102,40 +104,43 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
 
-                    cwd: '<%= yeoman.app %>',
+                    cwd: '<%= paths.app %>',
                     src: ['main.scss'],
-                    dest: '<%= yeoman.app %>/styles',
+                    dest: '<%= paths.app %>/styles',
                     ext: '.css'
                 }]
             }
         },
 
+        // Minify css files
         cssmin: {
             default: {
                 files: {
-                  '<%= yeoman.dist %>/styles/main.css': ['<%= yeoman.app %>/styles/main.css']
+                  '<%= paths.dist %>/styles/main.css': ['<%= paths.app %>/styles/main.css']
                 }
             }
         },
 
-        // Test settings
+        // Run unit tests
         karma: {
-          unit: {
-            configFile: 'karma.conf.js'
-          },
-          dev: {
-            configFile: 'karma.conf.js',
-            singleRun: false,
-            autoWatch: true
-          }
+            unit: {
+                configFile: 'karma.conf.js'
+            },
+            dev: {
+                // Will keep PhantomJS running and execute all tests when any file is updated.
+                configFile: 'karma.conf.js',
+                singleRun: false,
+                autoWatch: true
+            }
         },
 
+        // Minify javascript (using uglify) into a single file.
         requirejs: {
             compile: {
                 options: {
-                    baseUrl: "<%= yeoman.app %>",
+                    baseUrl: "<%= paths.app %>",
                     name: "main",
-                    out: "<%= yeoman.dist %>/main.js",
+                    out: "<%= paths.dist %>/main.js",
                     paths: {
                         angular: "empty:",
                         angularAnimate: "empty:",
@@ -149,6 +154,7 @@ module.exports = function (grunt) {
 
     });
 
+    // This will build the application in /public, and will be used when the application is deployed (> sbt run)
     grunt.registerTask('build', [
         'karma:unit',
         'clean:dist',
@@ -162,6 +168,7 @@ module.exports = function (grunt) {
         'copy'
     ]);
 
+    // Currently this just checks for basic mistakes and compiles the CSS.
     grunt.registerTask('dev', [
         'jshint:all',
         'sass',
