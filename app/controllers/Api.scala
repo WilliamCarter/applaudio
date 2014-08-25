@@ -9,7 +9,7 @@ import java.io.File
 object Api extends Controller {
 
   def getDirectoryListing(path: String) = Action {
-    println("Api.getDirectoryListing(" + path+ ")")
+    println("Api.getDirectoryListing(" + path + ")")
     LibraryManager.getDirectoryListing(path) match {
       case Some(listing) => Ok (Json.obj ("listing" -> listing))
       case None => NotFound
@@ -28,7 +28,7 @@ object Api extends Controller {
 
     success match {
       case Some(result) => Ok (Json.obj ("success" -> success))
-      case None => Ok (Json.obj ("success" -> false))
+      case None => BadRequest
     }
 
   }

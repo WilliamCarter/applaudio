@@ -25,14 +25,16 @@
 
             <div id="filter">
                 <input placeholder="Filter" ng-model="query">
-                <!--<div id="filter-icon">▼</div>-->
             </div>
 
-            <button class="with-icon" ng-click="dl.addDirectory()" icon="images/folder.png">
-                <img ng-src="images/folder.png"/>New Directory
-            </button>
+            <applaudio-ui-modal button-text="'Add Directory'">
+                <add-directory-modal></add-directory-modal>
+            </applaudio-ui-modal>
 
-            <button ng-click="dl.uploadMusic()">Upload Music</button>
+            <!--<applaudio-ui-modal button-text="'Upload Music'">-->
+                <!--<upload-modal></upload-modal>-->
+            <!--</applaudio-ui-modal>-->
+
 
         </div>
 

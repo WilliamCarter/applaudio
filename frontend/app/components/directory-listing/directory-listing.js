@@ -6,117 +6,115 @@ define([
     "services/upload"
 ], function (angular, Config) {
 
-    console.log("Defining DirectoryListing module");
-
     var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities"]);
 
-    console.log("Defining DirectoryListing controller");
-    DirectoryListing.controller('DirectoryListingCtrl', ["$scope", "$http", "$location", "ModalService", "UploadService", "ApplaudioUtils",
-        function ($scope, $http, $location, ModalService, UploadService, ApplaudioUtils) {
+    DirectoryListing.service("DirectoryListingService", ["ApplaudioUtils", "$location", "$http", function(ApplaudioUtils, $location, $http) {
 
-            var controllerScope = this;
+        var DirectoryListingService = this;
 
-            controllerScope.placeholderVisibility = "hidden"; // Don't show placeholder until HTTP request has completed.
+        var currentPath = function() {
+            return $location.path().replace(/^\/listing/, ""); // remove prefix "/listing"
+        };
 
-            var getContent = function () {
-                $http.get("/api/library/" + $scope.currentPath).
-                    success(function(data) {
-                        controllerScope.listing = data.listing;
-                        controllerScope.placeholderVisibility = "visible";
-                    }).
-                    error(function(){
-                        console.log("Cannot find directory in /music/...");
-                        controllerScope.listing = ["404"];
-                        // TODO: 404 (+--0)~~~[~- - ]
-                    });
-            };
+        DirectoryListingService.listing = [];
 
-            controllerScope.navigate = function(directoryName) {
-                console.log("directoryName: " + directoryName);
-                $location.path($location.path() + "/" + directoryName);
-            };
-
-            controllerScope.addDirectory = function() {
-
-                console.log("addDirectory()");
-
-                ModalService.show({
-                    confirm : {
-                        action : function(hideHook) {
-                            console.log("modal confirm button clicked");
-                            var path = $scope.currentPath;
-                            var directoryName = ModalService.attributes.textInput.content; // This is very confusing way to reference the input data.
-
-                            console.log("Add directory: " + path + directoryName);
-
-                            if(controllerScope.listing.indexOf(directoryName) !== -1) {
-                                console.log("Directory already exists in current model. Scroll to element.");
-                                document.querySelector("#directory_" + ApplaudioUtils.htmlify(directoryName)).scrollIntoView();
-                                // TODO: smooth scroll. Add element highlight as well?
-                            } else {
-                                $http.post(Config.paths.createNewDirectory, { "path" : path, "name" : directoryName })
-                                    .success(function(){
-                                        console.log("new directory created successfully.");
-                                        var directoryPosition = 0;
-                                        while (directoryName > controllerScope.listing[directoryPosition]) {
-                                            directoryPosition++;
-                                        }
-                                        ApplaudioUtils.insertAt(controllerScope.listing, directoryPosition, directoryName);
-                                    })
-                                    .error(function(data, status){
-                                        window.alert("Error adding directory. See console");
-                                        console.log("Error adding directory: " + status);
-                                        console.log(data);
-                                    });
-                            }
-                            hideHook();
-                        },
-                        text : "Add",
-                        show : true
-                    },
-                    heading : "Add Directory",
-                    textInput : {
-                        placeholder: "name",
-                        show : true,
-                        tag : "Directory name: "
-                    },
-
+        DirectoryListingService.loadContent = function () {
+            console.log("directoryListingService.getContent()");
+            $http.get("/api/library" + currentPath())
+                .success(function(data) {
+                    console.log(data);
+                    DirectoryListingService.listing = data.listing;
+                })
+                .error(function(){
+                    console.log("Cannot find directory in /music/...");
+                    DirectoryListingService.listing = ["404"];
+                    // TODO: 404 (+--0)~~~[~- - ]
                 });
-            };
+        };
 
-            controllerScope.uploadMusic = function() {
-                console.log("uploadMusic");
-
-                ModalService.show({
-                    heading : "Upload Music",
-                    upload : {
-                        show : true
-                    },
-                    confirm : {
-                        show : true,
-                        text : "Upload",
-                        action : function(hideHook){
-                            console.log("modal confirm button clicked");
-
-                            UploadService.upload($scope.currentPath);
-
-                            ModalService.update({
-                                upload : {
-                                    inProgress : true
-                                }
-                            });
-                        }
-                    },
-                    onDismiss : function() {
-                        console.log("onDismiss called from directory listing.");
-
-                        getContent();
+        DirectoryListingService.addDirectory = function(directoryName) {
+            console.log("addDirectory(" + currentPath() + ", " + directoryName + ")");
+            $http.post(Config.paths.createNewDirectory, { "path" : currentPath(), "name" : directoryName })
+                .success(function(){
+                    console.log("new directory created successfully.");
+                    var directoryPosition = 0;
+                    while (directoryName > DirectoryListingService.listing[directoryPosition]) {
+                        directoryPosition++;
                     }
+                    ApplaudioUtils.insertAt(DirectoryListingService.listing, directoryPosition, directoryName);
+                })
+                .error(function(data, status){
+                    window.alert("Error adding directory. See console");
+                    console.log("Error adding directory: " + status);
+                    console.log(data);
                 });
-            };
+        };
 
-            getContent();
-        }
+    }]);
+
+    DirectoryListing.controller('DirectoryListingCtrl', [
+        "DirectoryListingService",
+        "$scope",
+        "$http",
+        "$location",
+        "ModalService",
+        "UploadService",
+        "ApplaudioUtils",
+    function (DirectoryListingService, $scope, $http, $location, ModalService, UploadService, ApplaudioUtils) {
+
+        var directoryListing = this;
+
+        $scope.$watch(
+            function () {
+                return DirectoryListingService.listing;
+            },
+            function (newValue) {
+                directoryListing.listing = newValue;
+            }
+        );
+
+        DirectoryListingService.loadContent();
+
+        directoryListing.navigate = function(directoryName) {
+            console.log("directoryName: " + directoryName);
+            $location.path($location.path() + "/" + directoryName);
+        };
+
+
+    }
+
+//            controllerScope.uploadMusic = function() {
+//                console.log("uploadMusic");
+//
+//                ModalService.show({
+//                    heading : "Upload Music",
+//                    upload : {
+//                        show : true
+//                    },
+//                    confirm : {
+//                        show : true,
+//                        text : "Upload",
+//                        action : function(hideHook){
+//                            console.log("modal confirm button clicked");
+//
+//                            UploadService.upload($scope.currentPath);
+//
+//                            ModalService.update({
+//                                upload : {
+//                                    inProgress : true
+//                                }
+//                            });
+//                        }
+//                    },
+//                    onDismiss : function() {
+//                        console.log("onDismiss called from directory listing.");
+//                        getContent();
+//                    }
+//                });
+//            };
+//
+//            getContent();
+//        }
 
     ]);
 

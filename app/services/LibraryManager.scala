@@ -14,7 +14,6 @@ object LibraryManager {
 
   def getDirectoryListing(path: String): Option[Array[String]] = {
 
-    println("changes!")
     println("LibraryManager.getDirectoryListing(" + path + ")")
 
     val directory = new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8"))
@@ -45,7 +44,7 @@ object LibraryManager {
 
     // Check directory parent exists. Fail if it doesn't.
     if(!newDirectoryParent.exists) {
-      println("File path doesn't exist. WTF!?")
+      println("File path doesn't exist")
       return false
     }
 

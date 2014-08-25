@@ -8,6 +8,7 @@ Frontend
 - Auto resizing header.
 - Handle animations better when adding a directory that already exists. Smooth scroll and highlight?
 - Create a modal queue, to allow modals to be able to throw alerts/dialogs for errors.
+- Proper ordering of bands etc.
 
 
 Backend
