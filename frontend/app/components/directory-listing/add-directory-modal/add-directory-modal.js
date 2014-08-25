@@ -1,6 +1,12 @@
-define(["components/directory-listing/directory-listing"], function (DirectoryListing) {
+define([
+    "services/utils",
+    "components/directory-listing/directory-listing"
+], function (DirectoryListing) {
 
-    DirectoryListing.directive("addDirectoryModal", ["DirectoryListingService", function(DirectoryListingService) {
+    DirectoryListing.directive("addDirectoryModal", [
+        "DirectoryListingService",
+        "ApplaudioUtils",
+    function(DirectoryListingService, ApplaudioUtils) {
 
         return {
             restrict: 'E',
@@ -11,8 +17,9 @@ define(["components/directory-listing/directory-listing"], function (DirectoryLi
                     scope.hide();
 
                     if(DirectoryListingService.listing.indexOf(directoryName) !== -1) {
-                        console.log("Directory already exists in current model. Scroll to element.");
-                        document.querySelector("#directory_" + ApplaudioUtils.htmlify(directoryName)).scrollIntoView();
+                        var existingId = "#directory_" + ApplaudioUtils.htmlify(directoryName);
+                        console.log("Directory already exists in current model. Scroll to element: " + existingId);
+                        document.querySelector(existingId).scrollIntoView();
                     } else {
                         DirectoryListingService.addDirectory(directoryName);
                     }

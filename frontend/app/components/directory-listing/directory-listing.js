@@ -3,12 +3,18 @@
 define([
     "angular",
     "configuration",
+    "services/utils",
     "services/upload"
 ], function (angular, Config) {
 
     var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities"]);
 
-    DirectoryListing.service("DirectoryListingService", ["ApplaudioUtils", "$location", "$http", function(ApplaudioUtils, $location, $http) {
+
+    DirectoryListing.service("DirectoryListingService", [
+        "ApplaudioUtils",
+        "$location",
+        "$http",
+    function(ApplaudioUtils, $location, $http) {
 
         var DirectoryListingService = this;
 
@@ -41,7 +47,7 @@ define([
                     while (directoryName > DirectoryListingService.listing[directoryPosition]) {
                         directoryPosition++;
                     }
-                    ApplaudioUtils.insertAt(DirectoryListingService.listing, directoryPosition, directoryName);
+                    DirectoryListingService.listing.push(directoryName);
                 })
                 .error(function(data, status){
                     window.alert("Error adding directory. See console");
@@ -56,11 +62,8 @@ define([
     DirectoryListing.controller('DirectoryListingCtrl', [
         "DirectoryListingService",
         "$scope",
-        "$http",
         "$location",
-        "UploadService",
-        "ApplaudioUtils",
-    function (DirectoryListingService, $scope, $http, $location, UploadService, ApplaudioUtils) {
+    function (DirectoryListingService, $scope, $location) {
 
         var directoryListing = this;
 
@@ -80,8 +83,18 @@ define([
             $location.path($location.path() + "/" + directoryName);
         };
 
+        $scope.artistorder = function(name) {
+            // Convert to lower case and remove preceding "The " if necessary
+            if (DirectoryListingService.currentPath() === "/artists") {
+                return name.toLowerCase().replace("^the ", "");
+            } else {
+                return name.toLowerCase();
+            }
+        };
+
 
     }]);
+
 
     return DirectoryListing;
 

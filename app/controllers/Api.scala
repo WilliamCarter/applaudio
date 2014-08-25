@@ -32,10 +32,7 @@ object Api extends Controller {
 
   }
 
-  def removeDirectory() = Action {
-    println("Api.removeDirectory")
-    Ok("remove directory")
-  }
+  def removeDirectory() = TODO
 
 
   def upload = Action(parse.multipartFormData) { request =>
