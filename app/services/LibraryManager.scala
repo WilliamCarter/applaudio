@@ -67,7 +67,7 @@ object LibraryManager {
     files.foreach { filePart =>
 
       println("Uploading filePart " + path + filePart.filename)
-      val newFile = new File(libraryRoot + path + filePart.filename)
+      val newFile = new File(libraryRoot + path, filePart.filename)
       if (newFile.exists) {
         println("The file " + newFile.getAbsolutePath + " already exists. Upload cancelled.")
       } else {

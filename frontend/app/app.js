@@ -12,8 +12,8 @@ define([
     "ui/modal/modal",
 
     "components/base/base",
-    "components/modal/modal",
     "components/directory-listing/directory-listing",
+    "components/directory-listing/upload-modal/upload-modal",
     "components/directory-listing/add-directory-modal/add-directory-modal",
 
 
@@ -39,7 +39,6 @@ define([
         "DirectoryListing",
 
         "ApplaudioUI",
-        "ApplaudioModal",
         "ApplaudioUtilities"
     ]);
 

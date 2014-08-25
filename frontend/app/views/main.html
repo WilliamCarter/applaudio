@@ -31,47 +31,13 @@
                 <add-directory-modal></add-directory-modal>
             </applaudio-ui-modal>
 
-            <!--<applaudio-ui-modal button-text="'Upload Music'">-->
-                <!--<upload-modal></upload-modal>-->
-            <!--</applaudio-ui-modal>-->
+            <applaudio-ui-modal button-text="'Upload Music'">
+                <upload-modal></upload-modal>
+            </applaudio-ui-modal>
 
 
         </div>
 
     </div>
-
-    <!--<div ng-show="modal.show">-->
-        <!--<div class="modal-background" ng-click="modal.cancel()"></div>-->
-        <!--<div id="modal-container">-->
-
-            <!--<h1>{{modal.heading}}</h1>-->
-
-            <!--<div ng-show="modal.showTextInput">-->
-                <!--<div class="tag">{{modal.textInputTag}}</div>-->
-                <!--<input type="text" ng-model="modal.textInput" placeholder="{{modal.textInputPlaceholder}}" >-->
-            <!--</div>-->
-            <!--<div id="file-upload" ng-show="modal.showFileInput">-->
-                <!--<input id="modal-file-input" type="file" multiple onchange="angular.element(this).scope().modal.upload.readFiles()" hidden>-->
-                <!--<div id="upload-list" applaudio-scrollable ng-if="modal.upload.files.length">-->
-                    <!--<table>-->
-                        <!--<tr><th>Track Name</th><th class="mime-type">Type</th></tr>-->
-                        <!--<tr ng-repeat="uploadFile in modal.upload.files">-->
-                            <!--<td>{{ uploadFile.name }}</td>-->
-                            <!--<td>{{ uploadFile.type }}</td>-->
-                        <!--</tr>-->
-                    <!--</table>-->
-                <!--</div>-->
-                <!--<button ng-click="modal.clickFileInput()" ng-if="!modal.upload.inProgress" >Choose Files</button>-->
-                <!--<applaudio-progress-bar ng-if="modal.upload.inProgress" progress="window.progress"></applaudio-progress-bar>-->
-            <!--</div>-->
-
-            <!--<button class="dismissive" ng-click="modal.hide()">{{modal.cancelText}}</button>-->
-            <!--<button class="dismissive" ng-show="modal.showConfirm" ng-click="modal.confirm()">{{modal.confirmText}}</button>-->
-
-        <!--</div>-->
-
-    <!--</div>-->
-
-    <applaudio-modal></applaudio-modal>
 
 </div>

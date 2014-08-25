@@ -8,18 +8,14 @@ define(["angular", "configuration"], function (angular, Config) {
 
         var UploadService = this;
 
-        var uploadFiles = [];
         var progressSubscriberCallbacks = [];
 
-        UploadService.prepareFile = function(file) {
-            uploadFiles.push(file);
-        }
-
         UploadService.subscribeForProgressUpdates = function(callback) {
+            console.log("UploadService.subscribeForProgressUpdates(callback)");
             progressSubscriberCallbacks.push(callback);
         };
 
-        UploadService.upload = function(path) {
+        UploadService.upload = function(path, uploadFiles) {
 
             console.log("UploadService.upload(" + path + ")");
             console.log(uploadFiles);

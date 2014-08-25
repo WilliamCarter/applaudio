@@ -3,12 +3,14 @@
 @import "styles/button";
 @import "styles/text-input";
 
+@import "styles/404";
+
 @import "ui/scrollable/scrollable";
 @import "ui/progress-bar/progress-bar";
+@import "ui/modal/modal";
 
-@import "components/modal/modal";
-
-@import "styles/404";
+@import "components/directory-listing/upload-modal/upload-modal";
+@import "components/directory-listing/add-directory-modal/add-directory-modal";
 
 body {
 

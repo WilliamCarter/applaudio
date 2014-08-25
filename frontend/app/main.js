@@ -17,13 +17,9 @@ require.config({
 
 require(["angular", "app"], function (angular) {
 
-    console.log("Resuming angular bootstrap");
-
     angular.element(document).ready(function () {
-        console.log("document ready. Bootstrapping Angular");
 
         try {
-            // Wrap this call to try/catch
             angular.bootstrap(document, ['applaudio']);
         } catch (e) {
             console.error(e.stack || e.message || e);

@@ -12,7 +12,7 @@ define([
 
         var DirectoryListingService = this;
 
-        var currentPath = function() {
+        DirectoryListingService.currentPath = function() {
             return $location.path().replace(/^\/listing/, ""); // remove prefix "/listing"
         };
 
@@ -20,7 +20,7 @@ define([
 
         DirectoryListingService.loadContent = function () {
             console.log("directoryListingService.getContent()");
-            $http.get("/api/library" + currentPath())
+            $http.get("/api/library" + DirectoryListingService.currentPath())
                 .success(function(data) {
                     console.log(data);
                     DirectoryListingService.listing = data.listing;
@@ -33,8 +33,8 @@ define([
         };
 
         DirectoryListingService.addDirectory = function(directoryName) {
-            console.log("addDirectory(" + currentPath() + ", " + directoryName + ")");
-            $http.post(Config.paths.createNewDirectory, { "path" : currentPath(), "name" : directoryName })
+            console.log("addDirectory(" + DirectoryListingService.currentPath() + ", " + directoryName + ")");
+            $http.post(Config.paths.createNewDirectory, { "path" : DirectoryListingService.currentPath(), "name" : directoryName })
                 .success(function(){
                     console.log("new directory created successfully.");
                     var directoryPosition = 0;
@@ -52,15 +52,15 @@ define([
 
     }]);
 
+
     DirectoryListing.controller('DirectoryListingCtrl', [
         "DirectoryListingService",
         "$scope",
         "$http",
         "$location",
-        "ModalService",
         "UploadService",
         "ApplaudioUtils",
-    function (DirectoryListingService, $scope, $http, $location, ModalService, UploadService, ApplaudioUtils) {
+    function (DirectoryListingService, $scope, $http, $location, UploadService, ApplaudioUtils) {
 
         var directoryListing = this;
 
@@ -81,42 +81,7 @@ define([
         };
 
 
-    }
-
-//            controllerScope.uploadMusic = function() {
-//                console.log("uploadMusic");
-//
-//                ModalService.show({
-//                    heading : "Upload Music",
-//                    upload : {
-//                        show : true
-//                    },
-//                    confirm : {
-//                        show : true,
-//                        text : "Upload",
-//                        action : function(hideHook){
-//                            console.log("modal confirm button clicked");
-//
-//                            UploadService.upload($scope.currentPath);
-//
-//                            ModalService.update({
-//                                upload : {
-//                                    inProgress : true
-//                                }
-//                            });
-//                        }
-//                    },
-//                    onDismiss : function() {
-//                        console.log("onDismiss called from directory listing.");
-//                        getContent();
-//                    }
-//                });
-//            };
-//
-//            getContent();
-//        }
-
-    ]);
+    }]);
 
     return DirectoryListing;
 
