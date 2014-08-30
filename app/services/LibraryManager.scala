@@ -1,11 +1,10 @@
 package services
 
-import play.api.Play
-import play.api.Play.current
-import play.api.libs.json.Json
 import java.io.File
-import play.api.mvc.MultipartFormData.FilePart
+
+import play.api.Play
 import play.api.libs.Files.TemporaryFile
+import play.api.mvc.MultipartFormData.FilePart
 
 
 object LibraryManager {
@@ -21,7 +20,7 @@ object LibraryManager {
     if (!directory.exists) {
       println("No such file: " + libraryRoot + path)
       None
-    } else if (directory.isDirectory) {
+    } else if (directory.isDirectory && directory.getCanonicalPath.contains(libraryRoot)) {
 
       val fileList = directory.listFiles.filter { file =>
         // First filter out hidden files (filenames starting with a '.')
