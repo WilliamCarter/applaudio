@@ -26,7 +26,7 @@ define([
 
         DirectoryListingService.loadContent = function () {
             console.log("directoryListingService.getContent()");
-            $http.get("/api/library" + DirectoryListingService.currentPath())
+            $http.get(Config.paths.api.getDirectory + DirectoryListingService.currentPath())
                 .success(function(data) {
                     console.log(data);
                     DirectoryListingService.listing = data.listing;
@@ -40,7 +40,7 @@ define([
 
         DirectoryListingService.addDirectory = function(directoryName) {
             console.log("addDirectory(" + DirectoryListingService.currentPath() + ", " + directoryName + ")");
-            $http.post(Config.paths.createNewDirectory, { "path" : DirectoryListingService.currentPath(), "name" : directoryName })
+            $http.post(Config.paths.api.createDirectory, { "path" : DirectoryListingService.currentPath(), "name" : directoryName })
                 .success(function(){
                     console.log("new directory created successfully.");
                     var directoryPosition = 0;

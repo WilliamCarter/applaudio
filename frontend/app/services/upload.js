@@ -28,7 +28,7 @@ define(["angular", "configuration"], function (angular, Config) {
 
             var xhr = new XMLHttpRequest();
             UploadService.registerProgressEvents(xhr.upload);
-            xhr.open('POST', Config.paths.upload, true);
+            xhr.open('POST', Config.paths.api.upload, true);
 
             xhr.send(uploadData);
         };

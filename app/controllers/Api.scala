@@ -46,4 +46,6 @@ object Api extends Controller {
 
   }
 
+  def getMusicFile(path: String) = LibraryManager.getFile(path)
+
 }

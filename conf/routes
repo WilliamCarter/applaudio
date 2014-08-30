@@ -3,14 +3,15 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.StaticResources.at(filename="index.html")
-GET     /test/*value                controllers.Application.test(value: String)
+GET     /                                   controllers.StaticResources.at(filename="index.html")
+GET     /test/*value                        controllers.Application.test(value: String)
 
 # API
-GET     /api/library/*path          controllers.Api.getDirectoryListing(path)
-POST    /api/library/directory      controllers.Api.addDirectory
-DELETE  /api/library/directory      controllers.Api.removeDirectory
-POST    /api/library/upload         controllers.Api.upload
+GET     /api/librarymanager/*path           controllers.Api.getDirectoryListing(path)
+POST    /api/librarymanager/directory       controllers.Api.addDirectory
+DELETE  /api/librarymanager/directory       controllers.Api.removeDirectory
+POST    /api/librarymanager/upload          controllers.Api.upload
+GET     /api/library/*path                  controllers.Api.getMusicFile(path)
 
 # Route everything else to public
-GET     /*filename                  controllers.StaticResources.at(filename)
+GET     /*filename                          controllers.StaticResources.at(filename)

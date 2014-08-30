@@ -33,7 +33,7 @@ object LibraryManager {
       println ("returning files " + fileList)
       Option(fileList)
     } else {
-      None // return music file?
+      None
     }
   }
 
@@ -75,5 +75,8 @@ object LibraryManager {
       }
     }
   }
+
+  def getFile(path: String) =
+    controllers.ExternalAssets.at(libraryRoot, java.net.URLDecoder.decode(path, "UTF-8"))
 
 }
