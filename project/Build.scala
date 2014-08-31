@@ -3,7 +3,7 @@ import sbt._
 object ApplicationBuild extends Build {
 
   val appName = "applaudio"
-  val appVersion = "0.0.1"
+  val appVersion = "1.0.0"
   val appDependencies = Seq(
     "org.scalatest" % "scalatest_2.10" % "2.0" % "test"
   )

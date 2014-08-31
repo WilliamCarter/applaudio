@@ -2,37 +2,32 @@ package services
 
 import java.io.File
 
-import play.api.Play
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.MultipartFormData.FilePart
+import play.api.mvc.RequestHeader
+import play.api.{Logger, Play}
 
 
 object LibraryManager {
 
   lazy val libraryRoot: String = Play.current.configuration.getString("library.root").get
 
-  def getDirectoryListing(path: String): Option[Array[String]] = {
+  def getDirectoryListing(path: String)(implicit request: RequestHeader): Option[Array[String]] = {
 
     println("LibraryManager.getDirectoryListing(" + path + ")")
 
-    val directory = new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8"))
-
-    if (!directory.exists) {
-      println("No such file: " + libraryRoot + path)
-      None
-    } else if (directory.isDirectory && directory.getCanonicalPath.contains(libraryRoot)) {
-
-      val fileList = directory.listFiles.filter { file =>
-        // First filter out hidden files (filenames starting with a '.')
-        file.getName.charAt(0) != '.'
-      }.map {
-        // Second, map list to filenames only.
-        file => file.getName
+    getFile(path).flatMap { file =>
+      if (!file.isDirectory) None else {
+        val fileList = file.listFiles.filter { file =>
+          // First filter out hidden files (filenames starting with a '.')
+          file.getName.charAt(0) != '.'
+        }.map {
+          // Second, map list to filenames only.
+          file => file.getName
+        }
+        println ("returning files " + fileList)
+        Option(fileList)
       }
-      println ("returning files " + fileList)
-      Option(fileList)
-    } else {
-      None
     }
   }
 
@@ -58,10 +53,6 @@ object LibraryManager {
 
   }
 
-  def removeDirectory(path: String) {
-
-  }
-
   def uploadFiles(path: String, files: Seq[FilePart[TemporaryFile]]) = {
     files.foreach { filePart =>
 
@@ -75,7 +66,17 @@ object LibraryManager {
     }
   }
 
-  def getFile(path: String) =
-    controllers.ExternalAssets.at(libraryRoot, java.net.URLDecoder.decode(path, "UTF-8"))
+  def getFile(path: String)(implicit request: RequestHeader): Option[File] = {
+
+    println(s"getFile($path)")
+
+    val file = new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8"))
+    if (!file.exists) None
+    else if (!file.getCanonicalPath.contains(libraryRoot)) {
+      Logger.warn("Dangerous file access: " + request)
+      None
+    }
+    else Some(file)
+  }
 
 }

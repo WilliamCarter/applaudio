@@ -2,16 +2,14 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                                   controllers.StaticResources.at(filename="index.html")
-GET     /test/*value                        controllers.Application.test(value: String)
-
 # API
 GET     /api/librarymanager/*path           controllers.Api.getDirectoryListing(path)
 POST    /api/librarymanager/directory       controllers.Api.addDirectory
 DELETE  /api/librarymanager/directory       controllers.Api.removeDirectory
 POST    /api/librarymanager/upload          controllers.Api.upload
-GET     /api/library/*path                  controllers.Api.getMusicFile(path)
+GET     /api/library/*path                  controllers.Api.getMusicFile(path, download="false")
+GET     /api/library/downloads/*path        controllers.Api.getMusicFile(path, download="true")
 
-# Route everything else to public
-GET     /*filename                          controllers.StaticResources.at(filename)
+# Static resources (/*filename is the most general route there is so this MUST be declared last)
+GET     /                                   controllers.ApplaudioResources.at(filename="index.html")
+GET     /*filename                          controllers.ApplaudioResources.at(filename)

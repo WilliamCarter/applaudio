@@ -7,7 +7,7 @@ import utils.ConvertibleInt._
 
 object Api extends Controller {
 
-  def getDirectoryListing(path: String) = Action {
+  def getDirectoryListing(path: String) = Action { implicit request =>
     println("Api.getDirectoryListing(" + path + ")")
     LibraryManager.getDirectoryListing(path) match {
       case Some(listing) => Ok (Json.obj ("listing" -> listing))
@@ -46,6 +46,11 @@ object Api extends Controller {
 
   }
 
-  def getMusicFile(path: String) = LibraryManager.getFile(path)
+  def getMusicFile(path: String, download: String) = Action { implicit request =>
+    LibraryManager.getFile(path) match {
+      case Some(file) => Ok.sendFile(file, inline=(download == "false"))
+      case None => NotFound
+    }
+  }
 
 }
