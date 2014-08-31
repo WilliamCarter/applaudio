@@ -8,7 +8,8 @@ define(function(){
             api: {
                 getDirectory: "/api/librarymanager",
                 createDirectory: "/api/librarymanager/directory",
-                upload: "/api/librarymanager/upload"
+                upload: "/api/librarymanager/upload",
+                downloads: "/api/library/downloads"
             },
         },
         supportedMedia : {

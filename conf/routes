@@ -7,8 +7,8 @@ GET     /api/librarymanager/*path           controllers.Api.getDirectoryListing(
 POST    /api/librarymanager/directory       controllers.Api.addDirectory
 DELETE  /api/librarymanager/directory       controllers.Api.removeDirectory
 POST    /api/librarymanager/upload          controllers.Api.upload
-GET     /api/library/*path                  controllers.Api.getMusicFile(path, download="false")
 GET     /api/library/downloads/*path        controllers.Api.getMusicFile(path, download="true")
+GET     /api/library/*path                  controllers.Api.getMusicFile(path, download="false")
 
 # Static resources (/*filename is the most general route there is so this MUST be declared last)
 GET     /                                   controllers.ApplaudioResources.at(filename="index.html")

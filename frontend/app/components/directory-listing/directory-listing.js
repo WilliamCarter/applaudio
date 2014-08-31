@@ -29,7 +29,6 @@ define([
             $location.path($location.path() + "/" + directoryName);
         };
 
-
         DirectoryListingService.loadContent = function () {
             console.log("directoryListingService.getContent()");
             $http.get(Config.paths.api.getDirectory + DirectoryListingService.currentPath())
