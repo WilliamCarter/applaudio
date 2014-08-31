@@ -11,22 +11,13 @@ object LibraryManager {
 
   lazy val libraryRoot: String = Play.current.configuration.getString("library.root").get
 
-  def getDirectoryListing(path: String): Option[Array[String]] = {
+  def getDirectoryListing(path: String): Option[List[File]] = {
 
     println("LibraryManager.getDirectoryListing(" + path + ")")
 
     getFile(path).flatMap { file =>
-      if (!file.isDirectory) None else {
-        val fileList = file.listFiles.filter { file =>
-          // First filter out hidden files (filenames starting with a '.')
-          file.getName.charAt(0) != '.'
-        }.map {
-          // Second, map list to filenames only.
-          file => file.getName
-        }
-        println ("returning files " + fileList)
-        Option(fileList)
-      }
+      if (!file.isDirectory) None
+      else Option(file.listFiles.toList.filterNot(_.getName.startsWith(".")))
     }
   }
 

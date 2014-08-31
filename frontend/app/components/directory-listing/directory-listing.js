@@ -83,12 +83,12 @@ define([
             $location.path($location.path() + "/" + directoryName);
         };
 
-        $scope.accountForArtists = function(name) {
+        $scope.accountForArtists = function(directory) {
             // Convert to lower case and remove preceding "The " if necessary
             if (DirectoryListingService.currentPath() === "/artists") {
-                return name.toLowerCase().replace(/^the /, "");
+                return directory.label.toLowerCase().replace(/^the /, "");
             } else {
-                return name.toLowerCase();
+                return directory.label.toLowerCase();
             }
         };
 

@@ -1,7 +1,7 @@
 import java.io.File
 
 import play.api.Application
-import play.api.libs.json.JsValue
+import play.api.libs.json.{Json, JsValue}
 import play.api.test.PlaySpecification
 import support.{AppConfig, BeforeAndAfter, ApplaudioApp}
 
@@ -19,6 +19,12 @@ class LibrarySpec extends PlaySpecification {
     "return a listing of directories" in new ApplaudioApp with ThreeArtists {
       val response = await(request("/api/librarymanager/artists").get)
       (response.json \ "listing").as[Seq[JsValue]].length should be greaterThanOrEqualTo (3)
+    }
+
+    "return files with a label and type" in new ApplaudioApp with ThreeArtists {
+      val response = await(request("/api/librarymanager/artists").get)
+      val aphexTwin = (response.json \ "listing").as[Seq[JsValue]].head
+      aphexTwin must be equalTo (Json.obj("label" -> "Aphex Twin", "type" -> "directory"))
     }
 
     "return an Not Found response for valid requests for missing content" in new ApplaudioApp {
@@ -97,11 +103,11 @@ trait ThreeArtists extends BeforeAndAfter {
 
   override def before() = {
     val artistsDirectory = new File(AppConfig.getString("library.root"), "artists")
-    artists.foreach { artist => new File(artistsDirectory, s"test_$artist").mkdir() }
+    artists.foreach { artist => new File(artistsDirectory, artist).mkdir() }
   }
 
   override def after() = {
     val artistsDirectory = new File(AppConfig.getString("library.root"), "artists")
-    artists.foreach { artist => new File(artistsDirectory, s"test_$artist").delete() }
+    artists.foreach { artist => new File(artistsDirectory, artist).delete() }
   }
 }

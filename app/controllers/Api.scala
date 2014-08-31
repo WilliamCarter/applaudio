@@ -1,6 +1,8 @@
 package controllers
 
-import play.api.libs.json.Json
+import java.io.File
+
+import play.api.libs.json.{Writes, Json}
 import play.api.mvc._
 import services.LibraryManager
 import utils.ConvertibleInt._
@@ -9,6 +11,16 @@ object Api extends Controller {
 
   def getDirectoryListing(path: String) = Action { implicit request =>
     println("Api.getDirectoryListing(" + path + ")")
+
+    implicit val fileWrites = new Writes[File] {
+      def writes(file: File) = {
+        val fileType = if (file.isDirectory) "directory" else "file"
+        Json.obj(
+          "label" -> file.getName,
+          "type" -> fileType)
+      }
+    }
+
     LibraryManager.getDirectoryListing(java.net.URLDecoder.decode(path, "UTF-8")) match {
       case Some(listing) => Ok (Json.obj ("listing" -> listing))
       case None => NotFound
