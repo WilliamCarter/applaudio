@@ -3,7 +3,7 @@ import java.io.File
 import play.api.Application
 import play.api.libs.json.JsValue
 import play.api.test.PlaySpecification
-import support.{ConfigExtractor, BeforeAndAfter, ApplaudioApp}
+import support.{AppConfig, BeforeAndAfter, ApplaudioApp}
 
 import scalax.io.{Codec, Output, Resource}
 
@@ -46,6 +46,7 @@ class LibrarySpec extends PlaySpecification {
     }
 
   }
+
 }
 
 
@@ -55,11 +56,11 @@ trait ExternalFile extends BeforeAndAfter {
   def externalFilePath(libraryRoot: String): String = s"$libraryRoot/../$externalFileName"
 
   override def before() = {
-    val output:Output = Resource.fromFile(externalFilePath(ConfigExtractor.getString("library.root")))
+    val output:Output = Resource.fromFile(externalFilePath(AppConfig.getString("library.root")))
     output.write("Written from Applaudio test")(Codec.UTF8)
   }
   override def after() = {
-    new File(externalFilePath(ConfigExtractor.getString("library.root"))).delete()
+    new File(externalFilePath(AppConfig.getString("library.root"))).delete()
   }
 }
 
@@ -69,10 +70,10 @@ trait ExternalDirectory extends BeforeAndAfter {
   def externalDirectory(libraryRoot: String): File = new File(s"$libraryRoot/../$externalDirectoryName")
 
   override def before() = {
-    externalDirectory(ConfigExtractor.getString("library.root")).mkdir()
+    externalDirectory(AppConfig.getString("library.root")).mkdir()
   }
   override def after() = {
-    externalDirectory(ConfigExtractor.getString("library.root")).delete()
+    externalDirectory(AppConfig.getString("library.root")).delete()
   }
 }
 
@@ -82,11 +83,11 @@ trait FileInLibrary extends BeforeAndAfter {
   def filePath(libraryRoot: String): String = s"$libraryRoot/$filename"
 
   override def before() = {
-    val output: Output = Resource.fromFile(filePath(ConfigExtractor.getString("library.root")))
+    val output: Output = Resource.fromFile(filePath(AppConfig.getString("library.root")))
     output.write("text")(Codec.UTF8)
   }
   override def after() = {
-    new File(filePath(ConfigExtractor.getString("library.root"))).delete()
+    new File(filePath(AppConfig.getString("library.root"))).delete()
   }
 }
 
@@ -95,12 +96,12 @@ trait ThreeArtists extends BeforeAndAfter {
   val artists = Array("Aphex Twin", "Blur", "Catriona and the Waves")
 
   override def before() = {
-    val artistsDirectory = new File(ConfigExtractor.getString("library.root"), "artists")
+    val artistsDirectory = new File(AppConfig.getString("library.root"), "artists")
     artists.foreach { artist => new File(artistsDirectory, s"test_$artist").mkdir() }
   }
 
   override def after() = {
-    val artistsDirectory = new File(ConfigExtractor.getString("library.root"), "artists")
+    val artistsDirectory = new File(AppConfig.getString("library.root"), "artists")
     artists.foreach { artist => new File(artistsDirectory, s"test_$artist").delete() }
   }
 }

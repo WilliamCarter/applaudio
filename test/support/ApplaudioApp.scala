@@ -1,11 +1,14 @@
 package support
 
-import org.specs2.execute.{AsResult, Result}
-import play.api.Application
-import play.api.libs.ws.WS
-import play.api.test.WithServer
+import java.io.File
 
-class ApplaudioApp() extends WithServer with BeforeAndAfter {
+import com.typesafe.config.ConfigFactory
+import org.specs2.execute.{AsResult, Result}
+import play.api.{Configuration, Application}
+import play.api.libs.ws.WS
+import play.api.test.{Helpers, FakeApplication, WithServer}
+
+class ApplaudioApp extends WithServer(FakeApplication(new File("test")), Helpers.testServerPort) with BeforeAndAfter {
 
   def request(path: String) = WS.url(s"http://localhost:$port$path")
 

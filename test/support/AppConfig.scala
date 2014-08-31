@@ -2,7 +2,7 @@ package support
 
 import play.api.Application
 
-object ConfigExtractor {
+object AppConfig {
 
   def getString(key: String)(implicit app: Application): String = {
     app.configuration.getString(key).getOrElse {
