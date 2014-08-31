@@ -52,34 +52,13 @@ body {
             .scrollable {
                 padding-bottom: $pad;
 
-                .directory {
-                    height: $listItemHeight; // declare height so it will match animation height.
-                    margin-bottom: -$borderSize; // Allow borders above and below to overlap when this item is repeated.
-                    padding: $pad;
-                    border: $borderSize solid;
-                    background-color: $background;
-                    transition: background-color 200ms linear;
+                @import "components/directory-listing/listing-item/listing-item";
 
-                    &:hover {
-                        transition: background-color 0ms linear;
-                        background-color: #333333;
-                    }
-
-                    &:active {
-                        background-color: #999999;
-                    }
-
-                    a {
-                        color: #FFFFFF;
-                        margin: 10px;
-                    }
-
-                }
-
-                .directory.ng-enter {
+                .animate-list-item.ng-enter {
                     animation: 500ms addToList;
                 }
-                .directory.ng-leave {
+
+                .animate-list-item.ng-leave {
                     animation: 500ms removeFromList;
                 }
 

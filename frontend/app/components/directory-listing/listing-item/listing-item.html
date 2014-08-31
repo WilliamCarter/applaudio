@@ -1,0 +1,5 @@
+<div class="listing-item" ng-class="item.type" id="{{itemId}}" ng-click="navigate()">
+    <img ng-src="{{iconSrc}}">
+    <span class="label">{{item.label}}</span>
+    <span class="download-button" ng-if="item.type==='file'" ng-click="download()">DOWNLOAD</span>
+</div>

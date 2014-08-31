@@ -24,6 +24,12 @@ define([
 
         DirectoryListingService.listing = [];
 
+        DirectoryListingService.navigate = function(directoryName) {
+            console.log("navigate(" + directoryName + ")");
+            $location.path($location.path() + "/" + directoryName);
+        };
+
+
         DirectoryListingService.loadContent = function () {
             console.log("directoryListingService.getContent()");
             $http.get(Config.paths.api.getDirectory + DirectoryListingService.currentPath())
@@ -62,8 +68,7 @@ define([
     DirectoryListing.controller('DirectoryListingCtrl', [
         "DirectoryListingService",
         "$scope",
-        "$location",
-    function (DirectoryListingService, $scope, $location) {
+    function (DirectoryListingService, $scope) {
 
         var directoryListing = this;
 
@@ -77,11 +82,6 @@ define([
         );
 
         DirectoryListingService.loadContent();
-
-        directoryListing.navigate = function(directoryName) {
-            console.log("directoryName: " + directoryName);
-            $location.path($location.path() + "/" + directoryName);
-        };
 
         $scope.accountForArtists = function(directory) {
             // Convert to lower case and remove preceding "The " if necessary

@@ -9,6 +9,7 @@
 /project/target
 /public
 /target
+/test/logs
 /tmp
 .history
 /.idea

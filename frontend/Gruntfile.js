@@ -156,6 +156,8 @@ module.exports = function (grunt) {
 
     // This will build the application in /public, and will be used when the application is deployed (> sbt run)
     grunt.registerTask('build', [
+        'jshint:all',
+
         'karma:unit',
         'clean:dist',
 

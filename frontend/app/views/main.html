@@ -13,8 +13,9 @@
 
         <div applaudio-scrollable id="listing-menu" >
 
-            <div ng-repeat="item in dl.listing | filter:query | orderBy:accountForArtists" class="directory" repeat-end="window.resizeApplication()" ng-click="dl.navigate(item)">
-                <div id="directory_{{ item.label | htmlify }}">{{item.label}}</div>
+            <div class="animate-list-item" ng-repeat="item in dl.listing | filter:query | orderBy:accountForArtists" repeat-end="window.resizeApplication()">
+                <!--<div id="directory_{{ item.label | htmlify }}">{{item.label}}</div>-->
+                <applaudio-listing-item item="item"></applaudio-listing-item>
             </div>
             <div id="placeholder-holder"><!-- placeholder holder seems to prevent items skipping when placeholder becomes visible. -->
                 <div class="empty-listing-placeholder" ng-if="!(dl.listing | filter:query).length" >Nothing here...</div>

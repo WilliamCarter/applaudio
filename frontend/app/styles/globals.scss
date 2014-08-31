@@ -1,9 +1,9 @@
-$verdana: 20pt Verdana;
+$verdana: 28px Verdana;
 $borderSize: 2px;
 $background: #000000;
 $foreground: #FFFFFF;
 $pad: 10px;
-$listItemHeight: 33px;
+$listItemHeight: 40px;
 
 @keyframes addToList {
     0% {
@@ -11,14 +11,14 @@ $listItemHeight: 33px;
         opacity: 0;
     }
     100%{
-        height: $listItemHeight;
+        height: $listItemHeight + 2 * $pad;
         opacity: 1;
     }
 }
 
 @keyframes removeFromList {
     0% {
-        height: $listItemHeight;
+        height: $listItemHeight + 2 * $pad;
         opacity: 1;
     }
     100%{
