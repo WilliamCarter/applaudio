@@ -26,7 +26,7 @@ trait BeforeAndAfter {
   // Application is not running when before() and after() are executed.
   // You can, however, retrieve the application configuration BEFORE Global.onLoadConfig() has been run.
 
-  val app: Application
+  implicit val app: Application
 
   def before() = ()
   def after() = ()

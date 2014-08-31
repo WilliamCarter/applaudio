@@ -1,8 +1,9 @@
 import java.io.File
 
 import play.api.Application
+import play.api.libs.json.JsValue
 import play.api.test.PlaySpecification
-import support.{BeforeAndAfter, ApplaudioApp}
+import support.{ConfigExtractor, BeforeAndAfter, ApplaudioApp}
 
 import scalax.io.{Codec, Output, Resource}
 
@@ -13,6 +14,11 @@ class LibrarySpec extends PlaySpecification {
     "return an OK response for valid requests" in new ApplaudioApp {
       val response = await(request("/api/librarymanager/artists").get)
       response.status must be equalTo (OK)
+    }
+
+    "return a listing of directories" in new ApplaudioApp with ThreeArtists {
+      val response = await(request("/api/librarymanager/artists").get)
+      (response.json \ "listing").as[Seq[JsValue]].length should be greaterThanOrEqualTo (3)
     }
 
     "return an Not Found response for valid requests for missing content" in new ApplaudioApp {
@@ -49,17 +55,11 @@ trait ExternalFile extends BeforeAndAfter {
   def externalFilePath(libraryRoot: String): String = s"$libraryRoot/../$externalFileName"
 
   override def before() = {
-    val libraryRoot = app.configuration.getString("library.root").getOrElse {
-      throw new Exception("No library root in application configuration")
-    }
-    val output:Output = Resource.fromFile(externalFilePath(libraryRoot))
+    val output:Output = Resource.fromFile(externalFilePath(ConfigExtractor.getString("library.root")))
     output.write("Written from Applaudio test")(Codec.UTF8)
   }
   override def after() = {
-    val libraryRoot = app.configuration.getString("library.root").getOrElse {
-      throw new Exception("No library root in application configuration")
-    }
-    new File(externalFilePath(libraryRoot)).delete()
+    new File(externalFilePath(ConfigExtractor.getString("library.root"))).delete()
   }
 }
 
@@ -69,16 +69,10 @@ trait ExternalDirectory extends BeforeAndAfter {
   def externalDirectory(libraryRoot: String): File = new File(s"$libraryRoot/../$externalDirectoryName")
 
   override def before() = {
-    val libraryRoot = app.configuration.getString("library.root").getOrElse {
-      throw new Exception("No library root in application configuration")
-    }
-    println("Making external Dir: " + externalDirectory(libraryRoot).mkdir())
+    externalDirectory(ConfigExtractor.getString("library.root")).mkdir()
   }
   override def after() = {
-    val libraryRoot = app.configuration.getString("library.root").getOrElse {
-      throw new Exception("No library root in application configuration")
-    }
-    externalDirectory(libraryRoot).delete()
+    externalDirectory(ConfigExtractor.getString("library.root")).delete()
   }
 }
 
@@ -88,17 +82,25 @@ trait FileInLibrary extends BeforeAndAfter {
   def filePath(libraryRoot: String): String = s"$libraryRoot/$filename"
 
   override def before() = {
-    val libraryRoot = app.configuration.getString("library.root").getOrElse {
-      throw new Exception("No library root in application configuration")
-    }
-    println("Writing file to " + filePath(libraryRoot))
-    val output: Output = Resource.fromFile(filePath(libraryRoot))
+    val output: Output = Resource.fromFile(filePath(ConfigExtractor.getString("library.root")))
     output.write("text")(Codec.UTF8)
   }
   override def after() = {
-    val libraryRoot = app.configuration.getString("library.root").getOrElse {
-      throw new Exception("No library root in application configuration")
-    }
-    new File(filePath(libraryRoot)).delete()
+    new File(filePath(ConfigExtractor.getString("library.root"))).delete()
+  }
+}
+
+trait ThreeArtists extends BeforeAndAfter {
+
+  val artists = Array("Aphex Twin", "Blur", "Catriona and the Waves")
+
+  override def before() = {
+    val artistsDirectory = new File(ConfigExtractor.getString("library.root"), "artists")
+    artists.foreach { artist => new File(artistsDirectory, s"test_$artist").mkdir() }
+  }
+
+  override def after() = {
+    val artistsDirectory = new File(ConfigExtractor.getString("library.root"), "artists")
+    artists.foreach { artist => new File(artistsDirectory, s"test_$artist").delete() }
   }
 }
