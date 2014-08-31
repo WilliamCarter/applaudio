@@ -4,7 +4,6 @@ import java.io.File
 
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.MultipartFormData.FilePart
-import play.api.mvc.RequestHeader
 import play.api.{Logger, Play}
 
 
@@ -12,7 +11,7 @@ object LibraryManager {
 
   lazy val libraryRoot: String = Play.current.configuration.getString("library.root").get
 
-  def getDirectoryListing(path: String)(implicit request: RequestHeader): Option[Array[String]] = {
+  def getDirectoryListing(path: String): Option[Array[String]] = {
 
     println("LibraryManager.getDirectoryListing(" + path + ")")
 
@@ -54,27 +53,32 @@ object LibraryManager {
   }
 
   def uploadFiles(path: String, files: Seq[FilePart[TemporaryFile]]) = {
-    files.foreach { filePart =>
 
-      println("Uploading filePart " + path + filePart.filename)
-      val newFile = new File(libraryRoot + path, filePart.filename)
-      if (newFile.exists) {
-        println("The file " + newFile.getAbsolutePath + " already exists. Upload cancelled.")
-      } else {
-        filePart.ref.moveTo(newFile)
+    getFile(path) match {
+      case Some(directory) => {
+        files.foreach { filePart =>
+          println(s"Uploading filePart $path/${filePart.filename}")
+          val newFile = new File(directory, filePart.filename)
+          if (newFile.exists) Logger.info("The file " + newFile.getAbsolutePath + " already exists. Upload cancelled.")
+          else filePart.ref.moveTo(newFile)
+        }
       }
+      case None => Logger.warn(s"Enclosing directory ($path) doesn't exist. File Upload cancelled")
     }
+
   }
 
-  def getFile(path: String)(implicit request: RequestHeader): Option[File] = {
+  def getFile(path: String): Option[File] = {
 
     val file = new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8"))
-    if (!file.exists) None
-    else if (!file.getCanonicalPath.contains(libraryRoot)) {
-      Logger.warn("Dangerous file access: " + request)
+    if (!isInApplaudioLibrary(file)) {
+      Logger.warn(s"Dangerous file access: $path")
       None
     }
+    else if (!file.exists) None
     else Some(file)
   }
+
+  def isInApplaudioLibrary(file: File): Boolean = file.getCanonicalPath.contains(libraryRoot)
 
 }
