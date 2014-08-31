@@ -68,8 +68,6 @@ object LibraryManager {
 
   def getFile(path: String)(implicit request: RequestHeader): Option[File] = {
 
-    println(s"getFile($path)")
-
     val file = new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8"))
     if (!file.exists) None
     else if (!file.getCanonicalPath.contains(libraryRoot)) {

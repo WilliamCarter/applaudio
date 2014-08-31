@@ -1,20 +1,16 @@
 Frontend
 --------
-
-- Update Grunt build with minification, concatenation and other optimisations.
-- Upload progress.
+- Update Grunt build with minification, concatenation and other optimisations. SASS maps?
 - Music player component.
 - Track queue component.
 - Auto resizing header.
 - Handle animations better when adding a directory that already exists. Smooth scroll and highlight?
 - Create a modal queue, to allow modals to be able to throw alerts/dialogs for errors.
-- Proper ordering of bands etc.
-
+- Status bar
 
 Backend
 -------
-
-- Security
-  - HTTPS
-  - Certificates and Passwords
 - Redesign data model.
+  - Use a database for all metadata.
+  - Reference music files by key, not by their actual location. This is dangerous!
+- Investigate file upload security.
