@@ -59,6 +59,7 @@ object LibraryManager {
         files.foreach { filePart =>
           println(s"Uploading filePart $path/${filePart.filename}")
           val newFile = new File(directory, filePart.filename)
+          newFile.setExecutable(false)
           if (newFile.exists) Logger.info("The file " + newFile.getAbsolutePath + " already exists. Upload cancelled.")
           else filePart.ref.moveTo(newFile)
         }
@@ -70,7 +71,7 @@ object LibraryManager {
 
   def getFile(path: String): Option[File] = {
 
-    val file = new File(libraryRoot + java.net.URLDecoder.decode(path, "UTF-8"))
+    val file = new File(libraryRoot + path)
     if (!isInApplaudioLibrary(file)) {
       Logger.warn(s"Dangerous file access: $path")
       None

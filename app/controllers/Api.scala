@@ -9,7 +9,7 @@ object Api extends Controller {
 
   def getDirectoryListing(path: String) = Action { implicit request =>
     println("Api.getDirectoryListing(" + path + ")")
-    LibraryManager.getDirectoryListing(path) match {
+    LibraryManager.getDirectoryListing(java.net.URLDecoder.decode(path, "UTF-8")) match {
       case Some(listing) => Ok (Json.obj ("listing" -> listing))
       case None => NotFound
     }
@@ -47,7 +47,7 @@ object Api extends Controller {
   }
 
   def getMusicFile(path: String, download: String) = Action { implicit request =>
-    LibraryManager.getFile(path) match {
+    LibraryManager.getFile(java.net.URLDecoder.decode(path, "UTF-8")) match {
       case Some(file) => Ok.sendFile(file, inline=(download == "false"))
       case None => NotFound
     }
