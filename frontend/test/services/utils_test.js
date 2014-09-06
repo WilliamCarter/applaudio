@@ -1,4 +1,4 @@
-define(["services/utils", "angularMocks"], function(Utilities) {
+define(["services/utils", "angularMocks"], function() {
 
     describe('Service: ApplaudioUtilities', function () {
 

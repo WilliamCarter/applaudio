@@ -26,12 +26,12 @@ define([
         DirectoryListingService.listing = [];
 
         DirectoryListingService.navigate = function(directoryName) {
-            console.log("navigate(" + directoryName + ")");
+            console.log("DirectoryListingService.navigate(" + directoryName + ")");
             $location.path($location.path() + "/" + directoryName);
         };
 
         DirectoryListingService.loadContent = function () {
-            console.log("directoryListingService.getContent()");
+            console.log("DirectoryListingService.loadContent()");
             var path = DirectoryListingService.currentPath();
             $http.get(Config.paths.api.getDirectory + path)
                 .success(function(data) {
