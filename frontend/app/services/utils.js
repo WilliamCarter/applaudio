@@ -1,10 +1,10 @@
 'use strict';
 
-define(["angular", "configuration"], function(angular, Config){
+define(["angular"], function(angular){
 
     console.log("Defining ApplaudioUtilities");
 
-    var ApplaudioUtilities = angular.module("ApplaudioUtilities", []);
+    var ApplaudioUtilities = angular.module("ApplaudioUtilities", ["applaudio"]);
 
     ApplaudioUtilities.factory("ApplaudioUtils", function() {
 
@@ -120,11 +120,13 @@ define(["angular", "configuration"], function(angular, Config){
         };
     }]);
 
-    ApplaudioUtilities.filter('removeExtension', function() {
+    ApplaudioUtilities.filter('removeExtension', [
+        "configuration",
+    function() {
         return function(inputString) {
             // e.g. replace "Los.mp3" with "Los"
-            for (var i = 0; i < Config.supportedMedia.extensions.length; i++) {
-                var suffix = Config.supportedMedia.extensions[i];
+            for (var i = 0; i < configuration.supportedMedia.extensions.length; i++) {
+                var suffix = configuration.supportedMedia.extensions[i];
                 var suffixStartIndex = inputString.length - suffix.length;
                 if (inputString.indexOf(suffix, suffixStartIndex) !== -1) {
                     return inputString.substring(0, suffixStartIndex);
@@ -133,7 +135,7 @@ define(["angular", "configuration"], function(angular, Config){
             // No matches
             return inputString;
         };
-    });
+    }]);
 
 
     return ApplaudioUtilities;

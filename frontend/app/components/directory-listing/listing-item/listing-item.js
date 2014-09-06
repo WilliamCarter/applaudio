@@ -2,15 +2,15 @@
 
 define([
     "components/directory-listing/directory-listing",
-    "configuration",
     "services/utils"
-], function (DirectoryListing, Config) {
+], function (DirectoryListing) {
 
     DirectoryListing.directive("applaudioListingItem", [
         "ApplaudioUtils",
         "DirectoryListingService",
         "$http",
-    function(Utils, DirectoryListingService, $http) {
+        "configuration",
+    function(Utils, DirectoryListingService, $http, configuration) {
 
         return {
             restrict: 'E',
@@ -22,7 +22,7 @@ define([
 
                 scope.itemId = scope.item.type + "_" + Utils.htmlify(scope.item.label);
                 scope.iconSrc = "/images/" + (scope.item.type === "file" ? "music" : "folder") + ".png";
-                scope.downloadLink = Config.paths.api.downloads + DirectoryListingService.currentPath() + "/" + scope.item.label;
+                scope.downloadLink = configuration.paths.api.downloads + DirectoryListingService.currentPath() + "/" + scope.item.label;
 
                 scope.navigate = function() {
                     // Expose navigation if this is a directory

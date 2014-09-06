@@ -1,10 +1,16 @@
 'use strict';
 
-define(["angular", "configuration"], function (angular, Config) {
+define(["angular"], function (angular) {
 
-    var ApplaudioUpload = angular.module("ApplaudioUpload", ["ApplaudioUtilities"]);
+    var ApplaudioUpload = angular.module("ApplaudioUpload", [
+        "applaudio",
+        "ApplaudioUtilities"
+    ]);
 
-    ApplaudioUpload.service("UploadService", ["ApplaudioUtils", function(Utils){
+    ApplaudioUpload.service("UploadService", [
+        "ApplaudioUtils",
+        "configuration",
+    function(Utils, configuration){
 
         var UploadService = this;
 
@@ -28,7 +34,7 @@ define(["angular", "configuration"], function (angular, Config) {
 
             var xhr = new XMLHttpRequest();
             UploadService.registerProgressEvents(xhr.upload);
-            xhr.open('POST', Config.paths.api.upload, true);
+            xhr.open('POST', configuration.paths.api.upload, true);
 
             xhr.send(uploadData);
         };

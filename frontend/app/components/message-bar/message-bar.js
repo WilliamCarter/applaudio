@@ -1,11 +1,10 @@
 'use strict';
 
 define([
-    "angular",
-    "configuration"
-], function(angular, Config) {
+    "angular"
+], function(angular) {
 
-    var MessageBar = angular.module('MessageBar', []);
+    var MessageBar = angular.module('MessageBar', ["applaudio"]);
 
     'use strict';
     MessageBar.factory('MessageBarService', function() {
@@ -43,7 +42,8 @@ define([
         "$scope",
         "$interval",
         "MessageBarService",
-    function ($scope, $interval, MessageBarService) {
+        "configuration",
+    function ($scope, $interval, MessageBarService, configuration) {
 
             $scope.message = '';
             $scope.type = 'standard'; // "standard" or "error"
@@ -57,7 +57,7 @@ define([
                 $interval(function () {
                     $scope.dismiss();
                     MessageBarService.removeMessage();
-                }, Config.messageBar.showDuration, 1);
+                }, configuration.messageBar.showDuration, 1);
             };
 
             $scope.dismiss = function () {

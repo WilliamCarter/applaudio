@@ -45,6 +45,29 @@ define([
         "ApplaudioUtilities"
     ]);
 
+    Applaudio.constant("configuration", {
+
+        paths: {
+            home: "/#/listing/artists",
+            api: {
+                getDirectory: "/api/librarymanager",
+                createDirectory: "/api/librarymanager/directory",
+                upload: "/api/librarymanager/upload",
+                downloads: "/api/library/downloads"
+            },
+        },
+
+        messageBar: {
+            showDuration: 3000
+        },
+
+        supportedMedia : {
+            types: ["audio/mpeg", "audio/mp3", "audio/ogg"],
+            extensions: [".mpeg", ".mp3", ".ogg"]
+        }
+
+    });
+
     console.log("Configuring Applaudio");
     Applaudio.config(["$routeProvider", function($routeProvider) {
 

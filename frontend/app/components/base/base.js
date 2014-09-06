@@ -1,10 +1,15 @@
 'use strict';
 
-define(["angular", "configuration"], function (angular, Config) {
+define(["angular"], function (angular) {
 
-    var Base = angular.module("Base", ["ApplaudioUtilities"]);
+    var Base = angular.module("Base", ["ApplaudioUtilities", "applaudio"]);
 
-    Base.controller('BaseCtrl', ["$scope", "$routeParams", "ApplaudioUtils", function ($scope, $routeParams, Utils) {
+    Base.controller('BaseCtrl', [
+        "$scope",
+        "$routeParams",
+        "ApplaudioUtils",
+        "configuration",
+    function ($scope, $routeParams, Utils, configuration) {
 
         var base = this; // private variables are attached to 'base', public to '$scope'
 
@@ -13,7 +18,7 @@ define(["angular", "configuration"], function (angular, Config) {
         $scope.currentPath = "/" + $routeParams.url + "/";
         base.currentPathElements = $scope.currentPath.split("/").slice(1, $scope.currentPath.length-1);
 
-        base.supportedMedia = Config.supportedMedia;
+        base.supportedMedia = configuration.supportedMedia;
 
         console.log("Defining utility functions...");
 

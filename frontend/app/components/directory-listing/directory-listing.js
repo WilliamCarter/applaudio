@@ -2,20 +2,20 @@
 
 define([
     "angular",
-    "configuration",
     "components/directory-listing/file",
     "services/utils",
     "services/upload"
-], function (angular, Config, File) {
+], function (angular, File) {
 
-    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities", "MessageBar"]);
+    var DirectoryListing = angular.module("DirectoryListing", ["applaudio", "ApplaudioUpload", "ApplaudioUtilities", "MessageBar"]);
 
     DirectoryListing.service("DirectoryListingService", [
         "ApplaudioUtils",
         "$location",
         "$http",
         "MessageBarService",
-    function(ApplaudioUtils, $location, $http, MessageBarService) {
+        "configuration",
+    function(ApplaudioUtils, $location, $http, MessageBarService, configuration) {
 
         var DirectoryListingService = this;
 
@@ -33,7 +33,7 @@ define([
         DirectoryListingService.loadContent = function () {
             console.log("DirectoryListingService.loadContent()");
             var path = DirectoryListingService.currentPath();
-            $http.get(Config.paths.api.getDirectory + path)
+            $http.get(configuration.paths.api.getDirectory + path)
                 .success(function(data) {
                     console.log(data);
                     DirectoryListingService.listing = data.listing;
@@ -47,7 +47,7 @@ define([
 
         DirectoryListingService.addDirectory = function(directoryName) {
             console.log("addDirectory(" + DirectoryListingService.currentPath() + ", " + directoryName + ")");
-            $http.post(Config.paths.api.createDirectory, { "path" : DirectoryListingService.currentPath(), "name" : directoryName })
+            $http.post(configuration.paths.api.createDirectory, { "path" : DirectoryListingService.currentPath(), "name" : directoryName })
                 .success(function(){
                     console.log("new directory created successfully.");
                     MessageBarService.addMessage("Directory '" + directoryName + "' added successfully");

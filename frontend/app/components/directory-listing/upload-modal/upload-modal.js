@@ -1,14 +1,14 @@
 define([
     "components/directory-listing/directory-listing",
-    "configuration",
     "services/upload"
-], function (DirectoryListing, Config) {
+], function (DirectoryListing) {
 
     DirectoryListing.directive("uploadModal", [
         "DirectoryListingService",
         "UploadService",
         "$interval",
-    function(DirectoryListingService, UploadService, $interval) {
+        "configuration",
+    function(DirectoryListingService, UploadService, $interval, configuration) {
 
         return {
             restrict: 'E',
@@ -32,7 +32,7 @@ define([
 
                     // Filter out unsupported files
                     for (var i = 0; i < allFiles.length; i++) {
-                        if (Config.supportedMedia.types.indexOf(allFiles[i].type) !== -1) {
+                        if (configuration.supportedMedia.types.indexOf(allFiles[i].type) !== -1) {
                             scope.files.push(allFiles[i]);
                         } else {
                             console.log(allFiles[i].name + " is of type " + allFiles[i].type + ", and not supported by applaudio.");
