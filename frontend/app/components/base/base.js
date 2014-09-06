@@ -2,7 +2,7 @@
 
 define(["angular"], function (angular) {
 
-    var Base = angular.module("Base", ["ApplaudioUtilities", "applaudio"]);
+    var Base = angular.module("Base", ["ApplaudioUtilities"]);
 
     Base.controller('BaseCtrl', [
         "$scope",

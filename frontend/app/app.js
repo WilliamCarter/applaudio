@@ -33,7 +33,7 @@ define([
     };
 
     console.log("Defining Applaudio");
-    var Applaudio = angular.module('applaudio', [
+    var Applaudio = angular.module('Applaudio', [
         "ngRoute",
         "ngAnimate",
 

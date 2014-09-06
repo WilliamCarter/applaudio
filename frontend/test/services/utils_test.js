@@ -234,6 +234,27 @@ define(["services/utils", "angularMocks"], function() {
             expect(Utils.htmlify("Katrina and the Waves")).toBe("katrina-and-the-waves");
         });
 
+        describe("Utils.contains", function() {
+
+            it("should return true if any element in the array satisfies the predicate", function() {
+                var array = ["The Prodigy", "Lang Lang", "Mike Oldfiled"];
+                var predicate = function(string) {
+                    return string.substring(0, 4) === "Lang";
+                }
+                expect(Utils.contains(array, predicate)).toBe(true);
+            });
+
+            it("should return false if no element in the array satisfies the predicate", function() {
+                var array = ["The Prodigy", "Lang Lang", "Mike Oldfiled"];
+                var predicate = function(string) {
+                    return string.length === 87;
+                }
+                expect(Utils.contains(array, predicate)).toBe(false);
+            });
+
+        });
+
+
     });
 
 });

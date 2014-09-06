@@ -178,6 +178,6 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', [
-        'dev'
+        'build'
     ]);
 };

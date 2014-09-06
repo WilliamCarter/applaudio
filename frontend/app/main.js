@@ -20,7 +20,7 @@ require(["angular", "app"], function (angular) {
     angular.element(document).ready(function () {
 
         try {
-            angular.bootstrap(document, ['applaudio']);
+            angular.bootstrap(document, ['Applaudio']);
         } catch (e) {
             console.error(e.stack || e.message || e);
         }

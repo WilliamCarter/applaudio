@@ -95,13 +95,22 @@ define(["angular"], function(angular){
             return string.trim().replace(/ /g, "-").toLowerCase();
         };
 
+        var contains = function(array, predicate) {
+            var result = false;
+            forEach(array, function(item) {
+                result = result || predicate(item);
+            });
+            return result;
+        };
+
         return {
-            insertAt : insertAt,
-            forEach : forEach,
-            areEqual : areEqual,
-            clone : clone,
-            merge : merge,
-            htmlify : htmlify
+            insertAt: insertAt,
+            forEach: forEach,
+            contains: contains,
+            areEqual: areEqual,
+            clone: clone,
+            merge: merge,
+            htmlify: htmlify
         }
 
     });

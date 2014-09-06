@@ -6,7 +6,8 @@ define([
     DirectoryListing.directive("addDirectoryModal", [
         "DirectoryListingService",
         "ApplaudioUtils",
-    function(DirectoryListingService, ApplaudioUtils) {
+        "MessageBarService",
+    function(DirectoryListingService, Utils, MessageBarService) {
 
         return {
             restrict: 'E',
@@ -16,9 +17,13 @@ define([
                 scope.confirm = function(directoryName) {
                     scope.hide();
 
-                    if(DirectoryListingService.listing.indexOf(directoryName) !== -1) {
-                        var existingId = "#directory_" + ApplaudioUtils.htmlify(directoryName);
-                        console.log("Directory already exists in current model. Scroll to element: " + existingId);
+                    var directoryAlreadyExists = function(file) {
+                        return file.label === directoryName;
+                    }
+
+                    if(Utils.contains(DirectoryListingService.listing, directoryAlreadyExists)) {
+                        MessageBarService.addMessage("The directory '" + directoryName + "' already exists");
+                        var existingId = "#directory_" + Utils.htmlify(directoryName);
                         document.querySelector(existingId).scrollIntoView();
                     } else {
                         DirectoryListingService.addDirectory(directoryName);
