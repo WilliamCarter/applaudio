@@ -8,14 +8,14 @@ define([
     "services/upload"
 ], function (angular, Config, File) {
 
-    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities"]);
-
+    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities", "MessageBar"]);
 
     DirectoryListing.service("DirectoryListingService", [
         "ApplaudioUtils",
         "$location",
         "$http",
-    function(ApplaudioUtils, $location, $http) {
+        "MessageBarService",
+    function(ApplaudioUtils, $location, $http, MessageBarService) {
 
         var DirectoryListingService = this;
 
@@ -32,15 +32,16 @@ define([
 
         DirectoryListingService.loadContent = function () {
             console.log("directoryListingService.getContent()");
-            $http.get(Config.paths.api.getDirectory + DirectoryListingService.currentPath())
+            var path = DirectoryListingService.currentPath();
+            $http.get(Config.paths.api.getDirectory + path)
                 .success(function(data) {
                     console.log(data);
                     DirectoryListingService.listing = data.listing;
                 })
                 .error(function(){
+                    MessageBarService.addMessage("Could not find the directory '" + path + "' in the library", "error");
                     console.log("Cannot find directory in /music/...");
-                    DirectoryListingService.listing = ["404"];
-                    // TODO: 404 (+--0)~~~[~- - ]
+                    DirectoryListingService.listing = [];
                 });
         };
 
@@ -49,6 +50,7 @@ define([
             $http.post(Config.paths.api.createDirectory, { "path" : DirectoryListingService.currentPath(), "name" : directoryName })
                 .success(function(){
                     console.log("new directory created successfully.");
+                    MessageBarService.addMessage("Directory '" + directoryName + "' added successfully");
                     var directoryPosition = 0;
                     while (directoryName > DirectoryListingService.listing[directoryPosition]) {
                         directoryPosition++;
@@ -56,7 +58,7 @@ define([
                     DirectoryListingService.listing.push(new File(directoryName, "directory"));
                 })
                 .error(function(data, status){
-                    window.alert("Error adding directory. See console");
+                    MessageBarService.addMessage("There was an error adding the directory '" + directoryName + "'", "error");
                     console.log("Error adding directory: " + status);
                     console.log(data);
                 });

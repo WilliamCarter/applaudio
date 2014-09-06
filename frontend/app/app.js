@@ -12,6 +12,7 @@ define([
     "ui/modal/modal",
 
     "components/base/base",
+    "components/message-bar/message-bar",
     "components/directory-listing/directory-listing",
     "components/directory-listing/listing-item/listing-item",
     "components/directory-listing/upload-modal/upload-modal",
@@ -37,6 +38,7 @@ define([
         "ngAnimate",
 
         "Base",
+        "MessageBar",
         "DirectoryListing",
 
         "ApplaudioUI",

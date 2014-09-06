@@ -3,6 +3,7 @@
 define(function(){
 
     var Config =  {
+
         paths: {
             home: "/#/listing/artists",
             api: {
@@ -12,6 +13,11 @@ define(function(){
                 downloads: "/api/library/downloads"
             },
         },
+
+        messageBar: {
+            showDuration: 3000
+        },
+
         supportedMedia : {
             types: ["audio/mpeg", "audio/mp3", "audio/ogg"],
             extensions: [".mpeg", ".mp3", ".ogg"]
