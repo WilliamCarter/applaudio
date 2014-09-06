@@ -3,9 +3,10 @@
 define([
     "angular",
     "configuration",
+    "components/directory-listing/file",
     "services/utils",
     "services/upload"
-], function (angular, Config) {
+], function (angular, Config, File) {
 
     var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities"]);
 
@@ -52,7 +53,7 @@ define([
                     while (directoryName > DirectoryListingService.listing[directoryPosition]) {
                         directoryPosition++;
                     }
-                    DirectoryListingService.listing.push(directoryName);
+                    DirectoryListingService.listing.push(new File(directoryName, "directory"));
                 })
                 .error(function(data, status){
                     window.alert("Error adding directory. See console");
