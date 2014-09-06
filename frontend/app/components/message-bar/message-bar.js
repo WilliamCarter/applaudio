@@ -4,7 +4,7 @@ define([
     "angular"
 ], function(angular) {
 
-    var MessageBar = angular.module('MessageBar', ["applaudio"]);
+    var MessageBar = angular.module('MessageBar', []);
 
     'use strict';
     MessageBar.factory('MessageBarService', function() {

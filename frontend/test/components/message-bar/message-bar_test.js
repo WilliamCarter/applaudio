@@ -70,8 +70,14 @@ define(["components/message-bar/message-bar", "angularMocks"], function() {
                 interval = $interval;
                 controller = $controller('MessageBarCtrl', {
                     $scope: scope,
-                    messageBarService: _MessageBarService_
+                    messageBarService: _MessageBarService_,
+                    configuration: {
+                        messageBar: {
+                            showDuration: 2
+                        }
+                    }
                 });
+
             });
 
         });

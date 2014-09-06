@@ -3,7 +3,6 @@
 define(["angular"], function (angular) {
 
     var ApplaudioUpload = angular.module("ApplaudioUpload", [
-        "applaudio",
         "ApplaudioUtilities"
     ]);
 

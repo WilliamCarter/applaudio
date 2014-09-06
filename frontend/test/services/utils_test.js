@@ -29,6 +29,12 @@ define(["services/utils", "angularMocks"], function() {
 
             inject(function(_ApplaudioUtils_) {
                 Utils = _ApplaudioUtils_;
+                configuration = {
+                    supportedMedia : {
+                        types: ["audio/mpeg", "audio/mp3", "audio/ogg"],
+                        extensions: [".mpeg", ".mp3", ".ogg"]
+                    }
+                };
             });
 
 

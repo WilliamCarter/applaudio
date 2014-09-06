@@ -4,7 +4,7 @@ define(["angular"], function(angular){
 
     console.log("Defining ApplaudioUtilities");
 
-    var ApplaudioUtilities = angular.module("ApplaudioUtilities", ["applaudio"]);
+    var ApplaudioUtilities = angular.module("ApplaudioUtilities", []);
 
     ApplaudioUtilities.factory("ApplaudioUtils", function() {
 
