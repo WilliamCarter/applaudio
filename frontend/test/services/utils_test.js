@@ -40,6 +40,7 @@ define(["services/utils", "angularMocks"], function() {
 
         });
 
+
         it('should be able to insert items at any point in an array', function() {
 
             var numberArray = [1,2,4,5];

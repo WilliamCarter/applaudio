@@ -14,7 +14,6 @@ define([
         var messageId = 0;
 
         function addMessage(message, type) {
-            console.log("MessageBarService.addMessage(" + message + ", " + type + ")");
             if (type === undefined) {
                 type = "standard";
             }

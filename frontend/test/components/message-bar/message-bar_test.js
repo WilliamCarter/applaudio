@@ -12,6 +12,7 @@ define(["components/message-bar/message-bar", "angularMocks"], function() {
             });
         });
 
+
         it("should add a message to the queue when prompted", function() {
             var successMessage = "Directory 'Love' created successfully";
             messageBarService.addMessage(successMessage);
@@ -46,45 +47,82 @@ define(["components/message-bar/message-bar", "angularMocks"], function() {
 
     describe("The Message Bar Controller", function() {
 
+        var interval, scope, mockMessageBarService;
+
         var warning = {
             id: 836,
             message: "You have bad taste in music",
             type: "warning"
         };
 
-        var mockMessageBarService = {
-            messageQueue : [],
-            removeMessage : function(){}
+        var mockConfiguration = {
+            messageBar: {
+                showDuration: 2
+            }
         };
 
         beforeEach(function(){
 
             module('MessageBar');
 
-            module({
-                messageBarService: mockMessageBarService
-            });
+            mockMessageBarService = {
+                messageQueue : [],
+                removeMessage : function(){}
+            };
 
-            inject(function ($controller, $rootScope, $interval, _MessageBarService_) {
+            inject(function ($controller, $rootScope, $interval) {
                 scope = $rootScope.$new();
                 interval = $interval;
-                controller = $controller('MessageBarCtrl', {
+                $controller('MessageBarCtrl', {
                     $scope: scope,
-                    messageBarService: _MessageBarService_,
-                    configuration: {
-                        messageBar: {
-                            showDuration: 2
-                        }
-                    }
+                    $interval: interval,
+                    MessageBarService: mockMessageBarService,
+                    configuration: mockConfiguration
                 });
 
             });
 
         });
 
+
         it('should set the contained message when shown', function() {
             scope.show(warning);
             expect(scope.message).toBe("You have bad taste in music");
+        });
+
+        it('should set the message type when shown', function() {
+            scope.show(warning);
+            expect(scope.type).toBe('warning');
+        });
+
+        it('should change the message visibility when shown', function() {
+            scope.show(warning);
+            expect(scope.visible).toBe(true);
+        });
+
+        it('should watch for changes in the service\'s queue, and show a message if it finds one.', function() {
+            mockMessageBarService.messageQueue.push(warning);
+            scope.$digest();
+            expect(scope.message).toBe("You have bad taste in music");
+        });
+
+        it('should hide the message when dismissed', function() {
+            scope.show(warning);
+            scope.dismiss();
+            expect(scope.visible).toBe(false);
+        });
+
+        it('should hide the message after the timeout has expired', function() {
+            scope.show(warning);
+            interval.flush(mockConfiguration.messageBar.showDuration + 1);
+            expect(scope.visible).toBe(false);
+        });
+
+        it('should notify the service to remove the message after it has been shown', function() {
+            spyOn(mockMessageBarService, 'removeMessage');
+            scope.show(warning);
+            interval.flush(mockConfiguration.messageBar.showDuration + 1);
+            expect(mockMessageBarService.removeMessage).toHaveBeenCalled();
         });
 
     });
