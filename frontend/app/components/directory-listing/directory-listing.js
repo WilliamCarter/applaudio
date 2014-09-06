@@ -49,8 +49,6 @@ define([
             console.log("addDirectory(" + DirectoryListingService.currentPath() + ", " + directoryName + ")");
             $http.post(configuration.paths.api.createDirectory, { "path" : DirectoryListingService.currentPath(), "name" : directoryName })
                 .success(function(){
-                    console.log("new directory created successfully.");
-                    MessageBarService.addMessage("Directory '" + directoryName + "' added successfully");
                     var directoryPosition = 0;
                     while (directoryName > DirectoryListingService.listing[directoryPosition]) {
                         directoryPosition++;

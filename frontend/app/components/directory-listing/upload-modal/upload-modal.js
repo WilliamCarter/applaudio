@@ -8,7 +8,8 @@ define([
         "UploadService",
         "$interval",
         "configuration",
-    function(DirectoryListingService, UploadService, $interval, configuration) {
+        "MessageBarService",
+    function(DirectoryListingService, UploadService, $interval, configuration, MessageBarService) {
 
         return {
             restrict: 'E',
@@ -35,7 +36,10 @@ define([
                         if (configuration.supportedMedia.types.indexOf(allFiles[i].type) !== -1) {
                             scope.files.push(allFiles[i]);
                         } else {
-                            console.log(allFiles[i].name + " is of type " + allFiles[i].type + ", and not supported by applaudio.");
+                            var message = allFiles[i].name + " is of " +
+                                (allFiles[i].type === "" ? "unknown type " : "type '" + allFiles[i].type + "' ") +
+                                "and is not supported by Applaudio";
+                            MessageBarService.addMessage(message, "error");
                         }
                     }
 
@@ -66,7 +70,7 @@ define([
                         }, 500, 1);
 
                     } else {
-                        console.warn("Upload error");
+                        MessageBarService.addMessage("Upload error", "error");
                         console.log(updateEvent);
                     }
                 });
