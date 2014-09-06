@@ -50,7 +50,6 @@ define([
             $scope.visible = false;
 
             $scope.show = function (messageObject) {
-                console.log("MessageBarCtrl.show(" + messageObject + ")");
                 $scope.message = messageObject.message;
                 $scope.type = messageObject.type;
                 $scope.visible = true;
@@ -62,7 +61,6 @@ define([
             };
 
             $scope.dismiss = function () {
-                console.log("MessageBarCtrl.dismiss()");
                 $scope.visible = false;
             };
 

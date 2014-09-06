@@ -44,4 +44,43 @@ define(["components/message-bar/message-bar", "angularMocks"], function() {
 
     });
 
+    describe("The Message Bar Controller", function() {
+
+        var warning = {
+            id: 836,
+            message: "You have bad taste in music",
+            type: "warning"
+        };
+
+        var mockMessageBarService = {
+            messageQueue : [],
+            removeMessage : function(){}
+        };
+
+        beforeEach(function(){
+
+            module('MessageBar');
+
+            module({
+                messageBarService: mockMessageBarService
+            });
+
+            inject(function ($controller, $rootScope, $interval, _MessageBarService_) {
+                scope = $rootScope.$new();
+                interval = $interval;
+                controller = $controller('MessageBarCtrl', {
+                    $scope: scope,
+                    messageBarService: _MessageBarService_
+                });
+            });
+
+        });
+
+        it('should set the contained message when shown', function() {
+            scope.show(warning);
+            expect(scope.message).toBe("You have bad taste in music");
+        });
+
+    });
+
 });
