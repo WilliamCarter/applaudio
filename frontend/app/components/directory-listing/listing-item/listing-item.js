@@ -32,7 +32,6 @@ define([
                 };
 
                 scope.download = function() {
-                    // Allow download if this is a music file
                     DirectoryListingService.download(scope.item.label);
                 };
 

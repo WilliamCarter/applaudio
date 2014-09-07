@@ -18,9 +18,10 @@ class LibraryManager {
 
     getFile(path).flatMap { file =>
       if (!file.isDirectory) None
-      else Option(file.listFiles.toList.filterNot(_.getName.startsWith(".")))
+      else Option(file.listFiles.toList.filterNot(item => item.getName.startsWith(".") || item.getName.endsWith((".zip"))))
     }
   }
+  def getDirectoryListing(file: File): Option[List[File]] = getDirectoryListing(file.getAbsolutePath)
 
   def addDirectory(path: String, name: String): Boolean = {
     println("LibraryManager.addDirectory(" + path + ", " + name + ")")
@@ -106,7 +107,7 @@ class LibraryManager {
     }
 
     zip.close()
-    
+
     zipFileForDirectory(directory)
   }
 
