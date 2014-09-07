@@ -1,10 +1,13 @@
 package services
 
-import java.io.File
+import java.io._
+import java.util.zip.{ZipEntry, ZipOutputStream}
 
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.MultipartFormData.FilePart
 import play.api.{Logger, Play}
+
+import scala.io.Source
 
 
 object LibraryManager {
@@ -72,5 +75,37 @@ object LibraryManager {
   }
 
   def isInApplaudioLibrary(file: File): Boolean = file.getCanonicalPath.contains(libraryRoot)
+
+
+  def compress(directory: File): File = {
+    println(s"compress(${directory.getName})")
+    val outputFilePath = s"${directory.getAbsoluteFile}.zip"
+    zipTracks(outputFilePath , directory.listFiles.toList)
+    new File(outputFilePath)
+  }
+
+  private def zipTracks(out: String, files: List[File]) = {
+
+    val zip = new ZipOutputStream(new FileOutputStream(out))
+
+    val tracks: List[File] = files.filter(_.isFile).isEmpty match {
+      case true => List(new File("conf/empty.txt"))
+      case false => files.filter(_.isFile)
+    }
+
+    tracks.foreach { file =>
+      zip.putNextEntry(new ZipEntry(file.getName))
+      val in = new BufferedInputStream(new FileInputStream(file.getAbsoluteFile))
+      var b = in.read()
+      while (b > -1) {
+        zip.write(b)
+        b = in.read()
+      }
+      in.close()
+      zip.closeEntry()
+    }
+
+    zip.close()
+  }
 
 }

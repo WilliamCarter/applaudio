@@ -1,0 +1,2 @@
+Either there's been an error my side, or you asked for a directory with nothing in it.
+Did you ask for a directory with nothing in it?

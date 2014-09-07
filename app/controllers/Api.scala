@@ -1,6 +1,7 @@
 package controllers
 
 import java.io.File
+import java.net.URLDecoder
 
 import play.api.libs.json.{Writes, Json}
 import play.api.mvc._
@@ -59,9 +60,10 @@ object Api extends Controller {
   }
 
   def getMusicFile(path: String, download: String) = Action { implicit request =>
-    LibraryManager.getFile(java.net.URLDecoder.decode(path, "UTF-8")) match {
-      case Some(file) => Ok.sendFile(file, inline=(download == "false"))
-      case None => NotFound
+    LibraryManager.getFile(URLDecoder.decode(path, "UTF-8")) match {
+      case Some(file) if (!file.isDirectory) => Ok.sendFile(file, inline=(download == "false"))
+      case Some(file) if (file.isDirectory && download == "true") => Ok.sendFile(LibraryManager.compress(file), inline=false)
+      case _ => NotFound
     }
   }
 
