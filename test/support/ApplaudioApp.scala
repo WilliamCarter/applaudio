@@ -15,7 +15,6 @@ class ApplaudioApp extends WithServer(FakeApplication(new File("test")), Helpers
   override def around[T: AsResult](t: => T): Result = {
 
     try {
-      println("do before")
       before()
       super.around(t)
     } finally {

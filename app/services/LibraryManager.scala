@@ -10,7 +10,7 @@ import play.api.{Logger, Play}
 import scala.io.Source
 
 
-object LibraryManager {
+class LibraryManager {
 
   lazy val libraryRoot: String = Play.current.configuration.getString("library.root").get
 
@@ -78,13 +78,13 @@ object LibraryManager {
 
 
   def compress(directory: File): File = {
-    println(s"compress(${directory.getName})")
-    val outputFilePath = s"${directory.getAbsoluteFile}.zip"
-    zipTracks(outputFilePath , directory.listFiles.toList)
-    new File(outputFilePath)
+    println(s"compress(${directory.getAbsolutePath})")
+    val compressed = zipFileForDirectory(directory)
+    if (compressed.exists) compressed
+    else zipTracks(compressed.getAbsolutePath, directory.listFiles.toList)
   }
 
-  private def zipTracks(out: String, files: List[File]) = {
+  private def zipTracks(out: String, files: List[File]): File = {
 
     val zip = new ZipOutputStream(new FileOutputStream(out))
 
@@ -106,6 +106,16 @@ object LibraryManager {
     }
 
     zip.close()
+
+    new File(out)
+  }
+
+  private[this] def zipFileForDirectory(directory: File): File = {
+    new File(s"${directory.getAbsolutePath}.zip")
+  }
+
+  private def invalidateZippedDirectory(directory: File): Unit = {
+    zipFileForDirectory(directory).delete()
   }
 
 }
