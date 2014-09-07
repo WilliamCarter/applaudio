@@ -1,11 +1,13 @@
 Frontend
 --------
-- Update Grunt build with minification, concatenation and other optimisations. SASS maps? SASS watch task?
+- Move directory download to within directory itself, rather than a button on the file.
 - Music player component.
+- Delete file/directory.
+- ASCII art somewhere.
+- Update Grunt build with minification, concatenation and other optimisations. SASS maps? SASS watch task?
 - Track queue component.
 - Auto resizing header.
 - Handle animations better when adding a directory that already exists. Smooth scroll and highlight?
-- Move directory download to within a directory.
 
 Backend
 -------

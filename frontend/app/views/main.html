@@ -14,7 +14,7 @@
 
         <div applaudio-scrollable id="listing-menu" >
 
-            <div class="animate-list-item" ng-repeat="item in dl.listing | filter:query | orderBy:accountForArtists" repeat-end="window.resizeApplication()">
+            <div class="animate-list-item" ng-repeat="item in dl.listing | filter:query | orderBy:listingOrder" repeat-end="window.resizeApplication()">
                 <!--<div id="directory_{{ item.label | htmlify }}">{{item.label}}</div>-->
                 <applaudio-listing-item item="item"></applaudio-listing-item>
             </div>

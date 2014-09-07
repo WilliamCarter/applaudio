@@ -83,12 +83,13 @@ define([
 
         DirectoryListingService.loadContent();
 
-        $scope.accountForArtists = function(directory) {
+        $scope.listingOrder = function(directory) {
             // Convert to lower case and remove preceding "The " if necessary
+            var prefix = (directory.type === "directory") ? "A" : "B";
             if (DirectoryListingService.currentPath() === "/artists") {
-                return directory.label.toLowerCase().replace(/^the /, "");
+                return prefix + directory.label.toLowerCase().replace(/^the /, "");
             } else {
-                return directory.label.toLowerCase();
+                return prefix + directory.label.toLowerCase();
             }
         };
 
