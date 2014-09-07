@@ -9,7 +9,6 @@ import play.api.{Logger, Play}
 
 import scala.io.Source
 
-
 class LibraryManager {
 
   lazy val libraryRoot: String = Play.current.configuration.getString("library.root").get
@@ -57,6 +56,7 @@ class LibraryManager {
           if (newFile.exists) Logger.info("The file " + newFile.getAbsolutePath + " already exists. Upload cancelled.")
           else filePart.ref.moveTo(newFile)
         }
+        invalidateZippedDirectory(directory)
       }
       case None => Logger.warn(s"Enclosing directory ($path) doesn't exist. File Upload cancelled")
     }
@@ -84,7 +84,8 @@ class LibraryManager {
     else zipTracks(compressed.getAbsolutePath, directory.listFiles.toList)
   }
 
-  private def zipTracks(out: String, files: List[File]): File = {
+
+  private[this] def zipTracks(out: String, files: List[File]): File = {
 
     val zip = new ZipOutputStream(new FileOutputStream(out))
 
@@ -114,7 +115,7 @@ class LibraryManager {
     new File(s"${directory.getAbsolutePath}.zip")
   }
 
-  private def invalidateZippedDirectory(directory: File): Unit = {
+  private[this] def invalidateZippedDirectory(directory: File): Unit = {
     zipFileForDirectory(directory).delete()
   }
 

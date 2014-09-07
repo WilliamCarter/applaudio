@@ -1,6 +1,5 @@
 import java.io.File
 
-import play.api.Application
 import play.api.libs.json.{Json, JsValue}
 import play.api.test.PlaySpecification
 import support.{AppConfig, BeforeAndAfter, ApplaudioApp}
@@ -49,6 +48,20 @@ class LibrarySpec extends PlaySpecification {
     "return a 'Not Found' response for files outside of the library root" in new ApplaudioApp with ExternalFile {
       val response = await(request(s"/api/library/../$externalFileName").get)
       response.status must be equalTo (NOT_FOUND)
+    }
+
+  }
+
+  "Downloading albums" should {
+
+    "Return an 'OK' response" in new ApplaudioApp with Album {
+      val response = await(request("/api/library/downloads/artists/Blur/Thirteen").get)
+      response.status must be equalTo (OK)
+    }
+
+    "Return a zip file in the response body" in new ApplaudioApp with Album {
+      val response = await(request("/api/library/downloads/artists/Blur/Thirteen").get)
+      response.body.length must be greaterThan (0)
     }
 
   }
@@ -110,4 +123,28 @@ trait ThreeArtists extends BeforeAndAfter {
     val artistsDirectory = new File(AppConfig.getString("library.root"), "artists")
     artists.foreach { artist => new File(artistsDirectory, artist).delete() }
   }
+}
+
+trait Album extends BeforeAndAfter {
+
+  lazy val libraryRoot = new File(AppConfig.getString("library.root"))
+  lazy val thirteen = new File(libraryRoot, "artists/Blur/Thirteen")
+
+  override def before() = {
+    thirteen.mkdirs()
+    for (i <- 1 to 13) {
+      val output: Output = Resource.fromFile(s"${thirteen.getAbsolutePath}/track_$i.mp3")
+      output.write("fake mp3 file")
+    }
+  }
+
+  override def after() = {
+    thirteen.listFiles.foreach(_.delete())
+    thirteen.delete()
+    val blur = new File(libraryRoot, "artists/Blur")
+    blur.listFiles.foreach(_.delete)
+    blur.delete()
+    new File(libraryRoot, "artists").delete()
+  }
+
 }
