@@ -144,7 +144,6 @@ trait Album extends BeforeAndAfter {
     val blur = new File(libraryRoot, "artists/Blur")
     blur.listFiles.foreach(_.delete)
     blur.delete()
-    new File(libraryRoot, "artists").delete()
   }
 
 }

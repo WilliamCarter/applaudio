@@ -7,7 +7,6 @@ import play.api.libs.Files.TemporaryFile
 import play.api.mvc.MultipartFormData.FilePart
 import play.api.{Logger, Play}
 
-import scala.io.Source
 
 class LibraryManager {
 
@@ -81,17 +80,17 @@ class LibraryManager {
     println(s"compress(${directory.getAbsolutePath})")
     val compressed = zipFileForDirectory(directory)
     if (compressed.exists) compressed
-    else zipTracks(compressed.getAbsolutePath, directory.listFiles.toList)
+    else zipTracks(directory)
   }
 
 
-  private[this] def zipTracks(out: String, files: List[File]): File = {
+  private[this] def zipTracks(directory: File): File = {
 
-    val zip = new ZipOutputStream(new FileOutputStream(out))
+    val zip = new ZipOutputStream(new FileOutputStream(zipFileForDirectory(directory).getAbsolutePath))
 
-    val tracks: List[File] = files.filter(_.isFile).isEmpty match {
-      case true => List(new File("conf/empty.txt"))
-      case false => files.filter(_.isFile)
+    val tracks: List[File] = {
+      val musicFiles = directory.listFiles.toList.filter(track => track.isFile && track.getName.endsWith(".zip"))
+      if (musicFiles.isEmpty) List(new File("conf/empty.txt")) else musicFiles
     }
 
     tracks.foreach { file =>
@@ -107,8 +106,8 @@ class LibraryManager {
     }
 
     zip.close()
-
-    new File(out)
+    
+    zipFileForDirectory(directory)
   }
 
   private[this] def zipFileForDirectory(directory: File): File = {
