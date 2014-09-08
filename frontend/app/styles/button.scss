@@ -27,11 +27,11 @@ button, .button {
         background-color: #999999;
     }
 
-    &:disabled {
+    &.disabled {
         color: #AAAAAA;
     }
 
-    &:disabled, &:active{
+    &.disabled, &:active {
         color: #AAAAAA;
         background-color: #000000;
     }

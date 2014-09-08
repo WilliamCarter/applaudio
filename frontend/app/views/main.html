@@ -32,11 +32,11 @@
                 <add-directory-modal></add-directory-modal>
             </applaudio-ui-modal>
 
-            <applaudio-ui-modal button-text="'Upload Music'">
+            <applaudio-ui-modal ng-class="{disabled: directoryIsEmpty()}" button-text="'Upload Music'">
                 <upload-modal></upload-modal>
             </applaudio-ui-modal>
 
-            <a class=button href="{{dl.downloadAllUrl}}">Download All</a>
+            <a class=button href="{{downloadAllUrl}}" ng-class="{disabled: directoryIsEmpty()}" ng-click="verifyDownloadAction($event)">Download All</a>
 
 
         </div>

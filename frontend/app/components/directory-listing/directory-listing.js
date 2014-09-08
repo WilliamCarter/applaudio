@@ -67,13 +67,29 @@ define([
 
     DirectoryListing.controller('DirectoryListingCtrl', [
         "DirectoryListingService",
+        "ApplaudioUtils",
         "configuration",
         "$scope",
-    function (DirectoryListingService, configuration, $scope) {
+    function (DirectoryListingService, Utils, configuration, $scope) {
 
         var directoryListing = this;
 
-        directoryListing.downloadAllUrl = configuration.paths.api.downloads + DirectoryListingService.currentPath();
+        directoryListing.listing = [];
+
+        $scope.directoryIsEmpty = function() {
+            return !Utils.contains(directoryListing.listing, function(item) {
+                return item.type === "file";
+            });
+        };
+
+        $scope.downloadAllUrl = configuration.paths.api.downloads + DirectoryListingService.currentPath();
+
+        $scope.verifyDownloadAction = function(clickEvent) {
+            // looks like a button but is really an anchor link so we need to disable click event manually.
+            if ($scope.directoryIsEmpty()) {
+                clickEvent.preventDefault();
+            }
+        };
 
         $scope.$watch(
             function () {
