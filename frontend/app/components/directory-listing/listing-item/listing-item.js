@@ -22,17 +22,13 @@ define([
 
                 scope.itemId = scope.item.type + "_" + Utils.htmlify(scope.item.label);
                 scope.iconSrc = "/images/" + (scope.item.type === "file" ? "music" : "folder") + ".png";
-                scope.downloadLink = configuration.paths.api.downloads + DirectoryListingService.currentPath() + "/" + scope.item.label;
+                scope.showDownloadLink = scope.item.type === "file";
 
                 scope.navigate = function() {
                     // Expose navigation if this is a directory
                     if (scope.item.type === "directory") {
                         DirectoryListingService.navigate(scope.item.label);
                     }
-                };
-
-                scope.download = function() {
-                    DirectoryListingService.download(scope.item.label);
                 };
 
             }

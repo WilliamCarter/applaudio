@@ -15,7 +15,6 @@
         <div applaudio-scrollable id="listing-menu" >
 
             <div class="animate-list-item" ng-repeat="item in dl.listing | filter:query | orderBy:listingOrder" repeat-end="window.resizeApplication()">
-                <!--<div id="directory_{{ item.label | htmlify }}">{{item.label}}</div>-->
                 <applaudio-listing-item item="item"></applaudio-listing-item>
             </div>
             <div id="placeholder-holder"><!-- placeholder holder seems to prevent items skipping when placeholder becomes visible. -->
@@ -36,6 +35,8 @@
             <applaudio-ui-modal button-text="'Upload Music'">
                 <upload-modal></upload-modal>
             </applaudio-ui-modal>
+
+            <a class=button href="{{dl.downloadAllUrl}}">Download All</a>
 
 
         </div>

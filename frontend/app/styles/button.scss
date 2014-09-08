@@ -9,10 +9,15 @@ button, .button {
     color: $foreground;
     background: $background;
     border: $borderSize solid;
+    display: block;
+    box-sizing: border-box;
     text-align: center;
+    text-decoration: none;
     transition: background-color 200ms linear;
 
     &:hover {
+        cursor: pointer;
+        text-decoration: none;
         transition: background-color 0ms linear; // no transition on mouse enter.
         background-color: #333333;
     }

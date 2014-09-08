@@ -154,18 +154,18 @@ module.exports = function (grunt) {
 
     });
 
+    grunt.registerTask('css', [
+        'sass',
+        'autoprefixer',
+        'cssmin'
+    ]);
+
     // This will build the application in /public, and will be used when the application is deployed (> sbt run)
     grunt.registerTask('build', [
         'jshint:all',
-
         'karma:unit',
         'clean:dist',
-
-        // CSS
-        'sass',
-        'autoprefixer',
-        'cssmin',
-
+        'css',
         'requirejs',
         'copy'
     ]);

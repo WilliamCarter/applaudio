@@ -54,7 +54,7 @@ define([
                 createDirectory: "/api/librarymanager/directory",
                 upload: "/api/librarymanager/upload",
                 downloads: "/api/library/downloads"
-            },
+            }
         },
 
         messageBar: {

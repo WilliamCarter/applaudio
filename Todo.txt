@@ -3,6 +3,7 @@ Frontend
 - Move directory download to within directory itself, rather than a button on the file.
 - Music player component.
 - Delete file/directory.
+- Organise HTML templates better. Why one massive main.html?
 - ASCII art somewhere.
 - Update Grunt build with minification, concatenation and other optimisations. SASS maps? SASS watch task?
 - Track queue component.

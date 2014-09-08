@@ -67,10 +67,13 @@ define([
 
     DirectoryListing.controller('DirectoryListingCtrl', [
         "DirectoryListingService",
+        "configuration",
         "$scope",
-    function (DirectoryListingService, $scope) {
+    function (DirectoryListingService, configuration, $scope) {
 
         var directoryListing = this;
+
+        directoryListing.downloadAllUrl = configuration.paths.api.downloads + DirectoryListingService.currentPath();
 
         $scope.$watch(
             function () {
@@ -80,8 +83,6 @@ define([
                 directoryListing.listing = newValue;
             }
         );
-
-        DirectoryListingService.loadContent();
 
         $scope.listingOrder = function(directory) {
             // Convert to lower case and remove preceding "The " if necessary
@@ -93,6 +94,7 @@ define([
             }
         };
 
+        DirectoryListingService.loadContent();
 
     }]);
 
