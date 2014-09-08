@@ -33,7 +33,7 @@ define(["components/directory-listing/directory-listing", "angularMocks"], funct
 
         });
 
-        
+
         it("should build the directory download path correctly", function() {
             spyOn(mockDirectoryListingService, 'currentPath').and.returnValue('/artists/The Prodigy');
             initialiseController();

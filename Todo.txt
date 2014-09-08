@@ -1,6 +1,5 @@
 Frontend
 --------
-- Move directory download to within directory itself, rather than a button on the file.
 - Music player component.
 - Delete file/directory.
 - Organise HTML templates better. Why one massive main.html?
