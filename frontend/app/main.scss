@@ -41,6 +41,7 @@ body {
             padding: $pad;
             border: $borderSize solid;
             display: table-cell;
+            vertical-align: top;
         }
 
         #listing-menu {
@@ -81,7 +82,6 @@ body {
             width: 20%;
             height: inherit;
             display: table-cell;
-
             vertical-align: top;
         }
     }
