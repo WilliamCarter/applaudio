@@ -14,21 +14,22 @@ define([
             templateUrl: "components/directory-listing/add-directory-modal/add-directory-modal.html",
             link: function($scope, $element, $attrs) {
 
-                $scope.confirm = function() {
-                    console.log("confirm");
-                    var directoryName = $scope.newDir;
-                    $scope.hide();
+                $scope.confirm = function(directoryName) {
+                    if (directoryName && directoryName.length > 0) {
 
-                    var directoryAlreadyExists = function(file) {
-                        return file.label === directoryName;
-                    }
+                        $scope.hide();
 
-                    if(Utils.contains(DirectoryListingService.listing, directoryAlreadyExists)) {
-                        MessageBarService.addMessage("The directory '" + directoryName + "' already exists");
-                        var existingId = "#directory_" + Utils.htmlify(directoryName);
-                        document.querySelector(existingId).scrollIntoView();
-                    } else {
-                        DirectoryListingService.addDirectory(directoryName);
+                        var directoryAlreadyExists = function(file) {
+                            return file.label === directoryName;
+                        }
+
+                        if(Utils.contains(DirectoryListingService.listing, directoryAlreadyExists)) {
+                            MessageBarService.addMessage("The directory '" + directoryName + "' already exists");
+                            var existingId = "#directory_" + Utils.htmlify(directoryName);
+                            document.querySelector(existingId).scrollIntoView();
+                        } else {
+                            DirectoryListingService.addDirectory(directoryName);
+                        }
                     }
                 }
             }

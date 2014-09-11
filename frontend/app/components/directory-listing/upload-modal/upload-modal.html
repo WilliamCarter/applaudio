@@ -19,6 +19,6 @@
     </div>
 
     <button class="dismissive" ng-click="hide()">Cancel</button>
-    <button class="dismissive" ng-click="confirm()">Add</button>
+    <button class="dismissive" ng-click="confirm()" ng-class="{disabled: !files.length}">Add</button>
 
 </div>

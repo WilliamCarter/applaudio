@@ -47,8 +47,10 @@ define([
                 }
 
                 scope.confirm = function() {
-                    scope.uploadInProgress = true;
-                    UploadService.upload(DirectoryListingService.currentPath(), scope.files);
+                    if (scope.files.length > 0) {
+                        scope.uploadInProgress = true;
+                        UploadService.upload(DirectoryListingService.currentPath(), scope.files);
+                    }
                 };
 
 
