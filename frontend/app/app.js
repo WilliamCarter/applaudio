@@ -7,9 +7,10 @@ define([
 
     "services/utils",
 
-    "ui/scrollable/scrollable",
-    "ui/progress-bar/progress-bar",
     "ui/modal/modal",
+    "ui/on-enter/on-enter",
+    "ui/progress-bar/progress-bar",
+    "ui/scrollable/scrollable",
 
     "components/base/base",
     "components/message-bar/message-bar",

@@ -12,10 +12,12 @@ define([
         return {
             restrict: 'E',
             templateUrl: "components/directory-listing/add-directory-modal/add-directory-modal.html",
-            link: function(scope, element, attrs) {
+            link: function($scope, $element, $attrs) {
 
-                scope.confirm = function(directoryName) {
-                    scope.hide();
+                $scope.confirm = function() {
+                    console.log("confirm");
+                    var directoryName = $scope.newDir;
+                    $scope.hide();
 
                     var directoryAlreadyExists = function(file) {
                         return file.label === directoryName;
