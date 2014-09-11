@@ -97,6 +97,7 @@ define([
             },
             function (newValue) {
                 directoryListing.listing = newValue;
+                window.resizeApplication();
             }
         );
 
