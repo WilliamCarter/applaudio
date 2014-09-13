@@ -5,6 +5,7 @@
 
 @import "styles/404";
 
+@import "ui/infinite-label/infintite-label";
 @import "ui/scrollable/scrollable";
 @import "ui/progress-bar/progress-bar";
 @import "ui/modal/modal";
@@ -13,9 +14,13 @@
 @import "components/directory-listing/upload-modal/upload-modal";
 @import "components/directory-listing/add-directory-modal/add-directory-modal";
 
+$leftPanelWidth: 320px;
+
 body {
 
     background-color: $background;
+    user-select: none;
+    cursor: default;
     font: $verdana;
     color: $foreground;
     overflow: hidden;
@@ -36,12 +41,17 @@ body {
         padding: $pad;
 
         #left-panel {
-            width: 20%;
-            height: 1px; // height is defined by lower-content height, but having initial height of 1, ensures this element doesn't *exceed* the lower-content height.
-            padding: $pad;
+            width: $leftPanelWidth;
+            height: 100%;
             border: $borderSize solid;
             display: table-cell;
             vertical-align: top;
+
+          #left-panel-inner {
+            width: $leftPanelWidth;
+            height: 100%;
+            padding: $pad;
+          }
         }
 
         #listing-menu {

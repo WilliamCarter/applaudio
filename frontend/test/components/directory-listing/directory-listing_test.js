@@ -6,7 +6,7 @@ function() {
 
     describe("The Directory Listing Controller", function() {
 
-        var controller, scope, mockDirectoryListingService, mockApplaudioUtils;
+        var controller, scope, mockDirectoryListingService;
 
         var initialiseController = function() {
             inject(function ($controller, $rootScope) {
@@ -36,6 +36,8 @@ function() {
                 loadContent: function() {}
             };
 
+            window.resizeApplication = function(){};
+
             initialiseController();
 
         });
@@ -63,7 +65,7 @@ function() {
                 controller.listing = [
                     { label: "Nirvana", type: "directory" },
                     { label: "The Red Hot Chili Peppers", type: "directory" }
-                ]
+                ];
                 expect(scope.directoryIsEmpty()).toBe(true);
             });
 
@@ -71,7 +73,7 @@ function() {
                 controller.listing = [
                     { label: "In Utero", type: "directory" },
                     { label: "All Apologies", type: "file" }
-                ]
+                ];
                 expect(scope.directoryIsEmpty()).toBe(false);
             });
 
