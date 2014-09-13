@@ -21,14 +21,14 @@ $pad: 10px;
         opacity: 0;
     }
     100%{
-        height: $listItemHeight + 2 * $pad;
+        height: $listItemHeight - $borderSize;
         opacity: 1;
     }
 }
 
 @keyframes removeFromList {
     0% {
-        height: $listItemHeight + 2 * $pad;
+        height: $listItemHeight - $borderSize;
         opacity: 1;
     }
     100%{
