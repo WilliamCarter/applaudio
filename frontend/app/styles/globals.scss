@@ -3,7 +3,6 @@ $borderSize: 2px;
 $background: #000000;
 $foreground: #FFFFFF;
 $pad: 10px;
-$listItemHeight: 40px;
 
 @keyframes fadeIn {
   0% { opacity: 0 }
@@ -58,8 +57,12 @@ $listItemHeight: 40px;
 html, body, div#container , div#base{
     width: 100%;
     height: 100%;
-    padding: 0px;
-    margin: 0px;
+}
+
+html, body, div {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
 }
 
 .inline {

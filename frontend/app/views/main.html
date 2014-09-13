@@ -2,10 +2,10 @@
 <div id="base" ng-controller="BaseCtrl as base">
 
     <header id="application-header">
-        <h1>
-            <!-- This is ridiculous but the below must all be on the same line, or extra whitespace will be appended to the end of each link... -->
+        <div class="player"></div>
+        <div id="current-directory">
             <div ng-repeat="pathElem in base.currentPathElements track by $index" class="inline"><span>/</span><a href="{{base.linkBackToDepth($index)}}">{{pathElem}}</a></div>
-        </h1>
+        </div>
     </header>
 
     <div id="lower-content" ng-controller="DirectoryListingCtrl as dl">

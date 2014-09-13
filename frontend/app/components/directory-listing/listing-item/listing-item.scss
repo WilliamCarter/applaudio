@@ -7,12 +7,15 @@
     background-color: $background;
 
     img {
-        width: $listItemHeight;
+        width: $listItemHeight - 2*$pad;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
     }
 
     .label {
         position: absolute;
-        left: $pad * 2 + $listItemHeight;
+        left: $listItemHeight;
         top: 50%;
         transform: translate(0, -50%);
     }
