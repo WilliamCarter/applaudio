@@ -1,6 +1,7 @@
 Frontend
 --------
 - Music player component.
+- Fade in auto scrolling label.
 - Delete file/directory.
 - Organise HTML templates better. Why one massive main.html?
 - ASCII art somewhere.
