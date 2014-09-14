@@ -2,7 +2,7 @@
 <div id="base" ng-controller="BaseCtrl as base">
 
     <header id="application-header">
-        <div class="player"></div>
+        <applaudio-player></applaudio-player>
         <div id="current-directory">
             <div ng-repeat="pathElem in base.currentPathElements track by $index" class="inline"><span>/</span><a href="{{base.linkBackToDepth($index)}}">{{pathElem}}</a></div>
         </div>

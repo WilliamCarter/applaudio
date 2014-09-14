@@ -17,6 +17,7 @@ $listItemHeight: 60px;
 @import "components/message-bar/message-bar";
 @import "components/directory-listing/upload-modal/upload-modal";
 @import "components/directory-listing/add-directory-modal/add-directory-modal";
+@import "components/player/player";
 
 
 body {
@@ -32,15 +33,12 @@ body {
 
         height: $playerHeight + 2*$pad;
         margin: 0px;
-        margin-bottom: -$pad;
         padding: 0px;
 
         div.player {
-            border: $borderSize solid;
             width: $leftPanelWidth;
             height: $playerHeight;
             margin: $pad;
-            padding: $pad;
             display: inline-block;
         }
 
