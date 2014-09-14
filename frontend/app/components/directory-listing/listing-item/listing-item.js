@@ -21,8 +21,8 @@ define([
             link: function(scope, element, attrs) {
 
                 scope.itemId = scope.item.type + "_" + Utils.htmlify(scope.item.label);
-                scope.iconSrc = "/images/" + (scope.item.type === "file" ? "music" : "folder") + ".png";
-                scope.showDownloadLink = scope.item.type === "file";
+                scope.iconSrc = "/images/" + (scope.item.type !== "directory" ? "music" : "folder") + ".png";
+                scope.showDownloadLink = scope.item.type !== "directory";
 
                 scope.navigate = function() {
                     // Expose navigation if this is a directory
