@@ -6,8 +6,14 @@ define([
 
     var ApplaudioPlayer = angular.module("ApplaudioPlayer", []);
 
-//    Player.service("ApplaudioPlayerService", function() {
-//    });
+    ApplaudioPlayer.service("ApplaudioPlayerService", function() {
+
+        var PlayerService = this;
+
+        PlayerService.track = null;
+
+        return PlayerService;
+    });
 
 
     ApplaudioPlayer.directive('applaudioPlayer', function () {

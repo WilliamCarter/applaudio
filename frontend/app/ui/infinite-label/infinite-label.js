@@ -17,20 +17,17 @@ define(["ui/ui"], function (ApplaudioUI) {
 
                 var container = $element[0];
                 var content = $element.children()[0];
-
                 var marginLeft = 0;
 
                 var interval;
 
 
                 var setX = function(x) {
-                    console.log("set(" + x + ")");
                     marginLeft = x || 0;
                     content.style.marginLeft = marginLeft + "px";
                 }
 
                 var updateX = function(dx) {
-                    console.log("update(" + dx + ")");
                     marginLeft += dx || 0;
                     content.style.marginLeft = marginLeft + "px";
                 };
