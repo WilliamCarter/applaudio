@@ -90,7 +90,7 @@ class LibraryManager {
     val zip = new ZipOutputStream(new FileOutputStream(zipFileForDirectory(directory).getAbsolutePath))
 
     val tracks: List[File] = {
-      val musicFiles = directory.listFiles.toList.filter(track => track.isFile && track.getName.endsWith(".zip"))
+      val musicFiles = directory.listFiles.toList.filter(track => track.isFile && !track.getName.endsWith(".zip"))
       if (musicFiles.isEmpty) List(new File("conf/empty.txt")) else musicFiles
     }
 

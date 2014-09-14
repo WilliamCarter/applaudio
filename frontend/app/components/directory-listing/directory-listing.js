@@ -78,7 +78,7 @@ define([
 
         $scope.directoryIsEmpty = function() {
             return !Utils.contains(directoryListing.listing, function(item) {
-                return item.type === "file";
+                return item.type !== "directory";
             });
         };
 
