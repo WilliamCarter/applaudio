@@ -13,7 +13,7 @@ define([
     "ui/progress-bar/progress-bar",
     "ui/scrollable/scrollable",
 
-    "components/base/base",
+    "components/navigation/navigation",
     "components/message-bar/message-bar",
     "components/player/player",
     "components/directory-listing/directory-listing",
@@ -40,7 +40,7 @@ define([
         "ngRoute",
         "ngAnimate",
 
-        "Base",
+        "Navigation",
         "ApplaudioPlayer",
         "MessageBar",
         "DirectoryListing",
