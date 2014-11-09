@@ -2,7 +2,15 @@
 <div id="base">
 
     <header id="application-header">
-        <applaudio-player></applaudio-player>
+        <div class="player" ng-controller="PlayerCtrl as player">
+            <infinite-label content="player.track.name || 'Play some tunes'" speed="2"></infinite-label>
+            <table class="buttons">
+                <tr>
+                    <td><button class="play_pause" ng-disabled="!player.playing">{{player.playPause()}}</button></td>
+                    <td><button class="skip" ng-disabled="!player.playing">skip</button></td>
+                </tr>
+            </table>
+        </div>
         <div id="current-directory" ng-controller="NavigationCtrl as nav">
             <div ng-repeat="pathElem in nav.currentPathElements track by $index" class="inline"><span>/</span><a href="{{nav.urlForDepth($index)}}">{{pathElem}}</a></div>
         </div>

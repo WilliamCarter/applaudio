@@ -16,7 +16,7 @@ define(["ui/ui"], function (ApplaudioUI) {
                 var pause = $scope.pause || 2;
 
                 var container = $element[0];
-                var content = $element.children()[0];
+                var contentElement = $element.children()[0];
                 var marginLeft = 0;
 
                 var interval;
@@ -24,18 +24,18 @@ define(["ui/ui"], function (ApplaudioUI) {
 
                 var setX = function(x) {
                     marginLeft = x || 0;
-                    content.style.marginLeft = marginLeft + "px";
+                    contentElement.style.marginLeft = marginLeft + "px";
                 }
 
                 var updateX = function(dx) {
-                    marginLeft += dx || 0;
-                    content.style.marginLeft = marginLeft + "px";
+                    marginLeft += dx;
+                    contentElement.style.marginLeft = marginLeft + "px";
                 };
 
                 var startAutomaticUpdates = function() {
 
                     interval = $interval(function() {
-                        if (-marginLeft > content.offsetWidth) {
+                        if (-marginLeft > contentElement.offsetWidth) {
                             setX(container.offsetWidth + 10);
                         } else {
                             updateX(-speed);
@@ -44,11 +44,6 @@ define(["ui/ui"], function (ApplaudioUI) {
                             }
                         }
                     }, 40);
-                };
-
-                var startAutomaticUpdatesAfter = function(delay) {
-                    stopAutomaticUpdates();
-                    $interval(startAutomaticUpdates, delay*1000, 1);
                 };
 
                 var stopAutomaticUpdates = function() {
@@ -75,20 +70,28 @@ define(["ui/ui"], function (ApplaudioUI) {
 
                 };
 
+                var startAutomaticUpdatesAfter = function(delay) {
+                    stopAutomaticUpdates();
+                    $interval(startAutomaticUpdates, delay*1000, 1);
+                };
+
+
+                // Watch content width.
                 $scope.$watch(function() {
-                    return content.offsetWidth;
+                    return contentElement.offsetWidth;
                 }, function() {
-                    if (content.offsetWidth > container.offsetWidth) {
+                    if (contentElement.offsetWidth > container.offsetWidth) {
+                        angular.element(contentElement).addClass('scrolling');
                         startAutomaticUpdatesAfter(pause);
+                        contentElement.addEventListener('mousedown', startManualUpdates);
                     } else {
-                        // Stop if width can be contained.
+                        angular.element(contentElement).removeClass('scrolling');
                         stopAutomaticUpdates();
-                        marginLeft = 0;
-                        content.style.marginLeftx = marginLeft + "px";
+                        setX(0);
+                        contentElement.removeEventListener('mousedown', startManualUpdates);
                     }
                 });
 
-                content.addEventListener('mousedown', startManualUpdates);
 
             }
         };

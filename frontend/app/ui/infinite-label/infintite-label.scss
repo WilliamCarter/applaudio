@@ -5,6 +5,9 @@
   .infinite-label_content {
     display: inline;
     white-space: nowrap;
-    cursor: ew-resize;
+
+    &.scrolling {
+      cursor: ew-resize;
+    }
   }
 }

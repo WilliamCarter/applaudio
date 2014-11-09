@@ -6,29 +6,49 @@ define([
 
     var ApplaudioPlayer = angular.module("ApplaudioPlayer", []);
 
-    ApplaudioPlayer.service("ApplaudioPlayerService", function() {
+    ApplaudioPlayer.controller("PlayerCtrl", function() {
 
-        var PlayerService = this;
+        var player = this;
 
-        PlayerService.track = null;
+        player.track = {
+            name: "Reasonably long title for a song.mp3"
+        };
 
-        return PlayerService;
-    });
+        player.playing = false;
+        player.paused = false;
 
-
-    ApplaudioPlayer.directive('applaudioPlayer', function () {
-        return {
-            restrict: "E",
-            replace: true,
-            templateUrl: "components/player/player.html",
-            link: function ($scope, $element, $attrs) {
-                console.log("ApplaudioPlayer");
-                $scope.track = {
-                    name: "Reasonably long name.mp3"
-                }
+        player.playPause = function() {
+            if (player.playing && !player.paused) {
+                return "||";
+            } else {
+                return "Play"
             }
         }
     });
+
+//    ApplaudioPlayer.service("ApplaudioPlayerService", function() {
+//
+//        var PlayerService = this;
+//
+//        PlayerService.track = null;
+//
+//        return PlayerService;
+//    });
+//
+//
+//    ApplaudioPlayer.directive('applaudioPlayer', function () {
+//        return {
+//            restrict: "E",
+//            replace: true,
+//            templateUrl: "components/player/player.html",
+//            link: function ($scope, $element, $attrs) {
+//                console.log("ApplaudioPlayer");
+//                $scope.track = {
+//                    name: "Reasonably long name.mp3"
+//                }
+//            }
+//        }
+//    });
 
 
     return ApplaudioPlayer;
