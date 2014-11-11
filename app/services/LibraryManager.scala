@@ -18,7 +18,7 @@ class LibraryManager {
 
     getFile(path).flatMap { file =>
       if (!file.isDirectory) None
-      else Option(file.listFiles.toList.filterNot(item => item.getName.startsWith(".") || item.getName.endsWith((".zip"))))
+      else Option(file.listFiles.toList.filterNot(item => item.getName.startsWith(".") || item.getName.endsWith(".zip")))
     }
   }
   def getDirectoryListing(file: File): Option[List[File]] = getDirectoryListing(file.getAbsolutePath)

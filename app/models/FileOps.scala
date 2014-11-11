@@ -6,29 +6,35 @@ import java.net.URLEncoder
 import play.api.Play
 import play.api.libs.json.{Json, Writes}
 
-object FileOps {
+trait FileOps {
 
   implicit val writes = new Writes[File] {
     def writes(file: File) = {
       if (file.isDirectory)
         Json.obj(
-          "label" -> label(file),
+          "label" -> FileOps.label(file),
           "type" -> "directory")
       else
         Json.obj(
-          "label" -> label(file),
-          "type" -> extension(file),
-          "location" -> controllers.routes.Api.getMusicFile(encodedPathFromLibrary(file), "false").url,
-          "download" -> controllers.routes.Api.getMusicFile(encodedPathFromLibrary(file), "true").url)
+          "label" -> FileOps.label(file),
+          "type" -> FileOps.extension(file),
+          "location" -> controllers.routes.Api.getMusicFile(FileOps.encodedPathFromLibrary(file), "false").url,
+          "download" -> controllers.routes.Api.getMusicFile(FileOps.encodedPathFromLibrary(file), "true").url)
     }
   }
 
-  private[this] def label(file: File): String = file.getAbsolutePath.split('/').last.split('.').head
-  private[this] def extension(file: File): String = file.getAbsolutePath.split('.').last
-  private[this] def pathFromLibrary(file: File): String = {
-    val libraryRoot = Play.current.configuration.getString("library.root").get
-    file.getCanonicalPath.split(libraryRoot).last
+}
+
+object FileOps {
+
+  lazy val libraryRoot = Play.current.configuration.getString("library.root").get
+
+  def label(file: File): String = {
+    val filename = file.getAbsolutePath.split('/').last
+    if (file.isDirectory) filename else filename.substring(0, filename.lastIndexOf('.'))
   }
-  private[this] def encodedPathFromLibrary(file: File): String = URLEncoder.encode(pathFromLibrary(file), "UTF-8")
+  def extension(file: File): String = file.getAbsolutePath.split('.').last
+  def pathFromLibrary(file: File, libraryRoot: String = libraryRoot): String = file.getCanonicalPath.split(libraryRoot).last
+  def encodedPathFromLibrary(file: File): String = URLEncoder.encode(pathFromLibrary(file), "UTF-8")
 
 }

@@ -2,19 +2,18 @@ package controllers
 
 import java.net.URLDecoder
 
+import models.FileOps
 import play.api.libs.json.Json
 import play.api.mvc._
 import services.LibraryManager
 import utils.ConvertibleInt._
 
-object Api extends Controller {
+object Api extends Controller with FileOps {
 
   val libraryManagerService = new LibraryManager
 
   def getDirectoryListing(path: String) = Action { implicit request =>
     println("Api.getDirectoryListing(" + path + ")")
-
-    import models.FileOps.writes
 
     libraryManagerService.getDirectoryListing(URLDecoder.decode(path, "UTF-8")) match {
       case Some(listing) => Ok (Json.obj("listing" -> listing))

@@ -16,3 +16,8 @@ Backend
   - Use a database for all metadata.
   - Reference music files by key, not by their actual location. This is dangerous!
 - Investigate file upload security. Accept only certain types of file.
+
+
+Bugs
+----
+Cannot create directory with '/' in the name
