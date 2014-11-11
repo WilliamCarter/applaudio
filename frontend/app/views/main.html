@@ -2,12 +2,12 @@
 <div id="base">
 
     <header id="application-header">
-        <div class="player" ng-controller="PlayerCtrl as player">
-            <infinite-label content="player.track.name || 'Play some tunes'" speed="2"></infinite-label>
+        <div class="player" ng-controller="PlayerCtrl">
+            <infinite-label content="bindings.track.label || 'Play some tunes'" speed="2"></infinite-label>
             <table class="buttons">
                 <tr>
-                    <td><button class="play_pause" ng-disabled="!player.playing">{{player.playPause()}}</button></td>
-                    <td><button class="skip" ng-disabled="!player.playing">skip</button></td>
+                    <td><button class="play_pause" ng-disabled="!bindings.track" ng-click="playPause()">{{playPauseLabel()}}</button></td>
+                    <td><button class="skip" ng-disabled="!bindings.track">skip</button></td>
                 </tr>
             </table>
         </div>

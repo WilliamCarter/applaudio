@@ -8,9 +8,8 @@ define([
     DirectoryListing.directive("applaudioListingItem", [
         "ApplaudioUtils",
         "DirectoryListingService",
-        "$http",
-        "configuration",
-    function(Utils, DirectoryListingService, $http, configuration) {
+        "PlayerService",
+    function(Utils, DirectoryListingService, PlayerService) {
 
         return {
             restrict: 'E',
@@ -23,6 +22,13 @@ define([
                 scope.itemId = scope.item.type + "_" + Utils.htmlify(scope.item.label);
                 scope.iconSrc = "/images/" + (scope.item.type !== "directory" ? "music" : "folder") + ".png";
                 scope.showDownloadLink = scope.item.type !== "directory";
+
+                scope.loadAndPlay = function() {
+                    console.log("loadAndPlay()");
+                    if(scope.item.type !== "directory") {
+                        PlayerService.setTrack(scope.item);
+                    }
+                };
 
                 scope.navigate = function() {
                     // Expose navigation if this is a directory

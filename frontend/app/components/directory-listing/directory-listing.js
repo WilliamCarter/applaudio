@@ -3,11 +3,12 @@
 define([
     "angular",
     "components/directory-listing/file",
+    "components/player/player",
     "services/utils",
     "services/upload"
 ], function (angular, File) {
 
-    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities", "MessageBar"]);
+    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities", "MessageBar", "ApplaudioPlayer"]);
 
     DirectoryListing.service("DirectoryListingService", [
         "ApplaudioUtils",
