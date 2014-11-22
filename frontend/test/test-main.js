@@ -20,6 +20,9 @@ requirejs.config({
         angular: "bower_components/angular/angular",
         angularAnimate: "bower_components/angular-animate/angular-animate",
         angularRoute: "bower_components/angular-route/angular-route",
+        angularUiTree: "bower_components/angular-ui-tree/dist/angular-ui-tree",
+        es5Shim: "bower_components/es5-shim/es5-shim",
+        howler: "bower_components/howler/howler",
         angularMocks: "bower_components/angular-mocks/angular-mocks"
     },
 
@@ -27,6 +30,7 @@ requirejs.config({
         angular: { exports: "angular" },
         angularAnimate: ["angular"],
         angularRoute: ["angular"],
+        angularUiTree: ["angular", "ec5shim"],
         angularMocks: ["angular"]
     },
 

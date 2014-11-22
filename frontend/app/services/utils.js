@@ -147,17 +147,19 @@ define(["angular"], function(angular){
     }]);
 
 
-    ApplaudioUtilities.directive('repeatEnd', function () {
+    ApplaudioUtilities.directive('repeatEnd', [ "$parse", function ($parse) {
 
         // This is a hook for executing code after an ng-repeat has rendered.
-
-        return function(scope, element, attrs) {
-            if (scope.$last){
-                eval(attrs.repeatEnd);
+        return {
+            restrict: "A",
+            link: function(scope, element, attrs) {
+                if (scope.$last) {
+                    $parse(attrs.repeatEnd)(scope);
+                }
             }
         };
 
-    });
+    }]);
 
 
 

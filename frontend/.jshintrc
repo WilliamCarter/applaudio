@@ -13,6 +13,7 @@
     "regexp": true,
     "undef": true,
     "trailing": true,
+    "shadow": true, // Disable "shadowing" (<variable> is already defined). This fires with for loop indexes.
     "smarttabs": true,
     "globals": {
         "angular": false,

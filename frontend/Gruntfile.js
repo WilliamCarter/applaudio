@@ -169,6 +169,10 @@ module.exports = function (grunt) {
         'cssmin'
     ]);
 
+    grunt.registerTask('test', [
+        'karma:unit'
+    ]);
+
     // This will build the application in /public, and will be used when the application is deployed (> sbt run)
     grunt.registerTask('build', [
         'jshint:all',
