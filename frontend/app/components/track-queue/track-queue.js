@@ -5,14 +5,31 @@ define([
 
     var ApplaudioTrackQueue = angular.module("ApplaudioTrackQueue", ["ui.tree"]);
 
+    ApplaudioTrackQueue.service('TrackQueueService', [ function() {
+
+        var TrackQueueService = this;
+
+        TrackQueueService.queue = [];
+
+        TrackQueueService.queueTrack = function(track) {
+            TrackQueueService.queue.push(track);
+        };
+
+        TrackQueueService.getNext = function() {
+            return TrackQueueService.queue.shift();
+        };
+
+        return TrackQueueService;
+
+    }]);
+
     ApplaudioTrackQueue.controller("TrackQueueCtrl", [
         "$scope",
-    function($scope) {
+        "TrackQueueService",
+    function($scope, TrackQueueService) {
 
-        $scope.queue = [
-            { name: "Walk the Line - Johnny Cash" },
-            { name: "Hurt - Johnny Cash" }
-        ];
+        $scope.queue = TrackQueueService.queue;
+
     }]);
 
     return ApplaudioTrackQueue;

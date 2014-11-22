@@ -9,7 +9,8 @@ define([
         "ApplaudioUtils",
         "DirectoryListingService",
         "PlayerService",
-    function(Utils, DirectoryListingService, PlayerService) {
+        "TrackQueueService",
+    function(Utils, DirectoryListingService, PlayerService, TrackQueueService) {
 
         return {
             restrict: 'E',
@@ -28,6 +29,10 @@ define([
                     if(scope.item.type !== "directory") {
                         PlayerService.setTrack(scope.item);
                     }
+                };
+
+                scope.queueTrack = function() {
+                    TrackQueueService.queueTrack(scope.item);
                 };
 
                 scope.navigate = function() {

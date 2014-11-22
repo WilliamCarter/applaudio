@@ -69,6 +69,7 @@ body {
             height: 100%;
             display: table-cell;
             vertical-align: top;
+            font-size: 14px;
 
             @import "components/track-queue/track-queue";
         }
@@ -114,4 +115,13 @@ body {
             vertical-align: top;
         }
     }
+}
+
+.angular-ui-tree-drag {
+  position: absolute;
+  font-size: 14px;
+  z-index: 999;
+  opacity: .8;
+  list-style-type: none;
+  pointer-events: none;
 }

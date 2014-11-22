@@ -22,8 +22,8 @@
             <div id="track-queue" ng-controller="TrackQueueCtrl">
                 <div ui-tree>
                     <ol ui-tree-nodes ng-model="queue">
-                        <li ng-repeat="track in queue" ui-tree-node>
-                            <div ui-tree-handle>{{track.name}}</div>
+                        <li ng-repeat="track in queue track by $index" ui-tree-node>
+                            <div class="queued-item" ui-tree-handle><span class="track-label">{{track.label}}</span></div>
                         </li>
                     </ol>
                 </div>
