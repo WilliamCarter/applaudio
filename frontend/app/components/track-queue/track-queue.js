@@ -3,16 +3,30 @@ define([
     "angularUiTree"
 ], function (angular) {
 
-    var ApplaudioTrackQueue = angular.module("ApplaudioTrackQueue", ["ui.tree"]);
+    var ApplaudioTrackQueue = angular.module("ApplaudioTrackQueue", ["ApplaudioUtilities", "MessageBar", "ui.tree"]);
 
-    ApplaudioTrackQueue.service('TrackQueueService', [ function() {
+    ApplaudioTrackQueue.service('TrackQueueService', [ "MessageBarService", "ApplaudioUtils", function(MessageBarService, ApplaudioUtils) {
 
         var TrackQueueService = this;
 
         TrackQueueService.queue = [];
 
         TrackQueueService.queueTrack = function(track) {
-            TrackQueueService.queue.push(track);
+//            var containsLocation = function(otherTrack) {
+//                return track.location === otherTrack.location;
+//            };
+            if (ApplaudioUtils.contains(TrackQueueService.queue, function(otherTrack) {
+                console.log("comparing track location");
+                console.log(track.location);
+                console.log(otherTrack.location);
+                return track.location === otherTrack.location;
+            })) {
+                console.log("Track already in queue");
+                MessageBarService.addMessage("Soz lol, but that track is already in the queue and due to a bizarre bug in angular-ui-tree, you can't add it again.");
+            } else {
+                console.log("Add track to queue");
+                TrackQueueService.queue.push(track);
+            }
         };
 
         TrackQueueService.getNext = function() {
@@ -28,7 +42,23 @@ define([
         "TrackQueueService",
     function($scope, TrackQueueService) {
 
+        $scope.queueEvents = {
+            accept: function(sourceNodeScope, destNodesScope, destIndex) {
+                console.log("accept");
+                return true;
+            },
+            drop: function(event) {
+                console.log("dropped");
+                console.log(event);
+            }
+        };
+
         $scope.queue = TrackQueueService.queue;
+        $scope.$watch(function() { return TrackQueueService.queue.length; }, function(newQueue, oldQueue) {
+            console.log("Queue changed");
+            console.log(TrackQueueService.queue.map(function(track){ return track.label; }));
+//            $scope.queue = TrackQueueService.queue;
+        });
 
     }]);
 
