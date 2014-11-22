@@ -3,5 +3,9 @@
   width: $leftPanelWidth;
   height: 100%;
   min-height: 400px;
-  padding: $pad;
+
+  ol {
+    padding: 0px;
+    margin: 0px;
+  }
 }

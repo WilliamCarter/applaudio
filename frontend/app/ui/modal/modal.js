@@ -14,12 +14,12 @@ define(["ui/ui"], function (ApplaudioUI) {
                 scope.show = function() {
                     console.log("showing modal");
                     scope.active = true;
-                }
+                };
 
                 scope.hide = function() {
                     console.log("hiding modal");
                     scope.active = false;
-                }
+                };
             }
         };
     });

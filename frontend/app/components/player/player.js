@@ -1,5 +1,3 @@
-'use strict';
-
 define([
     "angular",
     "howler"
@@ -15,12 +13,12 @@ define([
         $scope.bindings = PlayerService.bindings;
 
         $scope.playPauseLabel = function() {
-            if ($scope.bindings.track != null && !$scope.bindings.paused) {
+            if ($scope.bindings.track !== null && !$scope.bindings.paused) {
                 return "||";
             } else {
                 return "Play";
             }
-        }
+        };
 
         $scope.playPause = PlayerService.play;
     }]);

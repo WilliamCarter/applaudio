@@ -70,7 +70,7 @@ define(["angular"], function(angular){
                     }
                 }
 
-            }
+            };
 
             areEqualIteration(first, second);
 
@@ -111,7 +111,7 @@ define(["angular"], function(angular){
             clone: clone,
             merge: merge,
             htmlify: htmlify
-        }
+        };
 
     });
 
@@ -131,7 +131,7 @@ define(["angular"], function(angular){
 
     ApplaudioUtilities.filter('removeExtension', [
         "configuration",
-    function() {
+    function(configuration) {
         return function(inputString) {
             // e.g. replace "Los.mp3" with "Los"
             for (var i = 0; i < configuration.supportedMedia.extensions.length; i++) {

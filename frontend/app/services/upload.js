@@ -1,5 +1,3 @@
-'use strict';
-
 define(["angular"], function (angular) {
 
     var ApplaudioUpload = angular.module("ApplaudioUpload", [
@@ -28,7 +26,7 @@ define(["angular"], function (angular) {
             var uploadData = new FormData();
             uploadData.append("path", path);
             Utils.forEach(uploadFiles, function(file){
-                uploadData.append(file.name, file)
+                uploadData.append(file.name, file);
             });
 
             var xhr = new XMLHttpRequest();

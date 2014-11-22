@@ -25,7 +25,7 @@ define(["ui/ui"], function (ApplaudioUI) {
                 var setX = function(x) {
                     marginLeft = x || 0;
                     contentElement.style.marginLeft = marginLeft + "px";
-                }
+                };
 
                 var updateX = function(dx) {
                     marginLeft += dx;

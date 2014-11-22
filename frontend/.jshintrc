@@ -1,22 +1,22 @@
 {
-  "node": true,
-  "browser": true,
-  "esnext": true,
-  "bitwise": true,
-  "camelcase": true,
-  "curly": true,
-  "eqeqeq": true,
-  "immed": true,
-  "latedef": true,
-  "newcap": true,
-  "noarg": true,
-  "regexp": true,
-  "undef": true,
-  "strict": true,
-  "trailing": true,
-  "smarttabs": true,
-  "globals": {
-    "angular": false,
-    "define": false
-  }
+    "node": true,
+    "browser": true,
+    "esnext": true,
+    "bitwise": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "regexp": true,
+    "undef": true,
+    "trailing": true,
+    "smarttabs": true,
+    "globals": {
+        "angular": false,
+        "define": false,
+        "Howl": false
+    }
 }

@@ -1,5 +1,3 @@
-'use strict';
-
 define([
     "angular",
     "angularUiTree"
@@ -11,7 +9,10 @@ define([
         "$scope",
     function($scope) {
 
-        $scope.queue = [];
+        $scope.queue = [
+            { name: "Walk the Line - Johnny Cash" },
+            { name: "Hurt - Johnny Cash" }
+        ];
     }]);
 
     return ApplaudioTrackQueue;

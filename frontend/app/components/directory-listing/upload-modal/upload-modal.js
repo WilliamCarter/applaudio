@@ -44,7 +44,7 @@ define([
                     }
 
                     scope.$apply();
-                }
+                };
 
                 scope.confirm = function() {
                     if (scope.files.length > 0) {

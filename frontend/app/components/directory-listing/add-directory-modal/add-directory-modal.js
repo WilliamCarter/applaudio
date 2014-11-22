@@ -21,7 +21,7 @@ define([
 
                         var directoryAlreadyExists = function(file) {
                             return file.label === directoryName;
-                        }
+                        };
 
                         if(Utils.contains(DirectoryListingService.listing, directoryAlreadyExists)) {
                             MessageBarService.addMessage("The directory '" + directoryName + "' already exists");
@@ -31,7 +31,7 @@ define([
                             DirectoryListingService.addDirectory(directoryName);
                         }
                     }
-                }
+                };
             }
         };
     }]);

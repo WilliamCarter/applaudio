@@ -35,10 +35,8 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= paths.app %>/js/controllers/*.js',
-                '<%= paths.app %>/js/directives/*.js',
-                '<%= paths.app %>/js/services/*.js',
-                '<%= paths.app %>/js/*.js'
+                '<%= paths.app %>/!(bower_components|404)/**/*.js',
+                '<%= paths.app %>/*.js'
             ]
         },
 
@@ -64,7 +62,7 @@ module.exports = function (grunt) {
           },
           default: {
             src: "<%= paths.app %>/styles/*.css"
-          },
+          }
         },
 
         // Copies remaining files to dist.
@@ -92,7 +90,7 @@ module.exports = function (grunt) {
                     dest: '<%= paths.dist %>/images',
                     src: ['generated/*']
                 }]
-            },
+            }
         },
 
         // compile '.scss' files to '.css'
@@ -150,6 +148,17 @@ module.exports = function (grunt) {
 
                 }
             }
+        },
+
+        watch: {
+            js: {
+                files: ['<%= paths.app %>/**/*.js'],
+                tasks: ['jshint']
+            },
+            css: {
+                files: ['<%= paths.app %>/**/*.scss'],
+                tasks: ['css']
+            }
         }
 
     });
@@ -173,8 +182,7 @@ module.exports = function (grunt) {
     // Currently this just checks for basic mistakes and compiles the CSS.
     grunt.registerTask('dev', [
         'jshint:all',
-        'sass',
-        'autoprefixer'
+        'css'
     ]);
 
     grunt.registerTask('default', [

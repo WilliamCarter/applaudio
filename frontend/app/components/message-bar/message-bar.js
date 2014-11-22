@@ -1,12 +1,9 @@
-'use strict';
-
 define([
     "angular"
 ], function(angular) {
 
     var MessageBar = angular.module('MessageBar', []);
 
-    'use strict';
     MessageBar.factory('MessageBarService', function() {
 
         var messageQueue = [];
