@@ -15,12 +15,12 @@ define([
 
     "components/navigation/navigation",
     "components/message-bar/message-bar",
-    "components/player/player",
     "components/directory-listing/directory-listing",
     "components/directory-listing/listing-item/listing-item",
     "components/directory-listing/upload-modal/upload-modal",
     "components/directory-listing/add-directory-modal/add-directory-modal",
-
+    "components/player/player",
+    "components/track-queue/track-queue"
 
 ], function(angular) {
 
@@ -42,6 +42,7 @@ define([
 
         "Navigation",
         "ApplaudioPlayer",
+        "ApplaudioTrackQueue",
         "MessageBar",
         "DirectoryListing",
 

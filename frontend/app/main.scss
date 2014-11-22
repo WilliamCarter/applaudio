@@ -70,14 +70,7 @@ body {
             display: table-cell;
             vertical-align: top;
 
-            #left-panel-inner {
-                border: $borderSize solid;
-                width: $leftPanelWidth;
-                height: 100%;
-                min-height: 400px;
-                padding: $pad;
-            }
-
+            @import "components/track-queue/track-queue";
         }
 
         #listing-menu {
