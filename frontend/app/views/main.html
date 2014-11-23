@@ -3,11 +3,11 @@
 
     <header id="application-header">
         <div class="player" ng-controller="PlayerCtrl">
-            <infinite-label content="bindings.track.label || 'Play some tunes'" speed="2"></infinite-label>
+            <infinite-label content="display()" speed="2"></infinite-label>
             <table class="buttons">
                 <tr>
-                    <td><button class="play_pause" ng-disabled="!bindings.track" ng-click="playPause()">{{playPauseLabel()}}</button></td>
-                    <td><button class="skip" ng-disabled="!bindings.track">skip</button></td>
+                    <td><button class="play_pause" ng-disabled="!playable()" ng-click="playPause()">{{playPauseLabel()}}</button></td>
+                    <td><button class="skip" ng-disabled="!skippable()" ng-click="skip()">skip</button></td>
                 </tr>
             </table>
         </div>

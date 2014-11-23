@@ -25,8 +25,12 @@ define([
             }
         };
 
+        TrackQueueService.isEmpty = function() {
+            return TrackQueueService.queue.length === 0;
+        };
+
         TrackQueueService.getNext = function() {
-            return TrackQueueService.queue.shift();
+            return TrackQueueService.isEmpty() ? null : TrackQueueService.queue.shift();
         };
 
         return TrackQueueService;
