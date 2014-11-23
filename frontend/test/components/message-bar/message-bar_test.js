@@ -4,8 +4,18 @@ define(["components/message-bar/message-bar", "angularMocks"], function() {
 
         var messageBarService;
 
+        var mockConfiguration = {
+            messageBar: {
+                showDuration: 2
+            }
+        };
+
         beforeEach(function() {
             module('MessageBar');
+
+            module(function ($provide) {
+                $provide.value('configuration', mockConfiguration);
+            });
 
             inject(function(_MessageBarService_) {
                 messageBarService = _MessageBarService_;
@@ -52,13 +62,8 @@ define(["components/message-bar/message-bar", "angularMocks"], function() {
         var warning = {
             id: 836,
             message: "You have bad taste in music",
-            type: "warning"
-        };
-
-        var mockConfiguration = {
-            messageBar: {
-                showDuration: 2
-            }
+            type: "warning",
+            duration: 2
         };
 
         beforeEach(function(){
@@ -76,8 +81,7 @@ define(["components/message-bar/message-bar", "angularMocks"], function() {
                 $controller('MessageBarCtrl', {
                     $scope: scope,
                     $interval: interval,
-                    MessageBarService: mockMessageBarService,
-                    configuration: mockConfiguration
+                    MessageBarService: mockMessageBarService
                 });
 
             });
@@ -114,14 +118,14 @@ define(["components/message-bar/message-bar", "angularMocks"], function() {
 
         it('should hide the message after the timeout has expired', function() {
             scope.show(warning);
-            interval.flush(mockConfiguration.messageBar.showDuration + 1);
+            interval.flush(warning.duration + 1);
             expect(scope.visible).toBe(false);
         });
 
         it('should notify the service to remove the message after it has been shown', function() {
             spyOn(mockMessageBarService, 'removeMessage');
             scope.show(warning);
-            interval.flush(mockConfiguration.messageBar.showDuration + 1);
+            interval.flush(warning.duration + 1);
             expect(mockMessageBarService.removeMessage).toHaveBeenCalled();
         });
 

@@ -1,8 +1,9 @@
 define([
     "services/utils",
     "components/directory-listing/directory-listing",
-    "angularMocks"],
-function() {
+    "ui/ui",
+    "angularMocks"
+], function() {
 
     describe("The Directory Listing Controller", function() {
 
@@ -29,6 +30,7 @@ function() {
 
             module("DirectoryListing");
             module("ApplaudioUtilities");
+            module("ApplaudioUI");
 
             mockDirectoryListingService = {
                 listing: [],

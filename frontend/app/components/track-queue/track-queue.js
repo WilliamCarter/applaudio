@@ -20,7 +20,7 @@ define([
             };
             if (ArraysExtension.contains(TrackQueueService.queue, containsLocation)) {
                 console.log("Track already in queue");
-                MessageBarService.addMessage(configuration.alerts.trackQueueDuplicates);
+                MessageBarService.addMessage(configuration.alerts.trackQueueDuplicates, "error", 1000);
             } else {
                 console.log("Add track to queue");
                 TrackQueueService.queue.push(track);

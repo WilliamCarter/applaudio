@@ -4,20 +4,23 @@ define([
 
     var MessageBar = angular.module('MessageBar', []);
 
-    MessageBar.factory('MessageBarService', function() {
+    MessageBar.factory('MessageBarService', [
+        "configuration",
+    function(configuration) {
 
         var messageQueue = [];
 
         var messageId = 0;
 
-        function addMessage(message, type) {
+        function addMessage(message, type, duration) {
             if (type === undefined) {
                 type = "standard";
             }
             messageQueue.push({
                 "id": messageId++,
                 "message": message,
-                "type": type
+                "type": (type || "standard"),
+                duration: (duration || configuration.messageBar.showDuration)
             });
         }
 
@@ -31,15 +34,14 @@ define([
             removeMessage : removeMessage
         };
 
-    });
+    }]);
 
 
     MessageBar.controller('MessageBarCtrl', [
         "$scope",
         "$interval",
         "MessageBarService",
-        "configuration",
-    function ($scope, $interval, MessageBarService, configuration) {
+    function ($scope, $interval, MessageBarService) {
 
             $scope.message = '';
             $scope.type = 'standard'; // "standard" or "error"
@@ -53,7 +55,7 @@ define([
                 $interval(function () {
                     $scope.dismiss();
                     MessageBarService.removeMessage();
-                }, configuration.messageBar.showDuration, 1);
+                }, messageObject.duration, 1);
             };
 
             $scope.dismiss = function () {
