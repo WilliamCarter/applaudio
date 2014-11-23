@@ -6,7 +6,7 @@ define([
 
     var ApplaudioTrackQueue = angular.module("ApplaudioTrackQueue", ["MessageBar", "ui.tree"]);
 
-    ApplaudioTrackQueue.service('TrackQueueService', [ "MessageBarService", function(MessageBarService) {
+    ApplaudioTrackQueue.service('TrackQueueService', [ "MessageBarService", "configuration", function(MessageBarService, configuration) {
 
         var TrackQueueService = this;
 
@@ -18,7 +18,7 @@ define([
             };
             if (ArraysExtension.contains(TrackQueueService.queue, containsLocation)) {
                 console.log("Track already in queue");
-                MessageBarService.addMessage("Soz lol, but that track is already in the queue and due to a bizarre bug in angular-ui-tree, you can't add it again.");
+                MessageBarService.addMessage(configuration.alerts.trackQueueDuplicates);
             } else {
                 console.log("Add track to queue");
                 TrackQueueService.queue.push(track);
@@ -57,7 +57,6 @@ define([
         $scope.$watch(function() { return TrackQueueService.queue.length; }, function(newQueue, oldQueue) {
             console.log("Queue changed");
             console.log(TrackQueueService.queue.map(function(track){ return track.label; }));
-//            $scope.queue = TrackQueueService.queue;
         });
 
     }]);

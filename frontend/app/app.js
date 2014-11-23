@@ -66,6 +66,10 @@ define([
             showDuration: 3000
         },
 
+        alerts: {
+            trackQueueDuplicates: "Soz lol, but that track is already in the queue and due to a bizarre bug in angular-ui-tree, you can't add it again."
+        },
+
         supportedMedia : {
             types: ["audio/mpeg", "audio/mp3", "audio/ogg"],
             extensions: [".mpeg", ".mp3", ".ogg"]
