@@ -1,26 +1,22 @@
 define([
     "angular",
+    "catext/catext-arrays",
     "angularUiTree"
-], function (angular) {
+], function (angular, ArraysExtension) {
 
-    var ApplaudioTrackQueue = angular.module("ApplaudioTrackQueue", ["ApplaudioUtilities", "MessageBar", "ui.tree"]);
+    var ApplaudioTrackQueue = angular.module("ApplaudioTrackQueue", ["MessageBar", "ui.tree"]);
 
-    ApplaudioTrackQueue.service('TrackQueueService', [ "MessageBarService", "ApplaudioUtils", function(MessageBarService, ApplaudioUtils) {
+    ApplaudioTrackQueue.service('TrackQueueService', [ "MessageBarService", function(MessageBarService) {
 
         var TrackQueueService = this;
 
         TrackQueueService.queue = [];
 
         TrackQueueService.queueTrack = function(track) {
-//            var containsLocation = function(otherTrack) {
-//                return track.location === otherTrack.location;
-//            };
-            if (ApplaudioUtils.contains(TrackQueueService.queue, function(otherTrack) {
-                console.log("comparing track location");
-                console.log(track.location);
-                console.log(otherTrack.location);
+            var containsLocation = function(otherTrack) {
                 return track.location === otherTrack.location;
-            })) {
+            };
+            if (ArraysExtension.contains(TrackQueueService.queue, containsLocation)) {
                 console.log("Track already in queue");
                 MessageBarService.addMessage("Soz lol, but that track is already in the queue and due to a bizarre bug in angular-ui-tree, you can't add it again.");
             } else {

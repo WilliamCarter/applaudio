@@ -1,13 +1,10 @@
 define(["angular"], function (angular) {
 
-    var ApplaudioUpload = angular.module("ApplaudioUpload", [
-        "ApplaudioUtilities"
-    ]);
+    var ApplaudioUpload = angular.module("ApplaudioUpload", []);
 
     ApplaudioUpload.service("UploadService", [
-        "ApplaudioUtils",
         "configuration",
-    function(Utils, configuration){
+    function(configuration){
 
         var UploadService = this;
 
@@ -25,7 +22,7 @@ define(["angular"], function (angular) {
 
             var uploadData = new FormData();
             uploadData.append("path", path);
-            Utils.forEach(uploadFiles, function(file){
+            uploadFiles.forEach(function(file){
                 uploadData.append(file.name, file);
             });
 
@@ -41,7 +38,7 @@ define(["angular"], function (angular) {
 
             xhrUploadObject.addEventListener("load", function(e) {
                 console.log("upload successful");
-                Utils.forEach(progressSubscriberCallbacks, function(subscriberCallback) {
+                progressSubscriberCallbacks.forEach(function(subscriberCallback) {
                     subscriberCallback({ type: "complete", success: true });
                 });
             }, false);
@@ -51,7 +48,7 @@ define(["angular"], function (angular) {
 
                     var percentComplete = (event.loaded / event.total)*100;
                     console.log("Percent Complete: " + percentComplete);
-                    Utils.forEach(progressSubscriberCallbacks, function(subscriberCallback) {
+                    progressSubscriberCallbacks.forEach(function(subscriberCallback) {
                         subscriberCallback({ type: "progress", progress: percentComplete });
                     });
 

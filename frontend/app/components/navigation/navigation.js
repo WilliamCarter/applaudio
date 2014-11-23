@@ -5,7 +5,7 @@ define([
     "components/directory-listing/directory-listing"
 ], function (angular) {
 
-    var Navigation = angular.module("Navigation", ["ApplaudioUtilities"]);
+    var Navigation = angular.module("Navigation", []);
 
     Navigation.controller('NavigationCtrl', [
         "DirectoryListingService",

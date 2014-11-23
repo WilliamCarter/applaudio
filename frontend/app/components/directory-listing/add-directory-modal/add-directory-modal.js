@@ -1,7 +1,8 @@
 define([
-    "services/utils",
-    "components/directory-listing/directory-listing"
-], function (DirectoryListing) {
+    "components/directory-listing/directory-listing",
+    "catext/catext-arrays",
+    "services/utils"
+], function (DirectoryListing, ArraysExtension) {
 
     DirectoryListing.directive("addDirectoryModal", [
         "DirectoryListingService",
@@ -23,7 +24,7 @@ define([
                             return file.label === directoryName;
                         };
 
-                        if(Utils.contains(DirectoryListingService.listing, directoryAlreadyExists)) {
+                        if(ArraysExtension.contains(DirectoryListingService.listing, directoryAlreadyExists)) {
                             MessageBarService.addMessage("The directory '" + directoryName + "' already exists");
                             var existingId = "#directory_" + Utils.htmlify(directoryName);
                             document.querySelector(existingId).scrollIntoView();

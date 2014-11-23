@@ -2,21 +2,20 @@
 
 define([
     "angular",
+    "catext/catext-arrays",
     "components/directory-listing/file",
     "components/player/player",
-    "services/utils",
     "services/upload"
-], function (angular, File) {
+], function (angular, ArraysExtension, File) {
 
-    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "ApplaudioUtilities", "MessageBar", "ApplaudioPlayer", "ApplaudioTrackQueue"]);
+    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "MessageBar", "ApplaudioPlayer", "ApplaudioTrackQueue"]);
 
     DirectoryListing.service("DirectoryListingService", [
-        "ApplaudioUtils",
         "$location",
         "$http",
         "MessageBarService",
         "configuration",
-    function(ApplaudioUtils, $location, $http, MessageBarService, configuration) {
+    function($location, $http, MessageBarService, configuration) {
 
         var DirectoryListingService = this;
 
@@ -68,17 +67,16 @@ define([
 
     DirectoryListing.controller('DirectoryListingCtrl', [
         "DirectoryListingService",
-        "ApplaudioUtils",
         "configuration",
         "$scope",
-    function (DirectoryListingService, Utils, configuration, $scope) {
+    function (DirectoryListingService, configuration, $scope) {
 
         var directoryListing = this;
 
         directoryListing.listing = [];
 
         $scope.directoryIsEmpty = function() {
-            return !Utils.contains(directoryListing.listing, function(item) {
+            return !ArraysExtension.contains(directoryListing.listing, function(item) {
                 return item.type !== "directory";
             });
         };

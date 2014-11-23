@@ -8,7 +8,8 @@
     "requirejs": "~2.1.14",
     "phaser": "~2.0.4",
     "howler": "~1.1.25",
-    "angular-ui-tree": "2.1.4"
+    "angular-ui-tree": "2.1.4",
+    "catext": "https://github.com/WilliamCarter/catext.git#master"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16"
