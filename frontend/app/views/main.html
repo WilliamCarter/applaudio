@@ -19,7 +19,7 @@
     <div id="lower-content" ng-controller="DirectoryListingCtrl as dl">
 
         <div id="left-panel">
-            <div id="track-queue" ng-controller="TrackQueueCtrl">
+            <div id="track-queue" ng-controller="TrackQueueCtrl" applaudio-drop-area on-drop="addTrack(track)">
                 <div ui-tree="queueEvents" data-max-depth="0">
                     <ol ui-tree-nodes ng-model="queue">
                         <li ng-repeat="track in queue" ui-tree-node>

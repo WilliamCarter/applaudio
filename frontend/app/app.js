@@ -7,6 +7,7 @@ define([
 
     "services/utils",
 
+    "ui/draggable/draggable",
     "ui/infinite-label/infinite-label",
     "ui/modal/modal",
     "ui/on-enter/on-enter",

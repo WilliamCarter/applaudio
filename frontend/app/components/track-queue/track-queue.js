@@ -13,6 +13,8 @@ define([
         TrackQueueService.queue = [];
 
         TrackQueueService.queueTrack = function(track) {
+//            console.log("TrackQueueService.queueTrack()");
+//            console.log(track);
             var containsLocation = function(otherTrack) {
                 return track.location === otherTrack.location;
             };
@@ -54,10 +56,13 @@ define([
         };
 
         $scope.queue = TrackQueueService.queue;
-        $scope.$watch(function() { return TrackQueueService.queue.length; }, function(newQueue, oldQueue) {
-            console.log("Queue changed");
-            console.log(TrackQueueService.queue.map(function(track){ return track.label; }));
-        });
+
+        $scope.addTrack = function(track) {
+//            console.log("TrackQueueCtrl.addTrack()");
+//            console.log(track);
+            TrackQueueService.queueTrack(track);
+            $scope.$apply();
+        };
 
     }]);
 

@@ -8,7 +8,7 @@ define([
     "services/upload"
 ], function (angular, ArraysExtension, File) {
 
-    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUpload", "MessageBar", "ApplaudioPlayer", "ApplaudioTrackQueue"]);
+    var DirectoryListing = angular.module("DirectoryListing", ["ApplaudioUI", "ApplaudioUpload", "MessageBar", "ApplaudioPlayer", "ApplaudioTrackQueue"]);
 
     DirectoryListing.service("DirectoryListingService", [
         "$location",
