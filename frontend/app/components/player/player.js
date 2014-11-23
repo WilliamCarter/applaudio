@@ -40,7 +40,7 @@ define([
         var play = function () {
             console.log("PlayerCtrl.play()");
             if (!PlayerService.hasTrack()) {
-                nextTrack()
+                nextTrack();
             }
             PlayerService.play();
         };
@@ -66,11 +66,11 @@ define([
         var pause = true;
 
         PlayerService.setTrack = function(track) {
-            if (howler) { howler.stop() }
+            if (howler) { howler.stop(); }
             currentTrack = track;
             if (currentTrack) {
                 howler = new Howl({ urls: [ currentTrack.location ]});
-                if (!pause) { howler.play() }
+                if (!pause) { howler.play(); }
             } else {
                 pause = true;
             }

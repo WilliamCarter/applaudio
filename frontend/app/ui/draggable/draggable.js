@@ -35,29 +35,24 @@ define(["ui/ui"], function (ApplaudioUI) {
                 var onDropCallback = $parse($attrs.onDrop);
 
                 element.addEventListener('dragover', function (dragEvent) {
-//                    console.log('dragover');
-//                    console.log(dragEvent);
+                    $element.addClass("drop-imminent");
                     dragEvent.preventDefault();
                 });
 
                 element.addEventListener('dragenter', function (dragEvent) {
-//                    console.log('dragenter');
-//                    console.log(dragEvent);
-                    $element.addClass("drop-imminent")
+                    console.log("dragenter");
+                    $element.addClass("drop-imminent");
                 });
 
                 element.addEventListener('dragleave', function (dragEvent) {
-//                    console.log('dragleave');
-//                    console.log(dragEvent);
-                    $element.removeClass("drop-imminent")
+                    console.log("dragleave");
+                    $element.removeClass("drop-imminent");
                 });
 
                 element.addEventListener('drop', function (dropEvent) {
-                    console.log('drop');
-                    console.log(dropEvent);
                     var data = JSON.parse(dropEvent.dataTransfer.getData('dragData'));
-                    console.log(data);
                     onDropCallback($scope, { track: data });
+                    $element.removeClass("drop-imminent");
                     dropEvent.preventDefault();
                 });
             }
