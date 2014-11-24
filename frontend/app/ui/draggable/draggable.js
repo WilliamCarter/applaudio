@@ -4,24 +4,37 @@ define(["ui/ui"], function (ApplaudioUI) {
         return {
             restrict: 'A',
             scope: {
+                dragCondition: "=",
                 dragData: "="
             },
             link: function ($scope, $element, $attrs) {
 
-                var element = $element[0];
 
-                element.draggable = true;
+                var setDraggable = function(draggable) {
+                    var element = $element[0];
+                    if (draggable) {
+                        element.draggable = true;
+                        element.removeEventListener("dragstart");
+                        element.addEventListener("dragstart", function (dragEvent) {
+                            dragEvent.dataTransfer.effectAllowed = 'move';
+                            dragEvent.dataTransfer.dragEffect = 'move';
+                            dragEvent.dataTransfer.setData('dragData', JSON.stringify($scope.dragData)); // Cannot set objects as drag data! Gaaaa!
+                            $element.addClass("drag");
+                        });
+                    } else {
+                        $element.removeAttr("draggable");
+                        element.removeEventListener("dragstart");
+                        element.addEventListener("dragstart", function(dragEvent) {
+                            dragEvent.preventDefault();
+                        });
+                    }
+                };
 
-                element.addEventListener("dragstart", function (dragEvent) {
-//                    console.log("dragstart");
-//                    console.log(dragEvent);
-//                    console.log($scope.dragData);
-                    dragEvent.dataTransfer.effectAllowed = 'move';
-                    dragEvent.dataTransfer.dragEffect = 'move';
-                    dragEvent.dataTransfer.setData('dragData', JSON.stringify($scope.dragData)); // Cannot set objects as drag data! Gaaaa!
-                    $element.addClass("drag");
+                setDraggable($scope.draggable !== false);
+
+                $scope.$watch( function() { return $scope.dragCondition; }, function() {
+                    setDraggable($scope.dragCondition);
                 });
-
             }
         };
     });

@@ -20,19 +20,14 @@ define([
             },
             link: function(scope, element, attrs) {
 
-                scope.itemId = scope.item.type + "_" + Utils.htmlify(scope.item.label);
-                scope.iconSrc = "/images/" + (scope.item.type !== "directory" ? "music" : "folder") + ".png";
-                scope.showDownloadLink = scope.item.type !== "directory";
 
-                scope.loadAndPlay = function() {
-                    console.log("loadAndPlay()");
-                    if(scope.item.type !== "directory") {
-                        PlayerService.setTrack(scope.item);
-                    }
-                };
+                scope.isTrack = scope.item.type !== "directory";
+                scope.itemId = scope.item.type + "_" + Utils.htmlify(scope.item.label);
+                scope.iconSrc = "/images/" + (scope.isTrack ? "music" : "folder") + ".png";
+                scope.showDownloadLink = scope.isTrack;
 
                 scope.queueTrack = function() {
-                    TrackQueueService.queueTrack(scope.item);
+                    scope.isTrack && TrackQueueService.queueTrack(scope.item);
                 };
 
                 scope.navigate = function() {
