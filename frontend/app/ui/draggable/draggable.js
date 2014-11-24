@@ -53,12 +53,10 @@ define(["ui/ui"], function (ApplaudioUI) {
                 });
 
                 element.addEventListener('dragenter', function (dragEvent) {
-                    console.log("dragenter");
                     $element.addClass("drop-imminent");
                 });
 
                 element.addEventListener('dragleave', function (dragEvent) {
-                    console.log("dragleave");
                     $element.removeClass("drop-imminent");
                 });
 
