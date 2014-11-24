@@ -1,9 +1,15 @@
-/conf/*.crt
-/conf/*.key
-/conf/*.ca
-/conf/*.csr
-/conf/*.p12
-/conf/*.keystore
+# Certificates
+*.crt
+*.key
+*.ca
+*.csr
+*.p12
+*.keystore
+
+# IntelliJ
+/.idea
+/*.iml
+
 /logs
 /project/project
 /project/target
@@ -12,8 +18,6 @@
 /test/logs
 /tmp
 .history
-/.idea
-/*.iml
 /out
 /.idea_modules
 /.classpath
