@@ -1,4 +1,5 @@
 # Certificates
+/conf/certs/*
 *.crt
 *.key
 *.ca

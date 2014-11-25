@@ -78,7 +78,7 @@ module.exports = function (grunt) {
                 src: [
                     '*.{html,txt}', // no whitespace in curly braces!
                     '404/**/*',
-                    'bower_components/**/*.js',
+                    'bower_components/requirejs/require.js',
                     'components/**/*.html',
                     'images/**/*',
                     'ui/**/*.html',
