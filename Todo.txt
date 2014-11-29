@@ -1,12 +1,7 @@
 Frontend
 --------
-- Music player component.
 - Fade in auto scrolling label.
 - Delete file/directory.
-- Organise HTML templates better. Why one massive main.html?
-- ASCII art somewhere.
-- Update Grunt build with minification, concatenation and other optimisations. SASS maps? SASS watch task?
-- Track queue component.
 - Auto resizing header.
 - Handle animations better when adding a directory that already exists. Smooth scroll and highlight?
 
@@ -20,4 +15,4 @@ Backend
 
 Bugs
 ----
-Cannot create directory with '/' in the name
+Cannot create directory with '/', '?' in the name.
