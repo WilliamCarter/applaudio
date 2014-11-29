@@ -9,7 +9,7 @@ then
 	echo "Application base path: $applaudio_base_path"
 
     echo "Editing nginx configuration"
-    sed -i.bak s/__APPLAUDIO_BASE_PATH__/$applaudio_base_path/g conf/server/nginx.conf
+    sed -i.bak s#__APPLAUDIO_BASE_PATH__#$applaudio_base_path#g "$applaudio_base_path/conf/server/nginx.conf"
 fi
 
 echo "Starting Nginx"
@@ -26,10 +26,11 @@ then
     then
         echo "Creating library folders"
         mkdir -p "$library_path"
+        mkdir "$library_path/artists"
     fi
 
     echo "Updating Play! configuration with library path"
-    sed -i.bak s/^library.root=.*/library.root=\"$library_path\"/g conf/application.conf
+    sed -i.bak s#^library.root=.*#library.root=\"$library_path\"# "$applaudio_base_path/conf/application.conf"
 fi
 
 # Start Play service
